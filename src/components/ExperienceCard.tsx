@@ -12,15 +12,13 @@ interface ExperienceCardProps {
 
 export const ExperienceCard: React.FC<ExperienceCardProps> = ({
   experience,
-  onBookClick,
-  onQueueClick
+  onBookClick
 }) => {
   const { wishlistIds, toggleWishlist, activeDay, addExperienceToActiveDay } = useApp();
 
   const isSaved = wishlistIds.includes(experience.id);
   const isInActiveDay = activeDay.items.some((item) => item.experience.id === experience.id);
 
-  // Check slot availability state
   const hasSoldOut = experience.slots.some((s) => s.status === 'sold_out' || s.status === 'waitlist');
   const hasAvailable = experience.slots.some((s) => s.status === 'available' || s.status === 'few_left');
 
@@ -30,11 +28,13 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: '22px'
+        borderRadius: '12px',
+        background: '#131720',
+        border: '1px solid #232A38'
       }}
     >
-      {/* Image container */}
-      <div style={{ position: 'relative', width: '100%', height: 215, overflow: 'hidden' }}>
+      {/* Visual Header */}
+      <div style={{ position: 'relative', width: '100%', height: 200, overflow: 'hidden', borderBottom: '1px solid #202736' }}>
         <img
           src={experience.images[0]}
           alt={experience.name}
@@ -43,28 +43,19 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+            transition: 'transform 0.4s ease'
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
           onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
         />
 
-        {/* Cinematic Translucent Shadow Gradient */}
+        {/* Category Badge & Save Button */}
         <div
           style={{
             position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(11, 16, 32, 0.45) 0%, transparent 45%, rgba(11, 16, 32, 0.95) 100%)'
-          }}
-        />
-
-        {/* Top Badges */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 12,
-            left: 12,
-            right: 12,
+            top: 10,
+            left: 10,
+            right: 10,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -72,18 +63,20 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           }}
         >
           <span
-            className="badge badge-violet"
+            className="badge"
             style={{
-              backdropFilter: 'blur(12px)',
-              background: 'rgba(17, 26, 46, 0.75)',
-              border: '1px solid rgba(167, 139, 250, 0.35)',
-              color: 'var(--lavender-electric)'
+              background: '#0E1218E6',
+              border: '1px solid #283142',
+              color: '#F3F4F6',
+              fontSize: '0.68rem',
+              fontWeight: 700,
+              padding: '3px 8px',
+              borderRadius: '4px'
             }}
           >
-            {experience.category}
+            {experience.category.replace('_', ' ')}
           </span>
 
-          {/* Glass Heart Wishlist Button */}
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -92,39 +85,34 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             }}
             aria-label="Save to wishlist"
             style={{
-              width: 36,
-              height: 36,
-              borderRadius: '50%',
-              background: 'rgba(11, 16, 32, 0.70)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
+              width: 30,
+              height: 30,
+              borderRadius: '6px',
+              background: '#0E1218E6',
+              border: '1px solid #283142',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              color: isSaved ? '#F43F5E' : '#FFFFFF',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
-              transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              color: isSaved ? '#EF4444' : '#9CA3AF',
+              transition: 'all 0.15s ease'
             }}
-            onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(0.85)')}
-            onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
           >
-            <Heart size={17} fill={isSaved ? '#F43F5E' : 'none'} />
+            <Heart size={15} fill={isSaved ? '#EF4444' : 'none'} />
           </button>
         </div>
 
-        {/* Rating and Duration pill at bottom of image */}
+        {/* Rating and Duration info pill */}
         <div
           style={{
             position: 'absolute',
-            bottom: 12,
-            left: 14,
-            right: 14,
+            bottom: 8,
+            left: 10,
+            right: 10,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            fontSize: '0.8rem',
+            fontSize: '0.75rem',
             zIndex: 2
           }}
         >
@@ -132,51 +120,49 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 5,
-              background: 'rgba(11, 16, 32, 0.75)',
-              backdropFilter: 'blur(12px)',
-              padding: '4px 9px',
-              borderRadius: 99,
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#FCD34D',
+              gap: 4,
+              background: '#0E1218EE',
+              padding: '3px 7px',
+              borderRadius: '4px',
+              border: '1px solid #232A38',
+              color: '#FBBF24',
               fontWeight: 700
             }}
           >
-            <Star size={12} fill="#FCD34D" />
+            <Star size={11} fill="#FBBF24" />
             <span>{experience.rating}</span>
-            <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({experience.reviewCount})</span>
+            <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>({experience.reviewCount})</span>
           </div>
 
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 5,
-              background: 'rgba(11, 16, 32, 0.75)',
-              backdropFilter: 'blur(12px)',
-              padding: '4px 9px',
-              borderRadius: 99,
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              gap: 4,
+              background: '#0E1218EE',
+              padding: '3px 7px',
+              borderRadius: '4px',
+              border: '1px solid #232A38',
               color: 'var(--text-secondary)'
             }}
           >
-            <Clock size={12} />
-            <span>{experience.durationMinutes} mins</span>
+            <Clock size={11} />
+            <span>{experience.durationMinutes}m</span>
           </div>
         </div>
       </div>
 
       {/* Card Content Body */}
-      <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <Link to={`/experience/${experience.id}`}>
           <h3
             style={{
-              fontSize: '1.18rem',
-              fontWeight: 800,
-              color: '#FFFFFF',
+              fontSize: '1.08rem',
+              fontWeight: 700,
+              color: 'var(--text-white)',
               marginBottom: 4,
               letterSpacing: '-0.02em',
-              transition: 'color 0.2s'
+              transition: 'color 0.15s'
             }}
           >
             {experience.name}
@@ -185,10 +171,10 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
 
         <p
           style={{
-            fontSize: '0.85rem',
+            fontSize: '0.82rem',
             color: 'var(--text-secondary)',
-            marginBottom: 12,
-            lineHeight: 1.5,
+            marginBottom: 10,
+            lineHeight: 1.45,
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
@@ -203,57 +189,39 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 6,
-            fontSize: '0.80rem',
+            gap: 5,
+            fontSize: '0.78rem',
             color: 'var(--text-muted)',
-            marginBottom: 14
+            marginBottom: 12
           }}
         >
-          <MapPin size={13} color="var(--lavender-electric)" />
+          <MapPin size={12} color="var(--brand-primary)" />
           <span>{experience.venue.area}, {experience.venue.city}</span>
         </div>
 
-        {/* Frosted Tags */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
-          {experience.tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              style={{
-                fontSize: '0.72rem',
-                padding: '3px 9px',
-                borderRadius: 99,
-                background: 'rgba(255, 255, 255, 0.04)',
-                color: 'var(--text-secondary)',
-                border: '1px solid rgba(255, 255, 255, 0.08)'
-              }}
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Availability status capsule */}
+        {/* Slot Availability Status */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            fontSize: '0.78rem',
-            marginBottom: 16,
-            padding: '8px 12px',
-            background: 'rgba(11, 16, 32, 0.55)',
-            borderRadius: 12,
-            border: '1px solid rgba(255, 255, 255, 0.08)'
+            fontSize: '0.75rem',
+            marginBottom: 14,
+            padding: '6px 10px',
+            background: '#0E1218',
+            borderRadius: '6px',
+            border: '1px solid #1E2533'
           }}
         >
-          <span style={{ color: 'var(--text-muted)' }}>Slots Status:</span>
+          <span style={{ color: 'var(--text-muted)' }}>Status:</span>
           {hasSoldOut && !hasAvailable ? (
-            <span style={{ color: '#FDA4AF', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
-              <Hourglass size={12} /> Waitlist (DAYLY Queue Open)
+            <span style={{ color: '#FBBF24', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+              <Hourglass size={11} /> Waitlist (Queue Bot Ready)
             </span>
           ) : (
-            <span style={{ color: '#6EE7B7', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
-              ● Live Booking Open
+            <span style={{ color: '#34D399', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#10B981' }} />
+              Slots Available Today
             </span>
           )}
         </div>
@@ -262,22 +230,22 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
         <div
           style={{
             marginTop: 'auto',
-            paddingTop: 14,
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            paddingTop: 12,
+            borderTop: '1px solid #1F2634',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
           <div>
-            <span style={{ fontSize: '0.73rem', color: 'var(--text-muted)' }}>Starting from</span>
-            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF' }}>
+            <span style={{ fontSize: '0.70rem', color: 'var(--text-muted)', display: 'block' }}>From</span>
+            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
               ₹{experience.pricePerPerson}
-              <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-secondary)' }}> / person</span>
+              <span style={{ fontSize: '0.72rem', fontWeight: 500, color: 'var(--text-secondary)' }}> / person</span>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 6 }}>
             {/* Add to Day Button */}
             <button
               onClick={() => {
@@ -288,27 +256,27 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               className="btn btn-secondary btn-sm"
               title={isInActiveDay ? 'Added to My Day' : 'Add to Day Itinerary'}
               style={{
-                width: 38,
-                height: 38,
+                width: 32,
+                height: 32,
                 padding: 0,
-                borderRadius: '50%',
+                borderRadius: '6px',
                 color: isInActiveDay ? '#34D399' : 'var(--text-primary)',
                 borderColor: isInActiveDay ? 'rgba(16, 185, 129, 0.45)' : undefined,
                 background: isInActiveDay ? 'rgba(16, 185, 129, 0.15)' : undefined
               }}
             >
-              {isInActiveDay ? <Check size={18} /> : <Plus size={18} />}
+              {isInActiveDay ? <Check size={15} /> : <Plus size={15} />}
             </button>
 
             {/* Book or View Details Button */}
             {onBookClick ? (
               <button onClick={() => onBookClick(experience)} className="btn btn-primary btn-sm">
-                <Ticket size={14} />
-                Book Now
+                <Ticket size={13} />
+                Book
               </button>
             ) : (
               <Link to={`/experience/${experience.id}`} className="btn btn-primary btn-sm">
-                View Slots
+                Slots
               </Link>
             )}
           </div>

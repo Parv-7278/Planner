@@ -2,31 +2,22 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Ticket,
-  Clock,
   Calendar,
   MapPin,
-  CheckCircle2,
-  XCircle,
-  Hourglass,
-  QrCode,
-  Share2,
-  Trash2,
-  ArrowRight,
-  Bot,
-  Play,
-  Pause,
-  RefreshCw,
   Lock,
   ChevronDown,
   ChevronUp,
   Zap,
   ShieldCheck,
-  Check,
-  Plus
+  CheckCircle2,
+  Plus,
+  RefreshCw,
+  Pause,
+  Play
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { BookingStatus, Booking } from '../types';
 import { BookingManager } from '../services/bookingAdapters';
+import { Bot } from '../components/icons';
 
 export const BookingsPage: React.FC = () => {
   const {
@@ -93,80 +84,80 @@ export const BookingsPage: React.FC = () => {
       <div className="container-dayly">
         {/* Header */}
         <div style={{ marginBottom: 32 }}>
-          <span className="badge badge-violet" style={{ marginBottom: 6 }}>
-            Universal Tickets & Access Passes
+          <span className="badge badge-cyan" style={{ marginBottom: 6 }}>
+            Admissions & Waitlists
           </span>
-          <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3rem)', fontWeight: 900 }}>
-            My Bookings & DAYLY Queues
+          <h1 style={{ fontSize: 'clamp(2rem, 3.8vw, 2.8rem)', fontWeight: 800 }}>
+            Passes & Booking Queues
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: 6 }}>
-            Digital admissions, QR turnstile passes and real-time virtual waitlists.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: 4 }}>
+            Digital turnstile passes and autonomous waitlist queue progression.
           </p>
         </div>
 
         {/* 1. DAYLY AI QUEUE ASSISTANT CONTROL CENTER */}
-        <div style={{ marginBottom: 48 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14, marginBottom: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ marginBottom: 44 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 18 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div
                 style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: 10,
-                  background: 'rgba(99, 102, 241, 0.15)',
-                  border: '1px solid rgba(99, 102, 241, 0.35)',
+                  width: 32,
+                  height: 32,
+                  borderRadius: 6,
+                  background: '#181E29',
+                  border: '1px solid #283142',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#818CF8'
+                  color: 'var(--brand-primary)'
                 }}
               >
-                <Bot size={22} />
+                <Bot size={18} />
               </div>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                  <h3 style={{ fontSize: '1.35rem', fontWeight: 800, margin: 0 }}>
-                    AI Booking Queue Assistant {queues.length > 0 ? `(${queues.length} Active)` : ''}
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
+                    Booking Queue Assistant {queues.length > 0 ? `(${queues.length} Active)` : ''}
                   </h3>
                   <span
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: 5,
-                      fontSize: '0.70rem',
+                      gap: 4,
+                      fontSize: '0.68rem',
                       fontWeight: 700,
-                      padding: '2px 8px',
-                      borderRadius: 99,
-                      background: 'rgba(16, 185, 129, 0.12)',
+                      padding: '2px 6px',
+                      borderRadius: 4,
+                      background: 'var(--emerald-subtle)',
                       color: '#34D399',
-                      border: '1px solid rgba(16, 185, 129, 0.25)'
+                      border: '1px solid var(--emerald-border)'
                     }}
                   >
-                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
-                    24/7 Engine Active
+                    <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
+                    24/7 Engine
                   </span>
                 </div>
-                <span style={{ fontSize: '0.80rem', color: 'var(--text-muted)' }}>
-                  Microsecond drop opening detection, automated queue entry, anti-bot challenge solving & turn arrival holds
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                  Drop opening detection, automated queue entry & turn arrival holds
                 </span>
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <button
                 onClick={() => handleJoinSampleQueue('exp-food-1', '07:30 PM')}
                 className="btn btn-primary btn-sm"
                 style={{ display: 'flex', alignItems: 'center', gap: 6 }}
               >
-                <Zap size={14} />
-                <span>Simulate Live Waitlist (#37)</span>
+                <Zap size={13} />
+                <span>Simulate Waitlist (#37)</span>
               </button>
             </div>
           </div>
 
           {queues.length > 0 ? (
             <div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 16 }}>
               {queues.map((q) => {
                 const isChecking = checkingIds[q.id];
                 const isTurnArrived = q.status === 'slot_available' || q.monitoringStatus === 'turn_arrived';
@@ -176,22 +167,20 @@ export const BookingsPage: React.FC = () => {
                 return (
                   <div
                     key={q.id}
-                    className="glass-card"
                     style={{
-                      padding: '24px',
-                      borderRadius: 22,
+                      padding: '20px',
+                      borderRadius: '10px',
+                      background: '#131720',
                       border: isTurnArrived
-                        ? '1px solid rgba(16, 185, 129, 0.55)'
+                        ? '1px solid rgba(16, 185, 129, 0.60)'
                         : q.requiresManualVerification
-                        ? '1px solid rgba(245, 158, 11, 0.55)'
-                        : '1px solid rgba(167, 139, 250, 0.40)',
-                      boxShadow: isTurnArrived
-                        ? '0 0 25px rgba(16, 185, 129, 0.25)'
-                        : 'var(--shadow-sm)'
+                        ? '1px solid rgba(245, 158, 11, 0.60)'
+                        : '1px solid #232A38',
+                      boxShadow: 'var(--shadow-sm)'
                     }}
                   >
                     {/* Header Row */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                           {isTurnArrived ? (
@@ -199,11 +188,11 @@ export const BookingsPage: React.FC = () => {
                           ) : q.status === 'booked' ? (
                             <span className="badge badge-emerald">BOOKED & CONFIRMED</span>
                           ) : isOpening ? (
-                            <span className="badge badge-violet">MONITORING OPENING DROP</span>
+                            <span className="badge badge-cyan">MONITORING OPENING DROP</span>
                           ) : q.requiresManualVerification ? (
-                            <span className="badge badge-amber">MANUAL VERIFICATION REQUIRED</span>
+                            <span className="badge badge-amber">CHALLENGE REQUIRED</span>
                           ) : (
-                            <span className="badge badge-violet">IN OFFICIAL QUEUE</span>
+                            <span className="badge badge-violet">IN QUEUE</span>
                           )}
 
                           {q.assistantEnabled && (
@@ -212,28 +201,28 @@ export const BookingsPage: React.FC = () => {
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 gap: 4,
-                                fontSize: '0.70rem',
+                                fontSize: '0.68rem',
                                 color: '#34D399',
                                 fontWeight: 700
                               }}
                             >
-                              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
-                              AI Assistant Active
+                              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
+                              Assistant Active
                             </span>
                           )}
                         </div>
 
-                        <h4 style={{ fontSize: '1.2rem', fontWeight: 800, marginTop: 6, color: '#FFFFFF' }}>{q.experienceName}</h4>
-                        <span style={{ fontSize: '0.80rem', color: 'var(--text-muted)' }}>
+                        <h4 style={{ fontSize: '1.12rem', fontWeight: 700, marginTop: 6, color: '#FFFFFF' }}>{q.experienceName}</h4>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                           {q.slotDate} • {q.slotTime} ({q.partySize} Guests)
                         </span>
                       </div>
 
                       <div style={{ textAlign: 'right' }}>
-                        <span style={{ fontSize: '0.70rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.05em' }}>
+                        <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
                           {isOpening ? 'DROP' : 'POSITION'}
                         </span>
-                        <div style={{ fontSize: '1.85rem', fontWeight: 900, color: '#FFFFFF' }}>
+                        <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--brand-primary)' }}>
                           {isOpening ? (q.openingTime || 'Soon') : q.currentPosition > 0 ? `#${q.currentPosition}` : '✓'}
                         </div>
                       </div>
@@ -241,12 +230,12 @@ export const BookingsPage: React.FC = () => {
 
                     {/* Progress Bar (if in queue) */}
                     {q.status === 'monitoring' && !isOpening && (
-                      <div style={{ marginBottom: 14 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: 5 }}>
+                      <div style={{ marginBottom: 12 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 4 }}>
                           <span>Progression in line</span>
-                          <span>~{q.estimatedWaitMinutes} mins est. wait</span>
+                          <span style={{ color: '#F3F4F6' }}>~{q.estimatedWaitMinutes} mins remaining</span>
                         </div>
-                        <div style={{ width: '100%', height: 6, borderRadius: 99, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                        <div style={{ width: '100%', height: 4, borderRadius: 2, background: '#0E1218', overflow: 'hidden' }}>
                           <div
                             style={{
                               height: '100%',
@@ -257,7 +246,8 @@ export const BookingsPage: React.FC = () => {
                                   ((q.initialPosition - q.currentPosition + 1) / q.initialPosition) * 100
                                 )
                               )}%`,
-                              background: 'linear-gradient(90deg, #67E8F9, #A78BFA, #F0ABFC)'
+                              background: 'var(--brand-primary)',
+                              borderRadius: 2
                             }}
                           />
                         </div>
@@ -268,21 +258,21 @@ export const BookingsPage: React.FC = () => {
                     {q.requiresManualVerification && (
                       <div
                         style={{
-                          background: 'rgba(245, 158, 11, 0.12)',
-                          border: '1px solid rgba(245, 158, 11, 0.35)',
-                          borderRadius: 14,
-                          padding: '12px 14px',
-                          marginBottom: 14
+                          background: 'var(--amber-subtle)',
+                          border: '1px solid var(--amber-border)',
+                          borderRadius: 8,
+                          padding: '10px 12px',
+                          marginBottom: 12
                         }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#FBBF24', fontSize: '0.82rem', fontWeight: 700, marginBottom: 6 }}>
-                          <Lock size={15} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: '#FBBF24', fontSize: '0.78rem', fontWeight: 700, marginBottom: 4 }}>
+                          <Lock size={14} />
                           <span>Human Verification Challenge</span>
                         </div>
-                        <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: 8 }}>
-                          Enter OTP / CAPTCHA solution to resume automatic progression.
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: 6 }}>
+                          Enter solution to resume automated progression.
                         </p>
-                        <div style={{ display: 'flex', gap: 8 }}>
+                        <div style={{ display: 'flex', gap: 6 }}>
                           <input
                             type="text"
                             placeholder="Enter solution"
@@ -292,18 +282,18 @@ export const BookingsPage: React.FC = () => {
                             }
                             style={{
                               flex: 1,
-                              padding: '8px 12px',
-                              borderRadius: 8,
-                              background: 'rgba(0,0,0,0.3)',
-                              border: '1px solid rgba(255,255,255,0.15)',
+                              padding: '6px 10px',
+                              borderRadius: 6,
+                              background: '#0E1218',
+                              border: '1px solid var(--border-default)',
                               color: '#fff',
-                              fontSize: '0.80rem'
+                              fontSize: '0.78rem'
                             }}
                           />
                           <button
                             onClick={() => handleSolveVerification(q.id)}
                             className="btn btn-primary btn-sm"
-                            style={{ padding: '6px 14px', fontSize: '0.80rem' }}
+                            style={{ padding: '6px 12px', fontSize: '0.76rem' }}
                           >
                             Submit
                           </button>
@@ -317,34 +307,34 @@ export const BookingsPage: React.FC = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        padding: '10px 14px',
-                        borderRadius: 12,
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        marginBottom: 14
+                        padding: '8px 12px',
+                        borderRadius: 6,
+                        background: '#0E1218',
+                        border: '1px solid #1E2532',
+                        marginBottom: 12
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <input
                           type="checkbox"
                           id={`auto-entry-${q.id}`}
                           checked={q.autoQueueEntry ?? true}
                           onChange={(e) => toggleAutoQueueEntry(q.id, e.target.checked)}
-                          style={{ accentColor: 'var(--lavender-electric)', width: 15, height: 15 }}
+                          style={{ accentColor: 'var(--brand-primary)', width: 14, height: 14 }}
                         />
-                        <label htmlFor={`auto-entry-${q.id}`} style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                        <label htmlFor={`auto-entry-${q.id}`} style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
                           Auto Queue Entry
                         </label>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <button
                           onClick={() => handleManualCheck(q.id)}
                           className="btn btn-ghost btn-sm"
                           title="Check status now"
-                          style={{ padding: '4px 8px', fontSize: '0.74rem', display: 'flex', alignItems: 'center', gap: 4 }}
+                          style={{ padding: '3px 6px', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: 3 }}
                         >
-                          <RefreshCw size={12} className={isChecking ? 'spin' : ''} />
+                          <RefreshCw size={11} className={isChecking ? 'spin' : ''} />
                           <span>Check</span>
                         </button>
 
@@ -352,18 +342,18 @@ export const BookingsPage: React.FC = () => {
                           <button
                             onClick={() => stopAssistantMonitoring(q.id)}
                             className="btn btn-ghost btn-sm"
-                            style={{ padding: '4px 8px', fontSize: '0.74rem', color: '#FDA4AF', display: 'flex', alignItems: 'center', gap: 4 }}
+                            style={{ padding: '3px 6px', fontSize: '0.72rem', color: '#F87171', display: 'flex', alignItems: 'center', gap: 3 }}
                           >
-                            <Pause size={12} />
+                            <Pause size={11} />
                             <span>Pause</span>
                           </button>
                         ) : (
                           <button
                             onClick={() => startAssistantMonitoring(q.id)}
                             className="btn btn-primary btn-sm"
-                            style={{ padding: '4px 8px', fontSize: '0.74rem', display: 'flex', alignItems: 'center', gap: 4 }}
+                            style={{ padding: '3px 6px', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: 3 }}
                           >
-                            <Play size={12} />
+                            <Play size={11} />
                             <span>Resume</span>
                           </button>
                         )}
@@ -371,41 +361,41 @@ export const BookingsPage: React.FC = () => {
                     </div>
 
                     {/* Last Check Timestamp */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 12 }}>
-                      <span>Last check: {q.lastCheckedAt || 'Active'}</span>
-                      <span>Rate limit: 5s interval</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: 10 }}>
+                      <span>Checked: {q.lastCheckedAt || 'Active'}</span>
+                      <span>Rate limit: 5s</span>
                     </div>
 
                     {/* Logs toggle */}
                     <button
                       onClick={() => setExpandedLogId(isLogsOpen ? null : q.id)}
                       className="btn btn-ghost btn-sm"
-                      style={{ width: '100%', padding: '4px', fontSize: '0.74rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginBottom: 14 }}
+                      style={{ width: '100%', padding: '4px', fontSize: '0.72rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginBottom: 12 }}
                     >
-                      {isLogsOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                      <span>{isLogsOpen ? 'Hide Assistant Activity' : 'View Assistant Activity Logs'}</span>
+                      {isLogsOpen ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
+                      <span>{isLogsOpen ? 'Hide Assistant Logs' : 'View Activity Logs'}</span>
                     </button>
 
                     {isLogsOpen && (
                       <div
                         style={{
-                          background: 'rgba(0,0,0,0.4)',
-                          border: '1px solid rgba(255,255,255,0.08)',
-                          borderRadius: 10,
-                          padding: '10px',
-                          maxHeight: 120,
+                          background: '#090B0E',
+                          border: '1px solid #1E2532',
+                          borderRadius: 6,
+                          padding: '8px 10px',
+                          maxHeight: 110,
                           overflowY: 'auto',
-                          fontSize: '0.74rem',
+                          fontSize: '0.72rem',
                           fontFamily: 'monospace',
                           color: 'var(--text-secondary)',
-                          marginBottom: 14
+                          marginBottom: 12
                         }}
                       >
                         {q.logs && q.logs.length > 0 ? (
                           q.logs.map((log) => (
-                            <div key={log.id} style={{ marginBottom: 3 }}>
+                            <div key={log.id} style={{ marginBottom: 2 }}>
                               <span style={{ color: 'var(--text-muted)' }}>[{log.timestamp}]</span>{' '}
-                              <span style={{ color: log.level === 'success' ? '#34D399' : log.level === 'warn' ? '#FBBF24' : log.level === 'error' ? '#FDA4AF' : '#A78BFA' }}>
+                              <span style={{ color: log.level === 'success' ? '#34D399' : log.level === 'warn' ? '#FBBF24' : log.level === 'error' ? '#F87171' : 'var(--brand-primary)' }}>
                                 {log.message}
                               </span>
                             </div>
@@ -417,20 +407,20 @@ export const BookingsPage: React.FC = () => {
                     )}
 
                     {/* Actions */}
-                    <div style={{ display: 'flex', gap: 10 }}>
+                    <div style={{ display: 'flex', gap: 8 }}>
                       {isTurnArrived ? (
                         <button
                           onClick={() => reserveQueueSlot(q.id)}
                           className="btn btn-primary"
-                          style={{ width: '100%', padding: '11px', fontSize: '0.92rem', fontWeight: 700 }}
+                          style={{ width: '100%', padding: '10px', fontSize: '0.88rem', fontWeight: 700 }}
                         >
-                          Approve & Confirm Booking Pass
+                          Approve & Issue Booking Pass
                         </button>
                       ) : q.status === 'monitoring' ? (
                         <button
                           onClick={() => leaveQueue(q.id)}
                           className="btn btn-ghost btn-sm"
-                          style={{ color: '#FDA4AF', fontSize: '0.82rem', width: '100%' }}
+                          style={{ color: '#F87171', fontSize: '0.78rem', width: '100%' }}
                         >
                           Leave Waitlist
                         </button>
@@ -448,25 +438,25 @@ export const BookingsPage: React.FC = () => {
               {/* Quick queue another venue row */}
               <div
                 style={{
-                  marginTop: 20,
-                  padding: '14px 20px',
-                  borderRadius: 14,
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  marginTop: 18,
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  background: '#131720',
+                  border: '1px solid #232A38',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   flexWrap: 'wrap',
-                  gap: 12
+                  gap: 10
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
-                  <Plus size={16} color="#818CF8" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.80rem', color: 'var(--text-secondary)' }}>
+                  <Plus size={14} color="var(--brand-primary)" />
                   <span>Queue another venue:</span>
                 </div>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {[
-                    { id: 'exp-craft-1', time: '04:00 PM', name: 'Pottery Workshop' },
+                    { id: 'exp-craft-1', time: '04:00 PM', name: 'Pottery Studio' },
                     { id: 'exp-ent-1', time: '07:30 PM', name: 'PVR Director’s Cut' },
                     { id: 'exp-food-2', time: '06:00 PM', name: 'Champa Gali Roastery' }
                   ].map((venue) => (
@@ -474,7 +464,7 @@ export const BookingsPage: React.FC = () => {
                       key={venue.id}
                       onClick={() => handleJoinSampleQueue(venue.id, venue.time)}
                       className="btn btn-secondary btn-sm"
-                      style={{ fontSize: '0.78rem', padding: '6px 12px' }}
+                      style={{ fontSize: '0.76rem', padding: '5px 10px' }}
                     >
                       + {venue.name}
                     </button>
@@ -485,62 +475,61 @@ export const BookingsPage: React.FC = () => {
           ) : (
             /* Standby / Zero Active Queues View */
             <div
-              className="glass-card"
               style={{
-                padding: '28px',
-                borderRadius: 20,
-                background: 'rgba(14, 21, 38, 0.75)',
-                border: '1px solid rgba(99, 102, 241, 0.22)',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)'
+                padding: '24px',
+                borderRadius: '10px',
+                background: '#131720',
+                border: '1px solid #232A38',
+                boxShadow: 'var(--shadow-sm)'
               }}
             >
               {/* Top Simulation Spotlight Card */}
               <div
                 style={{
-                  padding: '20px 24px',
-                  borderRadius: 16,
-                  background: 'rgba(99, 102, 241, 0.08)',
-                  border: '1px solid rgba(99, 102, 241, 0.25)',
-                  marginBottom: 24,
+                  padding: '18px 20px',
+                  borderRadius: '8px',
+                  background: '#0E1218',
+                  border: '1px solid #1E2532',
+                  marginBottom: 20,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   flexWrap: 'wrap',
-                  gap: 16
+                  gap: 14
                 }}
               >
-                <div style={{ maxWidth: 560 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                    <Zap size={16} color="#818CF8" />
-                    <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#C7D2FE' }}>
-                      INTERACTIVE LIVE SIMULATION
+                <div style={{ maxWidth: 540 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                    <Zap size={14} color="var(--brand-primary)" />
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase' }}>
+                      Interactive Waitlist Demo
                     </span>
                   </div>
-                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 4px 0' }}>
+                  <h4 style={{ fontSize: '1.08rem', fontWeight: 700, margin: '0 0 4px 0', color: '#FFFFFF' }}>
                     Test Autonomous Waitlist Progression Live (#37)
                   </h4>
-                  <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', margin: 0 }}>
-                    Olive Bar & Kitchen in Mehrauli is currently packed for dinner. Click below to inject a simulated waitlist spot (#37 in line, ~8 mins wait). The assistant will automatically track drop opening conditions, step through positions, prompt for verification if challenged, and chime when your turn arrives!
+                  <p style={{ fontSize: '0.80rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                    Olive Bar & Kitchen in Mehrauli is currently packed for dinner. Inject a live simulated waitlist spot (#37 in line, ~8 mins wait). The assistant monitors drop conditions, steps through line positions, and alerts when your turn arrives.
                   </p>
                 </div>
 
                 <button
                   onClick={() => handleJoinSampleQueue('exp-food-1', '07:30 PM')}
                   className="btn btn-primary"
-                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 22px', fontSize: '0.92rem' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', fontSize: '0.88rem' }}
                 >
-                  <Zap size={16} />
+                  <Zap size={14} />
                   <span>Start Live Waitlist (#37)</span>
                 </button>
               </div>
 
               {/* Quick-Join Venues Grid */}
-              <div style={{ marginBottom: 24 }}>
-                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>
-                  Top High-Demand Waitlist Venues in Delhi NCR
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
+                  Popular Waitlist Spots in Delhi NCR
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 12 }}>
                   {[
                     {
                       id: 'exp-food-1',
@@ -578,36 +567,36 @@ export const BookingsPage: React.FC = () => {
                     <div
                       key={venue.id}
                       style={{
-                        padding: '14px',
-                        borderRadius: 14,
-                        background: 'rgba(255, 255, 255, 0.03)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        background: '#0E1218',
+                        border: '1px solid #1E2532',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        gap: 12
+                        gap: 10
                       }}
                     >
                       <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                         <img
                           src={venue.img}
                           alt={venue.name}
-                          style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }}
+                          style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover' }}
                         />
                         <div>
-                          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF' }}>{venue.name}</div>
-                          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>{venue.area} • {venue.time}</div>
+                          <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#FFFFFF' }}>{venue.name}</div>
+                          <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{venue.area} • {venue.time}</div>
                         </div>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
-                        <span style={{ fontSize: '0.72rem', color: '#818CF8' }}>{venue.tag}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
+                        <span style={{ fontSize: '0.70rem', color: 'var(--brand-primary)', fontWeight: 600 }}>{venue.tag}</span>
                         <button
                           onClick={() => handleJoinSampleQueue(venue.id, venue.time)}
                           className="btn btn-secondary btn-sm"
-                          style={{ padding: '5px 12px', fontSize: '0.76rem' }}
+                          style={{ padding: '4px 10px', fontSize: '0.74rem' }}
                         >
-                          Join AI Queue
+                          Join Queue
                         </button>
                       </div>
                     </div>
@@ -619,41 +608,41 @@ export const BookingsPage: React.FC = () => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
                   gap: 12,
-                  paddingTop: 18,
-                  borderTop: '1px solid rgba(255, 255, 255, 0.08)'
+                  paddingTop: 16,
+                  borderTop: '1px solid #1E2532'
                 }}
               >
                 {[
                   {
-                    title: 'Microsecond Drop Sniping',
-                    desc: 'Synchronized to server clocks to join the split-second booking opens.',
+                    title: 'Precision Drop Sniping',
+                    desc: 'Synchronized to venue servers to join the instant booking opens.',
                     icon: Zap
                   },
                   {
-                    title: 'Zero-Surprise Hold',
-                    desc: 'Holds spots for 5 mins; NEVER auto-charges payment without approval.',
+                    title: 'Approval Protection',
+                    desc: 'Holds spots for 5 mins; never charges payment without explicit consent.',
                     icon: ShieldCheck
                   },
                   {
-                    title: 'Anti-Bot & OTP Solver',
-                    desc: 'Prompts seamlessly in-app when human verification challenges appear.',
+                    title: 'Challenge Solving',
+                    desc: 'In-app OTP and verification solver when challenges appear.',
                     icon: Lock
                   },
                   {
-                    title: 'Multi-Channel Chimes',
-                    desc: 'Instant audio chimes, visual banners & browser alerts on turn arrival.',
+                    title: 'Turn Notifications',
+                    desc: 'Browser push alerts and auditory chime when your turn is minutes away.',
                     icon: CheckCircle2
                   }
                 ].map((item, idx) => {
                   const Icon = item.icon;
                   return (
                     <div key={idx} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                      <Icon size={16} color="#818CF8" style={{ marginTop: 2, flexShrink: 0 }} />
+                      <Icon size={14} color="var(--brand-primary)" style={{ marginTop: 2, flexShrink: 0 }} />
                       <div>
-                        <div style={{ fontSize: '0.80rem', fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>{item.desc}</div>
+                        <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
+                        <div style={{ fontSize: '0.70rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>{item.desc}</div>
                       </div>
                     </div>
                   );
@@ -664,8 +653,7 @@ export const BookingsPage: React.FC = () => {
         </div>
 
         {/* 2. BOOKINGS SECTION */}
-        {/* Tabs: Today, Upcoming, Completed, Cancelled */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 26, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: 12 }}>
+        <div style={{ display: 'flex', gap: 6, marginBottom: 20, borderBottom: '1px solid #1E2532', paddingBottom: 10 }}>
           {[
             { id: 'today', label: 'Today' },
             { id: 'upcoming', label: 'Upcoming' },
@@ -685,61 +673,63 @@ export const BookingsPage: React.FC = () => {
         {/* Bookings List */}
         {filteredBookings.length === 0 ? (
           <div
-            className="glass-card"
             style={{
-              padding: '60px 20px',
+              padding: '48px 20px',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              borderRadius: 24
+              borderRadius: '10px',
+              background: '#131720',
+              border: '1px solid #232A38'
             }}
           >
-            <Ticket size={48} color="var(--text-muted)" style={{ marginBottom: 16 }} />
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800 }}>No bookings in this tab</h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: 4 }}>
+            <Ticket size={40} color="var(--text-muted)" style={{ marginBottom: 12 }} />
+            <h3 style={{ fontSize: '1.18rem', fontWeight: 700 }}>No bookings in this tab</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: 4 }}>
               Ready to plan your next outing?
             </p>
-            <Link to="/explore" className="btn btn-primary" style={{ marginTop: 20 }}>
+            <Link to="/explore" className="btn btn-primary btn-sm" style={{ marginTop: 16 }}>
               Explore Experiences
             </Link>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {filteredBookings.map((b) => (
               <div
                 key={b.id}
-                className="glass-card"
                 style={{
-                  padding: '26px 28px',
+                  padding: '20px 24px',
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: 24,
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                  gap: 20,
                   alignItems: 'center',
-                  borderRadius: 22
+                  borderRadius: '10px',
+                  background: '#131720',
+                  border: '1px solid #232A38'
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                     <span className={`badge ${b.status === 'confirmed' ? 'badge-emerald' : 'badge-rose'}`}>
                       {b.status.toUpperCase()}
                     </span>
-                    <span style={{ fontSize: '0.80rem', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                       Code: <strong style={{ color: '#FFFFFF' }}>{b.bookingCode}</strong>
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#FFFFFF', marginBottom: 8, letterSpacing: '-0.02em' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 6, letterSpacing: '-0.02em' }}>
                     {b.experienceName}
                   </h3>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: '0.86rem', color: 'var(--text-secondary)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <Calendar size={15} color="var(--lavender-electric)" />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <Calendar size={14} color="var(--brand-primary)" />
                       <span>{b.date} • <strong style={{ color: '#fff' }}>{b.timeSlot}</strong></span>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <MapPin size={15} color="var(--cyan-accent)" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <MapPin size={14} color="#60A5FA" />
                       <span>{b.venueName} ({b.venueAddress})</span>
                     </div>
                     <div style={{ marginTop: 2 }}>
@@ -749,28 +739,28 @@ export const BookingsPage: React.FC = () => {
                 </div>
 
                 {/* QR Code and Actions */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 20, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 18, flexWrap: 'wrap' }}>
                   <div
                     style={{
                       background: '#FFFFFF',
-                      padding: 10,
-                      borderRadius: 14,
+                      padding: 8,
+                      borderRadius: 8,
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       gap: 4,
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)'
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.4)'
                     }}
                   >
                     <img
                       src={b.qrCodeUrl}
                       alt="Digital Pass QR"
-                      style={{ width: 92, height: 92, borderRadius: 6 }}
+                      style={{ width: 84, height: 84, borderRadius: 4 }}
                     />
-                    <span style={{ fontSize: '0.65rem', color: '#111827', fontWeight: 800 }}>TURNSTILE PASS</span>
+                    <span style={{ fontSize: '0.62rem', color: '#111827', fontWeight: 800 }}>TURNSTILE PASS</span>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 150 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 140 }}>
                     <Link to="/day-mode" className="btn btn-primary btn-sm">
                       Open in Day Mode
                     </Link>
@@ -779,7 +769,7 @@ export const BookingsPage: React.FC = () => {
                       <button
                         onClick={() => handleCancelBooking(b.id)}
                         className="btn btn-ghost btn-sm"
-                        style={{ color: '#FDA4AF', fontSize: '0.82rem' }}
+                        style={{ color: '#F87171', fontSize: '0.78rem' }}
                       >
                         Cancel Booking
                       </button>

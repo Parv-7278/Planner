@@ -1,79 +1,102 @@
 /* ===================================================
-   DAYLY — Modern Executive UI & Refined Surfaces
+   DAYLY — Editorial Product Design Utilities
    =================================================== */
 
 .ambient-sheen {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1000px;
-  height: 380px;
-  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(99, 102, 241, 0.12), transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  display: none;
+}
+
+.editorial-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: #141820;
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-size: 0.80rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.editorial-tag-accent {
+  background: var(--brand-primary-subtle);
+  border-color: var(--brand-primary-border);
+  color: var(--brand-primary);
+}
+
+.search-dock-editorial {
+  background: #10141C;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition-fast);
+}
+
+.search-dock-editorial:focus-within {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(242, 95, 58, 0.18), 0 8px 24px rgba(0, 0, 0, 0.5);
+  background: #131720;
+}
+
+.glass-search-dock {
+  background: #10141C;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.glass-search-dock:focus-within {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(242, 95, 58, 0.15);
+  background: #131720;
 }
 
 .glass-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  background: #141820;
+  border: 1px solid var(--border-default);
   color: var(--text-secondary);
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .glass-pill-accent {
-  background: rgba(99, 102, 241, 0.10);
-  border-color: rgba(99, 102, 241, 0.28);
-  color: #A5B4FC;
-}
-
-.glass-search-dock {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
-  transition: all var(--transition-fast);
-}
-
-.glass-search-dock:focus-within {
-  border-color: #6366F1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 8px 24px rgba(0, 0, 0, 0.4);
-  background: #131C2E;
+  background: var(--brand-primary-subtle);
+  border-color: var(--brand-primary-border);
+  color: var(--brand-primary);
 }
 
 .glass-metric-tile {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  background: #131720;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
 }
 
 .glass-metric-tile:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
 }
 
-/* Crisp Metallic Gradient */
 .text-shimmer {
-  background: linear-gradient(180deg, #FFFFFF 20%, #CBD5E1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-white);
+  font-weight: 800;
 }
 
 .hover-lavender {
-  transition: color 0.18s ease;
+  transition: color 0.15s ease;
 }
 
 .hover-lavender:hover {
-  color: #C7D2FE !important;
+  color: var(--brand-primary) !important;
 }

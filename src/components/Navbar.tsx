@@ -63,22 +63,24 @@ export const Navbar: React.FC = () => {
           <Link to="/" className="brand-logo">
             <span
               style={{
-                width: 38,
-                height: 38,
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 60%, #67E8F9 100%)',
+                width: 32,
+                height: 32,
+                borderRadius: '8px',
+                background: 'var(--brand-primary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#fff',
-                boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
+                fontWeight: 900,
+                fontSize: '1rem',
+                letterSpacing: '-0.03em',
+                boxShadow: '0 2px 8px rgba(242, 95, 58, 0.4)'
               }}
             >
-              <Sparkles size={20} />
+              D
             </span>
-            <span>DAYLY</span>
-            <span className="brand-badge">Spatial Planner</span>
+            <span style={{ fontSize: '1.25rem', letterSpacing: '-0.02em', fontWeight: 800 }}>DAYLY</span>
+            <span className="brand-badge">Delhi NCR</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -87,26 +89,25 @@ export const Navbar: React.FC = () => {
               Home
             </Link>
             <Link to="/explore" className={`nav-link ${isActive('/explore') ? 'nav-link-active' : ''}`}>
-              <Compass size={16} />
+              <Compass size={15} />
               Explore
             </Link>
             <Link to="/plan" className={`nav-link ${isActive('/plan') ? 'nav-link-active' : ''}`}>
-              <Calendar size={16} />
+              <Calendar size={15} />
               Plan Day
             </Link>
             <Link to="/my-day" className={`nav-link ${isActive('/my-day') ? 'nav-link-active' : ''}`}>
-              <MapPin size={16} />
+              <MapPin size={15} />
               My Day
               {activeDay?.items?.length > 0 && (
                 <span
                   style={{
-                    background: 'var(--lavender-electric)',
-                    color: '#0B1020',
-                    borderRadius: '99px',
-                    fontSize: '0.7rem',
-                    padding: '1px 6px',
-                    fontWeight: 800,
-                    boxShadow: '0 0 10px rgba(167, 139, 250, 0.5)'
+                    background: 'var(--brand-primary)',
+                    color: '#FFFFFF',
+                    borderRadius: '4px',
+                    fontSize: '0.68rem',
+                    padding: '1px 5px',
+                    fontWeight: 700
                   }}
                 >
                   {activeDay.items.length}
@@ -119,19 +120,19 @@ export const Navbar: React.FC = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 6
+                gap: 5
               }}
             >
-              <Bot size={16} color="var(--lavender-electric)" />
-              <span>AI Queue</span>
+              <Bot size={15} color="var(--brand-primary)" />
+              <span>Queue Bot</span>
               {activeQueuesCount > 0 ? (
                 <span
                   style={{
                     background: '#10B981',
                     color: '#090D16',
-                    borderRadius: '99px',
-                    fontSize: '0.68rem',
-                    padding: '1px 6px',
+                    borderRadius: '4px',
+                    fontSize: '0.65rem',
+                    padding: '1px 5px',
                     fontWeight: 800,
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -144,21 +145,20 @@ export const Navbar: React.FC = () => {
               ) : (
                 <span
                   style={{
-                    background: 'rgba(99, 102, 241, 0.15)',
-                    color: '#A5B4FC',
-                    border: '1px solid rgba(99, 102, 241, 0.35)',
-                    borderRadius: '99px',
-                    fontSize: '0.65rem',
-                    padding: '1px 6px',
+                    background: '#1F2633',
+                    color: 'var(--text-secondary)',
+                    borderRadius: '4px',
+                    fontSize: '0.62rem',
+                    padding: '1px 5px',
                     fontWeight: 700
                   }}
                 >
-                  Live
+                  Auto
                 </span>
               )}
             </Link>
             <Link to="/bookings" className={`nav-link ${isActive('/bookings') ? 'nav-link-active' : ''}`}>
-              <Ticket size={16} />
+              <Ticket size={15} />
               Bookings
             </Link>
             <Link to="/wishlist" className={`nav-link ${isActive('/wishlist') ? 'nav-link-active' : ''}`}>
@@ -172,7 +172,7 @@ export const Navbar: React.FC = () => {
           </nav>
 
           {/* Actions & Live Day Mode Pill */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {/* Quick Search Button */}
             <button
               onClick={() => setShowSearch(true)}
@@ -182,18 +182,17 @@ export const Navbar: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '8px 14px',
-                borderRadius: '99px'
+                padding: '6px 12px'
               }}
             >
-              <Search size={15} color="var(--text-secondary)" />
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Search</span>
+              <Search size={14} color="var(--text-secondary)" />
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>Search</span>
               <kbd
                 style={{
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  padding: '2px 6px',
-                  borderRadius: 6,
+                  background: '#0E1218',
+                  border: '1px solid var(--border-default)',
+                  padding: '1px 5px',
+                  borderRadius: 4,
                   fontSize: '0.65rem',
                   color: 'var(--text-muted)'
                 }}
@@ -207,24 +206,24 @@ export const Navbar: React.FC = () => {
               to="/day-mode"
               className="btn btn-sm"
               style={{
-                background: 'rgba(16, 185, 129, 0.12)',
+                background: 'var(--emerald-subtle)',
                 color: '#34D399',
-                border: '1px solid rgba(16, 185, 129, 0.32)',
-                boxShadow: '0 0 16px rgba(16, 185, 129, 0.18)',
-                backdropFilter: 'blur(12px)',
-                borderRadius: '99px'
+                border: '1px solid var(--emerald-border)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6
               }}
             >
               <span
                 style={{
-                  width: 8,
-                  height: 8,
+                  width: 6,
+                  height: 6,
                   borderRadius: '50%',
                   background: '#10B981',
-                  boxShadow: '0 0 8px #10B981'
+                  display: 'inline-block'
                 }}
               />
-              <Zap size={14} />
+              <Zap size={13} />
               <span>Day Mode</span>
             </Link>
 
@@ -234,10 +233,9 @@ export const Navbar: React.FC = () => {
                 onClick={() => setShowNotifs(!showNotifs)}
                 className="btn btn-secondary btn-sm"
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 34,
+                  height: 34,
                   padding: 0,
-                  borderRadius: '50%',
                   position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
@@ -245,18 +243,17 @@ export const Navbar: React.FC = () => {
                 }}
                 aria-label="Notifications"
               >
-                <Bell size={18} />
+                <Bell size={16} />
                 {unreadNotifs > 0 && (
                   <span
                     style={{
                       position: 'absolute',
-                      top: 4,
-                      right: 4,
-                      width: 10,
-                      height: 10,
+                      top: 6,
+                      right: 6,
+                      width: 6,
+                      height: 6,
                       borderRadius: '50%',
-                      background: 'var(--lavender-electric)',
-                      boxShadow: '0 0 8px var(--lavender-electric)'
+                      background: 'var(--brand-primary)'
                     }}
                   />
                 )}

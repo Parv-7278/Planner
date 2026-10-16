@@ -219,85 +219,83 @@ export const PlanPage: React.FC = () => {
       <div className="container-dayly" style={{ maxWidth: 880 }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <span className="badge badge-violet" style={{ marginBottom: 6 }}>
-            DAYLY Spatial AI Engine 2.0 • Feasibility First
+          <span className="badge badge-cyan" style={{ marginBottom: 6 }}>
+            Itinerary Sequencing & Feasibility Engine
           </span>
-          <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3.1rem)', fontWeight: 900 }}>
-            Plan Your Day Intelligently
+          <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800 }}>
+            Plan Your Day Itinerary
           </h1>
           <p
             style={{
               color: 'var(--text-secondary)',
-              fontSize: '1rem',
-              marginTop: 8,
-              maxWidth: 640,
-              margin: '8px auto 0'
+              fontSize: '0.95rem',
+              marginTop: 6,
+              maxWidth: 600,
+              margin: '6px auto 0'
             }}
           >
-            Strict budget compliance, automatic travel time calculations, and guaranteed venue opening hours.
+            Strict budget compliance, automatic transit time calculations, and verified venue opening hours.
           </p>
         </div>
 
         {/* Natural Language Prompt Dock */}
         <div
-          className="glass-panel"
           style={{
-            padding: '24px 28px',
-            borderRadius: 24,
-            marginBottom: 26,
-            border: '1px solid rgba(167, 139, 250, 0.35)',
-            boxShadow: '0 8px 32px rgba(167, 139, 250, 0.12)'
+            padding: '20px 24px',
+            borderRadius: '12px',
+            marginBottom: 24,
+            background: '#131720',
+            border: '1px solid #232A38',
+            boxShadow: 'var(--shadow-sm)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-            <label style={{ fontSize: '0.90rem', fontWeight: 700, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Sparkles size={16} color="var(--lavender-electric)" />
-              Describe your day in natural English
+            <label style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: 6 }}>
+              Describe your day in plain language
             </label>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-              Type details or press Enter to auto-extract
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+              Press Enter or click Parse to auto-fill form
             </span>
           </div>
 
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             <input
               type="text"
-              placeholder="e.g. I have 6 hours, ₹1,500 total, and 3 people. I want food, gaming, and a movie."
+              placeholder="e.g. 6 hours in Delhi, ₹1,500 total budget for 3 people with food and karting"
               value={naturalPrompt}
               onChange={(e) => setNaturalPrompt(e.target.value)}
               onKeyDown={handlePromptKeyDown}
               className="input-field"
-              style={{ fontSize: '0.95rem', padding: '14px 18px' }}
+              style={{ fontSize: '0.92rem', padding: '12px 16px' }}
             />
             <button
               type="button"
               onClick={() => applyNaturalPrompt(naturalPrompt)}
-              className="btn btn-secondary"
-              style={{ whiteSpace: 'nowrap', padding: '0 20px', borderRadius: 14 }}
+              className="btn btn-primary"
+              style={{ whiteSpace: 'nowrap', padding: '0 18px', borderRadius: '6px' }}
               title="Parse intent into form"
             >
-              <Sparkles size={16} color="var(--cyan-accent)" />
-              Extract
+              Parse
             </button>
           </div>
 
           {/* Extracted preferences chips dock */}
           {naturalPrompt && (
-            <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', display: 'block', marginBottom: 8 }}>
-                AI UNDERSTOOD INTENT:
+            <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid #1E2532' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Extracted Criteria:
               </span>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, fontSize: '0.78rem' }}>
-                <span className="badge badge-violet">⏱️ {durationHours} Hours</span>
-                <span className="badge badge-cyan">
-                  💰 ₹{budgetAmount} ({budgetType === 'total' ? 'Group Total' : 'Per Person'})
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, fontSize: '0.76rem' }}>
+                <span className="badge badge-cyan">{durationHours} Hours Duration</span>
+                <span className="badge badge-emerald">
+                  ₹{budgetAmount} ({budgetType === 'total' ? 'Total' : 'Per Person'})
                 </span>
-                <span className="badge badge-emerald">👥 {numPeople} People</span>
-                {startLocation && <span className="badge badge-amber">📍 From {startLocation}</span>}
-                {indoorOnly && <span className="badge badge-pink">☔ Indoor Only</span>}
+                <span className="badge badge-violet">{numPeople} People</span>
+                {startLocation && <span className="badge badge-amber">From {startLocation}</span>}
+                {indoorOnly && <span className="badge badge-pink">Indoor Only</span>}
                 {selectedCategories.map((c) => (
-                  <span key={c} className="badge" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                    ✓ {c}
+                  <span key={c} className="badge" style={{ background: '#181E29', border: '1px solid #283142' }}>
+                    {c}
                   </span>
                 ))}
               </div>

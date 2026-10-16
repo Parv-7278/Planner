@@ -112,43 +112,43 @@ export const MyDayPage: React.FC = () => {
           }}
         >
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-              <span className="badge badge-violet">{activeDay.mode} Edition</span>
-              <span className="badge badge-cyan">
-                👥 {numPeople} {numPeople === 1 ? 'Guest' : 'Guests'}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6, flexWrap: 'wrap' }}>
+              <span className="badge badge-cyan">{activeDay.mode} Plan</span>
+              <span className="badge badge-violet">
+                {numPeople} {numPeople === 1 ? 'Guest' : 'Guests'}
               </span>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                 {activeDay.date} • {activeDay.city}
               </span>
             </div>
-            <h1 style={{ fontSize: 'clamp(2.1rem, 3.8vw, 3rem)', fontWeight: 900 }}>
+            <h1 style={{ fontSize: 'clamp(1.9rem, 3.4vw, 2.7rem)', fontWeight: 800 }}>
               {activeDay.title}
             </h1>
           </div>
 
           {/* Quick Global Action Buttons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <button onClick={() => setShowWhatIf(true)} className="btn btn-secondary btn-sm">
-              <HelpCircle size={15} color="var(--lavender-electric)" />
+              <HelpCircle size={14} color="var(--brand-primary)" />
               What If?
             </button>
 
             <button onClick={() => setShowGroupModal(true)} className="btn btn-secondary btn-sm">
-              <Users size={15} color="var(--cyan-accent)" />
+              <Users size={14} color="#60A5FA" />
               Invite Friends
             </button>
 
             <button onClick={handleSaveDay} className="btn btn-secondary btn-sm">
-              {savedSuccess ? <Check size={15} color="#34D399" /> : <Bookmark size={15} />}
-              {savedSuccess ? 'Saved to My Days' : 'Save Plan'}
+              {savedSuccess ? <Check size={14} color="#34D399" /> : <Bookmark size={14} />}
+              {savedSuccess ? 'Saved' : 'Save Plan'}
             </button>
 
             <Link
               to="/day-mode"
-              className="btn btn-primary"
-              style={{ padding: '10px 22px', fontSize: '0.95rem' }}
+              className="btn btn-primary btn-sm"
+              style={{ padding: '8px 16px', fontSize: '0.88rem' }}
             >
-              <Zap size={16} /> Enter Live Day Mode
+              <Zap size={14} /> Live Day Mode
             </Link>
           </div>
         </div>
@@ -156,17 +156,17 @@ export const MyDayPage: React.FC = () => {
         {/* 3 Itinerary Options Switcher Dock */}
         {planOptions && (
           <div
-            className="glass-panel"
             style={{
-              padding: '16px 20px',
-              borderRadius: 20,
-              marginBottom: 24,
+              padding: '14px 18px',
+              borderRadius: '10px',
+              marginBottom: 20,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               flexWrap: 'wrap',
-              gap: 14,
-              border: '1px solid rgba(167, 139, 250, 0.25)'
+              gap: 12,
+              background: '#131720',
+              border: '1px solid #232A38'
             }}
           >
             <div>
