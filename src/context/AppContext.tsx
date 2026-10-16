@@ -15,8 +15,11 @@ import { BookingManager } from '../services/bookingAdapters';
 import { QueueService } from '../services/queueService';
 import { NotificationService } from '../services/notificationService';
 import { MOCK_EXPERIENCES } from '../data/mockExperiences';
+import { SupabaseSyncService } from '../services/supabaseSyncService';
+import { isSupabaseConfigured } from '../services/supabaseClient';
 
 interface AppContextType {
+  isSupabaseConnected: boolean;
   activeDay: DayItinerary;
   setActiveDay: (day: DayItinerary) => void;
   planOptions?: PlanGenerationResult['options'];
@@ -114,10 +117,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   });
 
-  // Keep active day in local storage
+  // Keep active day in local storage and cloud
   const setActiveDay = (day: DayItinerary) => {
     setActiveDayState(day);
     ItineraryEngine.saveActiveDay(day);
+    SupabaseSyncService.syncItinerary(day);
   };
 
   const setPlanResult = (result: PlanGenerationResult) => {
@@ -159,6 +163,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }, 5000);
     });
 
+    // Cloud synchronization when Supabase credentials are configured
+    if (isSupabaseConfigured) {
+      SupabaseSyncService.fetchBookings().then((cloudBookings) => {
+        if (cloudBookings.length > 0) setBookings(cloudBookings);
+      });
+      SupabaseSyncService.fetchQueues().then((cloudQueues) => {
+        if (cloudQueues.length > 0) setQueues(cloudQueues);
+      });
+      SupabaseSyncService.fetchWishlist().then((cloudWishlist) => {
+        if (cloudWishlist.length > 0) setWishlistIds(cloudWishlist);
+      });
+      SupabaseSyncService.fetchProfile().then((cloudProfile) => {
+        if (cloudProfile) setUserProfileState((prev) => ({ ...prev, ...cloudProfile }));
+      });
+    }
+
     return () => {
       unsubQueues();
       unsubNotifs();
@@ -168,14 +188,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const refreshBookings = () => {
     setBookings(BookingManager.getAllBookings());
+    if (isSupabaseConfigured) {
+      SupabaseSyncService.fetchBookings().then((cloud) => {
+        if (cloud.length > 0) setBookings(cloud);
+      });
+    }
   };
 
   const toggleWishlist = (expId: string) => {
+    const isAdding = !wishlistIds.includes(expId);
     setWishlistIds((prev) => {
-      const next = prev.includes(expId) ? prev.filter((id) => id !== expId) : [...prev, expId];
+      const next = isAdding ? [...prev, expId] : prev.filter((id) => id !== expId);
       localStorage.setItem(STORAGE_KEY_WISHLIST, JSON.stringify(next));
       return next;
     });
+    SupabaseSyncService.syncWishlistToggle(expId, isAdding);
   };
 
   const joinVirtualQueue = (
@@ -192,6 +219,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   ) => {
     QueueService.joinQueue(expId, time, date, partySize, autoBook, assistantOptions);
+    const created = QueueService.getAllQueues().find((q) => q.experienceId === expId && q.slotTime === time);
+    if (created) {
+      SupabaseSyncService.syncQueue(created);
+    }
   };
 
   const reserveQueueSlot = async (queueId: string) => {
@@ -202,6 +233,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const leaveQueue = (queueId: string) => {
     QueueService.leaveQueue(queueId);
+    SupabaseSyncService.removeQueue(queueId);
   };
 
   const startAssistantMonitoring = (queueId: string) => {
@@ -240,6 +272,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setUserProfileState((prev) => {
       const next = { ...prev, ...patch };
       localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(next));
+      SupabaseSyncService.syncProfile(next);
       return next;
     });
   };
@@ -353,6 +386,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   return (
     <AppContext.Provider
       value={{
+        isSupabaseConnected: isSupabaseConfigured,
         activeDay,
         setActiveDay,
         planOptions,

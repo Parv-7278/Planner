@@ -16,7 +16,7 @@ import { useApp } from '../context/AppContext';
 import { ExperienceCategory } from '../types';
 
 export const ProfilePage: React.FC = () => {
-  const { userProfile, updateUserProfile, bookings, wishlistIds, activeDay } = useApp();
+  const { userProfile, updateUserProfile, bookings, wishlistIds, activeDay, isSupabaseConnected } = useApp();
 
   const [name, setName] = useState(userProfile.name);
   const [city, setCity] = useState(userProfile.preferredCity);
@@ -81,6 +81,15 @@ export const ProfilePage: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <h1 style={{ fontSize: '1.7rem', fontWeight: 900 }}>{userProfile.name}</h1>
                 <span className="badge badge-emerald">Verified Explorer</span>
+                {isSupabaseConnected ? (
+                  <span className="badge badge-emerald" title="Connected to Supabase Cloud">
+                    ● Supabase Connected
+                  </span>
+                ) : (
+                  <span className="badge badge-violet" title="Add credentials to .env to enable cloud sync">
+                    Local Mode (Supabase Ready)
+                  </span>
+                )}
               </div>
               <span style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>{userProfile.email}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: 4 }}>
