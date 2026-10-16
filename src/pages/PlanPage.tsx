@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Sparkles,
@@ -57,23 +57,8 @@ export const PlanPage: React.FC = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>(['romantic', 'date', 'fine dining']);
   const [dietaryOptions, setDietaryOptions] = useState<('vegetarian' | 'vegan' | 'halal' | 'jain')[]>(['vegetarian']);
 
-  // Handle incoming query params from Home
-  useEffect(() => {
-    const promptParam = searchParams.get('prompt');
-    const modeParam = searchParams.get('mode') as DayPlanningMode | null;
-
-    if (promptParam) {
-      setNaturalPrompt(promptParam);
-      applyNaturalPrompt(promptParam);
-    }
-
-    if (modeParam) {
-      setMode(modeParam);
-    }
-  }, [searchParams]);
-
   // Apply NLP extraction to form state
-  const applyNaturalPrompt = (promptText: string) => {
+  const applyNaturalPrompt = useCallback((promptText: string) => {
     if (!promptText.trim()) return;
     const extracted = NaturalLanguageService.extractIntent(promptText);
 
@@ -109,7 +94,22 @@ export const PlanPage: React.FC = () => {
     if (extracted.dietary && extracted.dietary.length > 0) {
       setDietaryOptions(extracted.dietary);
     }
-  };
+  }, [budgetAmount, startTime]);
+
+  // Handle incoming query params from Home
+  useEffect(() => {
+    const promptParam = searchParams.get('prompt');
+    const modeParam = searchParams.get('mode') as DayPlanningMode | null;
+
+    if (promptParam) {
+      setNaturalPrompt(promptParam);
+      applyNaturalPrompt(promptParam);
+    }
+
+    if (modeParam) {
+      setMode(modeParam);
+    }
+  }, [searchParams, applyNaturalPrompt]);
 
   const handlePromptKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {

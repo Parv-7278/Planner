@@ -33,21 +33,15 @@
 ## ⚙️ Environment Variables
 
 The project includes pre-configured environment files:
-- `.env` — Local development configuration
+- `.env` — Local development configuration (includes your Supabase credentials, gitignored)
 - `.env.example` — Environment template
-- `.env.production` — Production configuration
+- `.env.production` — Production configuration reference
+
+When deploying to Vercel, Netlify, or any production cloud host, add these environment variables in your provider dashboard:
 
 ```env
-VITE_APP_NAME="DAYLY"
-VITE_APP_TAGLINE="Your entire day. Planned."
-VITE_API_BASE_URL="http://localhost:5173/api"
-VITE_DEFAULT_CITY="Delhi NCR"
-VITE_ENABLE_MOCK_PROVIDERS="true"
-VITE_ENABLE_VIRTUAL_QUEUE="true"
-VITE_ENABLE_WEATHER_AWARE="true"
-VITE_GOOGLE_MAPS_API_KEY=""
-VITE_PAYMENT_GATEWAY_SANDBOX="true"
-VITE_APP_ENV="development"
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-public-key
 ```
 
 ---
@@ -65,11 +59,35 @@ npm run dev
 ```
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-### 3. Production Build
+### 3. Run Automated Tests
+```bash
+npm test
+```
+Runs the full 20-test suite validating the itinerary scheduling engine and booking assistant queue logic.
+
+### 4. Build for Production
 ```bash
 npm run build
 npm run preview
 ```
+
+---
+
+## 🚀 One-Click Cloud Deployment
+
+### Deploying to Vercel
+1. Import your GitHub repository (`https://github.com/Parv-7278/Planner`) in [Vercel](https://vercel.com).
+2. Framework Preset: **Vite** (Root Directory: `./`).
+3. Add Environment Variables:
+   - `VITE_SUPABASE_URL`: your Supabase URL
+   - `VITE_SUPABASE_ANON_KEY`: your Supabase Anon public key
+4. Click **Deploy**. SPA routing rewrites are pre-configured via `vercel.json`.
+
+### Deploying to Netlify
+1. Connect repository in [Netlify](https://app.netlify.com).
+2. Build command: `npm run build` | Publish directory: `dist`.
+3. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Environment Variables.
+4. Deploy site. SPA routing redirects are handled via `public/_redirects`.
 
 ---
 
