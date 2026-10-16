@@ -44,7 +44,7 @@ export const ToastBanner: React.FC = () => {
                 display: 'inline-block',
                 marginTop: 6,
                 fontSize: '0.78rem',
-                color: 'var(--coral-500)',
+                color: 'var(--lavender-400)',
                 fontWeight: 700
               }}
             >

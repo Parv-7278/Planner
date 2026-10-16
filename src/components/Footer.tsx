@@ -13,10 +13,11 @@ import {
   Home
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { Bot } from './icons';
 
 export const Footer: React.FC = () => {
   const location = useLocation();
-  const { activeDay } = useApp();
+  const { activeDay, queues } = useApp();
   const isActive = (path: string) => location.pathname === path;
 
   return (
@@ -24,12 +25,28 @@ export const Footer: React.FC = () => {
       {/* Desktop & Tablet Global Footer */}
       <footer
         style={{
-          borderTop: '1px solid var(--border-subtle)',
-          background: 'rgba(8, 9, 15, 0.95)',
-          padding: '60px 0 30px 0',
-          marginTop: 'auto'
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'linear-gradient(180deg, rgba(11, 16, 32, 0.7) 0%, rgba(7, 10, 20, 0.95) 100%)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          padding: '70px 0 36px 0',
+          marginTop: 'auto',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
+        {/* Subtle decorative aurora glow line at top of footer */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '20%',
+            right: '20%',
+            height: 1,
+            background: 'linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.4), rgba(103, 232, 249, 0.4), transparent)'
+          }}
+        />
+
         <div className="container-dayly">
           <div
             style={{
@@ -41,102 +58,124 @@ export const Footer: React.FC = () => {
           >
             {/* Brand column */}
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                 <span
                   style={{
-                    width: 34,
-                    height: 34,
-                    borderRadius: '50%',
-                    background: 'var(--grad-primary)',
+                    width: 38,
+                    height: 38,
+                    borderRadius: 12,
+                    background: 'var(--grad-spatial)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#fff'
+                    color: '#fff',
+                    boxShadow: '0 4px 20px rgba(139, 92, 246, 0.35)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
                   }}
                 >
                   <Sparkles size={18} />
                 </span>
-                <span style={{ fontSize: '1.4rem', fontWeight: 900, fontFamily: 'var(--font-heading)' }}>
+                <span style={{ fontSize: '1.45rem', fontWeight: 900, fontFamily: 'var(--font-heading)', letterSpacing: '-0.02em' }} className="text-shimmer">
                   DAYLY
                 </span>
               </div>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                The intelligent day-planning & experience-booking platform. Combining dining, culture,
-                cinema, workshops, and sports into one seamless day outside.
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65, maxWidth: 320 }}>
+                The intelligent day-planning & experience-booking platform. Combining fine dining, culture,
+                cinema, workshops, and sports into one seamless spatial day outside.
               </p>
               <div
                 style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
-                  marginTop: 16,
-                  color: 'var(--text-muted)',
+                  marginTop: 18,
+                  padding: '6px 14px',
+                  borderRadius: 'var(--radius-pill)',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  color: 'var(--text-secondary)',
                   fontSize: '0.8rem'
                 }}
               >
-                <ShieldCheck size={16} color="var(--emerald-500)" />
+                <ShieldCheck size={16} color="var(--cyan-400)" />
                 <span>Verified Partners & Instant Booking</span>
               </div>
             </div>
 
             {/* Quick Explore */}
             <div>
-              <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <h4 style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavender-300)' }}>
                 Explore Experiences
               </h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-                <li><Link to="/explore?category=food" style={{ transition: 'color 0.2s' }}>Fine Dining & Cafes</Link></li>
-                <li><Link to="/explore?category=workshops" style={{ transition: 'color 0.2s' }}>Pottery & Art Workshops</Link></li>
-                <li><Link to="/explore?category=movies" style={{ transition: 'color 0.2s' }}>Luxury Cinema & Theatres</Link></li>
-                <li><Link to="/explore?category=activities" style={{ transition: 'color 0.2s' }}>VR, Escape Rooms & Gaming</Link></li>
-                <li><Link to="/explore?category=outdoor" style={{ transition: 'color 0.2s' }}>Nature, Cycling & Heritage Parks</Link></li>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+                <li><Link to="/explore?category=food" style={{ transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', gap: 6 }} className="hover-lavender">Fine Dining & Cafes</Link></li>
+                <li><Link to="/explore?category=workshops" style={{ transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', gap: 6 }} className="hover-lavender">Pottery & Art Workshops</Link></li>
+                <li><Link to="/explore?category=movies" style={{ transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', gap: 6 }} className="hover-lavender">Luxury Cinema & Theatres</Link></li>
+                <li><Link to="/explore?category=activities" style={{ transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', gap: 6 }} className="hover-lavender">VR, Escape Rooms & Gaming</Link></li>
+                <li><Link to="/explore?category=outdoor" style={{ transition: 'color 0.2s', display: 'inline-flex', alignItems: 'center', gap: 6 }} className="hover-lavender">Nature, Cycling & Heritage Parks</Link></li>
               </ul>
             </div>
 
             {/* AI Day Planning */}
             <div>
-              <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <h4 style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavender-300)' }}>
                 Intelligent Planning
               </h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-                <li><Link to="/plan">AI Day Builder</Link></li>
-                <li><Link to="/day-mode">Real-Time Day Assistant</Link></li>
-                <li><Link to="/my-day">Itinerary Timeline & Map</Link></li>
-                <li><Link to="/bookings">DAYLY Virtual Queue</Link></li>
-                <li><Link to="/wishlist">Saved Experiences</Link></li>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+                <li><Link to="/plan" className="hover-lavender">AI Day Builder</Link></li>
+                <li><Link to="/day-mode" className="hover-lavender">Real-Time Day Assistant</Link></li>
+                <li><Link to="/my-day" className="hover-lavender">Itinerary Timeline & Map</Link></li>
+                <li><Link to="/bookings" className="hover-lavender">DAYLY Virtual Queue</Link></li>
+                <li><Link to="/wishlist" className="hover-lavender">Saved Experiences</Link></li>
               </ul>
             </div>
 
             {/* Delhi NCR Coverage */}
             <div>
-              <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <h4 style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavender-300)' }}>
                 Delhi NCR Hubs
               </h4>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 12 }}>
-                Currently curating premium experiences across Hauz Khas, Connaught Place, Mehrauli, Saket, Lodhi Art District & Gurgaon CyberHub.
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 16 }}>
+                Curating spatial day experiences across Hauz Khas, Connaught Place, Mehrauli, Saket, Lodhi Art District & CyberHub.
               </p>
-              <div className="badge badge-emerald">Live in Delhi NCR</div>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '6px 14px',
+                  borderRadius: 'var(--radius-pill)',
+                  background: 'rgba(103, 232, 249, 0.1)',
+                  border: '1px solid rgba(103, 232, 249, 0.25)',
+                  color: 'var(--cyan-300)',
+                  fontSize: '0.78rem',
+                  fontWeight: 600
+                }}
+              >
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--cyan-400)', boxShadow: '0 0 8px var(--cyan-400)' }} />
+                Live in Delhi NCR
+              </div>
             </div>
           </div>
 
           <div
             style={{
-              paddingTop: 24,
-              borderTop: '1px solid var(--border-subtle)',
+              paddingTop: 28,
+              borderTop: '1px solid rgba(255, 255, 255, 0.06)',
               display: 'flex',
               flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: 16,
-              fontSize: '0.8rem',
+              fontSize: '0.82rem',
               color: 'var(--text-muted)'
             }}
           >
             <div>© {new Date().getFullYear()} DAYLY Technologies Inc. Crafted for unforgettable days out.</div>
-            <div style={{ display: 'flex', gap: 20 }}>
-              <span>Privacy Policy</span>
-              <span>Terms of Service</span>
-              <span>Adapter API Docs</span>
+            <div style={{ display: 'flex', gap: 24 }}>
+              <span style={{ cursor: 'pointer', transition: 'color 0.2s' }} className="hover-lavender">Privacy Policy</span>
+              <span style={{ cursor: 'pointer', transition: 'color 0.2s' }} className="hover-lavender">Terms of Service</span>
+              <span style={{ cursor: 'pointer', transition: 'color 0.2s' }} className="hover-lavender">Adapter API Docs</span>
             </div>
           </div>
         </div>
@@ -155,16 +194,17 @@ export const Footer: React.FC = () => {
         <Link to="/plan" className={`mobile-nav-item ${isActive('/plan') ? 'active' : ''}`}>
           <div
             style={{
-              width: 38,
-              height: 38,
+              width: 40,
+              height: 40,
               borderRadius: '50%',
-              background: 'var(--grad-primary)',
+              background: 'var(--grad-spatial)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#fff',
-              marginTop: -16,
-              boxShadow: '0 4px 14px var(--coral-glow)'
+              marginTop: -18,
+              boxShadow: '0 4px 18px rgba(139, 92, 246, 0.45)',
+              border: '2px solid rgba(255, 255, 255, 0.25)'
             }}
           >
             <Calendar size={18} />
@@ -178,12 +218,31 @@ export const Footer: React.FC = () => {
             <span
               style={{
                 position: 'absolute',
-                top: 2,
+                top: 3,
                 right: 14,
                 width: 7,
                 height: 7,
                 borderRadius: '50%',
-                background: 'var(--coral-500)'
+                background: 'var(--lavender-400)',
+                boxShadow: '0 0 6px var(--lavender-400)'
+              }}
+            />
+          )}
+        </Link>
+        <Link to="/queue" className={`mobile-nav-item ${isActive('/queue') ? 'active' : ''}`}>
+          <Bot size={20} />
+          <span>AI Queue</span>
+          {queues?.length > 0 && (
+            <span
+              style={{
+                position: 'absolute',
+                top: 4,
+                right: 14,
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: '#10B981',
+                boxShadow: '0 0 6px #10B981'
               }}
             />
           )}

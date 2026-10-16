@@ -4,6 +4,7 @@ import { AppProvider } from './context/AppContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ToastBanner } from './components/ToastBanner';
+import './App.css';
 
 import { HomePage } from './pages/HomePage';
 import { ExplorePage } from './pages/ExplorePage';
@@ -21,6 +22,9 @@ export function App() {
     <AppProvider>
       <Router>
         <div className="app-layout">
+          {/* Subtle top atmospheric ambient sheen */}
+          <div className="ambient-sheen" />
+
           <Navbar />
           <ToastBanner />
 
@@ -33,6 +37,8 @@ export function App() {
               <Route path="/day-mode" element={<DayModePage />} />
               <Route path="/experience/:id" element={<ExperienceDetailPage />} />
               <Route path="/bookings" element={<BookingsPage />} />
+              <Route path="/queue" element={<BookingsPage />} />
+              <Route path="/assistant" element={<BookingsPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/my-days" element={<MyDaysPage />} />
               <Route path="/profile" element={<ProfilePage />} />

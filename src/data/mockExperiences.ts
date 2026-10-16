@@ -1,4 +1,4 @@
-import { Experience } from '../types';
+import type { Experience } from '../types/index.ts';
 
 export const MOCK_EXPERIENCES: Experience[] = [
   // 1. FOOD & DINING

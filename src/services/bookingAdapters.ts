@@ -1,5 +1,5 @@
-import { Experience, AvailabilitySlot, Booking } from '../types';
-import { MOCK_EXPERIENCES } from '../data/mockExperiences';
+import type { Experience, AvailabilitySlot, Booking } from '../types/index.ts';
+import { MOCK_EXPERIENCES } from '../data/mockExperiences.ts';
 
 export interface BookingRequest {
   experienceId: string;
@@ -25,20 +25,34 @@ export interface BookingProvider {
 
 const STORAGE_KEY_BOOKINGS = 'dayly_bookings_store';
 
+let inMemoryBookings: Booking[] | null = null;
+
 function getStoredBookings(): Booking[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_BOOKINGS);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
+  if (inMemoryBookings !== null) {
+    return inMemoryBookings;
   }
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_BOOKINGS);
+      if (raw) {
+        inMemoryBookings = JSON.parse(raw);
+        return inMemoryBookings!;
+      }
+    } catch {
+      // fallback
+    }
+  }
+  return [];
 }
 
 function saveBookings(bookings: Booking[]): void {
-  try {
-    localStorage.setItem(STORAGE_KEY_BOOKINGS, JSON.stringify(bookings));
-  } catch (e) {
-    console.error('Failed to persist bookings', e);
+  inMemoryBookings = bookings;
+  if (typeof localStorage !== 'undefined') {
+    try {
+      localStorage.setItem(STORAGE_KEY_BOOKINGS, JSON.stringify(bookings));
+    } catch {
+      // fallback
+    }
   }
 }
 

@@ -73,6 +73,15 @@ declare module 'lucide-react' {
   export const ChevronRight: LucideIcon;
   export const Settings: LucideIcon;
   export const LogOut: LucideIcon;
+  export const Bot: LucideIcon;
+  export const Play: LucideIcon;
+  export const Pause: LucideIcon;
+  export const Activity: LucideIcon;
+  export const Wifi: LucideIcon;
+  export const WifiOff: LucideIcon;
+  export const Lock: LucideIcon;
+  export const Key: LucideIcon;
+  export const CheckCheck: LucideIcon;
   const icons: Record<string, LucideIcon>;
   export default icons;
 }

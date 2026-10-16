@@ -49,18 +49,19 @@ export const ProfilePage: React.FC = () => {
 
   return (
     <div style={{ padding: '40px 0 80px 0' }}>
-      <div className="container-dayly" style={{ maxWidth: 840 }}>
+      <div className="container-dayly" style={{ maxWidth: 860 }}>
         {/* User Card */}
         <div
           className="glass-panel"
           style={{
-            padding: '32px',
+            padding: '36px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: 20,
-            marginBottom: 32
+            marginBottom: 32,
+            borderRadius: 24
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
@@ -68,22 +69,22 @@ export const ProfilePage: React.FC = () => {
               src={userProfile.avatar}
               alt={userProfile.name}
               style={{
-                width: 80,
-                height: 80,
+                width: 82,
+                height: 82,
                 borderRadius: '50%',
                 objectFit: 'cover',
-                border: '3px solid var(--coral-500)',
-                boxShadow: '0 0 16px var(--coral-glow)'
+                border: '2px solid rgba(255, 255, 255, 0.20)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)'
               }}
             />
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <h1 style={{ fontSize: '1.6rem', fontWeight: 900 }}>{userProfile.name}</h1>
+                <h1 style={{ fontSize: '1.7rem', fontWeight: 900 }}>{userProfile.name}</h1>
                 <span className="badge badge-emerald">Verified Explorer</span>
               </div>
               <span style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>{userProfile.email}</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: 4 }}>
-                <MapPin size={13} color="var(--coral-500)" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: 4 }}>
+                <MapPin size={13} color="var(--lavender-electric)" />
                 <span>Base: {userProfile.preferredCity}</span>
               </div>
             </div>
@@ -101,42 +102,42 @@ export const ProfilePage: React.FC = () => {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-            gap: 14,
+            gap: 16,
             marginBottom: 32
           }}
         >
-          <div className="glass-card" style={{ padding: '18px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>TOTAL BOOKINGS</span>
-            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff' }}>{bookings.length}</div>
+          <div className="glass-card" style={{ padding: '20px 22px', borderRadius: 20 }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.04em' }}>TOTAL BOOKINGS</span>
+            <div style={{ fontSize: '1.65rem', fontWeight: 900, color: '#FFFFFF', marginTop: 4 }}>{bookings.length}</div>
           </div>
-          <div className="glass-card" style={{ padding: '18px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>SAVED PLACES</span>
-            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--coral-500)' }}>
+          <div className="glass-card" style={{ padding: '20px 22px', borderRadius: 20 }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.04em' }}>SAVED PLACES</span>
+            <div style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--lavender-electric)', marginTop: 4 }}>
               {wishlistIds.length}
             </div>
           </div>
-          <div className="glass-card" style={{ padding: '18px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>PLANNED DAYS</span>
-            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--violet-500)' }}>3</div>
+          <div className="glass-card" style={{ padding: '20px 22px', borderRadius: 20 }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.04em' }}>PLANNED DAYS</span>
+            <div style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--cyan-accent)', marginTop: 4 }}>3</div>
           </div>
-          <div className="glass-card" style={{ padding: '18px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>MEMBER TIER</span>
-            <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#34d399' }}>DAYLY VIP</div>
+          <div className="glass-card" style={{ padding: '20px 22px', borderRadius: 20 }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.04em' }}>MEMBER TIER</span>
+            <div style={{ fontSize: '1.45rem', fontWeight: 900, color: '#34D399', marginTop: 4 }}>DAYLY VIP</div>
           </div>
         </div>
 
         {/* Personalization Preferences Form */}
-        <form onSubmit={handleSave} className="glass-panel" style={{ padding: '32px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <form onSubmit={handleSave} className="glass-panel" style={{ padding: '36px', borderRadius: 24 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Personalization Engine</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+              <h3 style={{ fontSize: '1.3rem', fontWeight: 800 }}>Personalization Engine</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: 4 }}>
                 DAYLY fine-tunes AI day recommendations around your palate, distance limits, and budget.
               </p>
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 18, marginBottom: 24 }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
                 Display Name
@@ -170,12 +171,12 @@ export const ProfilePage: React.FC = () => {
                 onChange={(e) => setDietary(e.target.value)}
                 className="input-field"
               >
-                <option value="Vegetarian friendly">Vegetarian friendly</option>
-                <option value="Strict vegetarian">Strict vegetarian</option>
-                <option value="Vegan">Vegan</option>
-                <option value="Halal">Halal</option>
-                <option value="Jain friendly">Jain friendly</option>
-                <option value="Omnivore / All">No restrictions</option>
+                <option value="Vegetarian friendly" style={{ background: '#111A2E' }}>Vegetarian friendly</option>
+                <option value="Strict vegetarian" style={{ background: '#111A2E' }}>Strict vegetarian</option>
+                <option value="Vegan" style={{ background: '#111A2E' }}>Vegan</option>
+                <option value="Halal" style={{ background: '#111A2E' }}>Halal</option>
+                <option value="Jain friendly" style={{ background: '#111A2E' }}>Jain friendly</option>
+                <option value="Omnivore / All" style={{ background: '#111A2E' }}>No restrictions</option>
               </select>
             </div>
 
@@ -188,16 +189,16 @@ export const ProfilePage: React.FC = () => {
                 onChange={(e) => setBudgetTier(e.target.value as any)}
                 className="input-field"
               >
-                <option value="budget">Budget Friendly (Under ₹2,000)</option>
-                <option value="moderate">Moderate Comfort (₹2,000 - ₹6,000)</option>
-                <option value="luxury">Luxury & Fine Dining (₹6,000+)</option>
+                <option value="budget" style={{ background: '#111A2E' }}>Budget Friendly (Under ₹2,000)</option>
+                <option value="moderate" style={{ background: '#111A2E' }}>Moderate Comfort (₹2,000 - ₹6,000)</option>
+                <option value="luxury" style={{ background: '#111A2E' }}>Luxury & Fine Dining (₹6,000+)</option>
               </select>
             </div>
           </div>
 
           {/* Favorite Categories */}
-          <div style={{ marginBottom: 28 }}>
-            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 10 }}>
+          <div style={{ marginBottom: 30 }}>
+            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 12 }}>
               Favorite Categories
             </label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -205,9 +206,9 @@ export const ProfilePage: React.FC = () => {
                 <span
                   key={c.id}
                   style={{
-                    background: 'rgba(255, 77, 109, 0.14)',
-                    color: '#fff',
-                    border: '1px solid rgba(255, 77, 109, 0.3)',
+                    background: 'rgba(167, 139, 250, 0.12)',
+                    color: '#FFFFFF',
+                    border: '1px solid rgba(167, 139, 250, 0.28)',
                     padding: '6px 14px',
                     borderRadius: 99,
                     fontSize: '0.82rem',

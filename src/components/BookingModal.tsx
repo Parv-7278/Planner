@@ -99,18 +99,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         {/* Header */}
         <div
           style={{
-            padding: '20px 24px',
-            borderBottom: '1px solid var(--border-subtle)',
+            padding: '22px 26px',
+            borderBottom: '1px solid var(--glass-panel-border)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            background: 'rgba(255, 255, 255, 0.02)'
           }}
         >
           <div>
-            <span className="badge badge-coral" style={{ fontSize: '0.68rem', marginBottom: 4 }}>
+            <span className="badge badge-violet" style={{ fontSize: '0.70rem', marginBottom: 4 }}>
               {step === 'confirmed' ? 'Booking Confirmed' : 'Universal Booking Engine'}
             </span>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>{experience.name}</h3>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: 800 }}>{experience.name}</h3>
           </div>
           <button
             onClick={onClose}
@@ -127,9 +128,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
         {/* STEP 1: Details */}
         {step === 'details' && (
-          <form onSubmit={handleProceedToPayment} style={{ padding: '24px' }}>
+          <form onSubmit={handleProceedToPayment} style={{ padding: '26px' }}>
             {/* Date selection */}
-            <div style={{ marginBottom: 18 }}>
+            <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8 }}>
                 Select Date
               </label>
@@ -145,15 +146,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     key={d.date}
                     onClick={() => setSelectedDate(d.date)}
                     style={{
-                      padding: '8px 16px',
-                      borderRadius: 12,
-                      border: selectedDate === d.date ? '1px solid var(--coral-500)' : '1px solid var(--border-subtle)',
-                      background: selectedDate === d.date ? 'rgba(255, 77, 109, 0.15)' : 'rgba(255,255,255,0.04)',
-                      color: selectedDate === d.date ? '#fff' : 'var(--text-secondary)',
+                      padding: '8px 18px',
+                      borderRadius: 14,
+                      border: selectedDate === d.date ? '1px solid var(--lavender-electric)' : '1px solid rgba(255,255,255,0.1)',
+                      background: selectedDate === d.date ? 'rgba(167, 139, 250, 0.20)' : 'rgba(255,255,255,0.04)',
+                      color: selectedDate === d.date ? '#FFFFFF' : 'var(--text-secondary)',
                       cursor: 'pointer',
                       fontSize: '0.88rem',
                       fontWeight: 600,
-                      whiteSpace: 'nowrap'
+                      whiteSpace: 'nowrap',
+                      boxShadow: selectedDate === d.date ? '0 0 14px rgba(167, 139, 250, 0.25)' : 'none',
+                      transition: 'all 0.18s ease'
                     }}
                   >
                     {d.label}
@@ -163,11 +166,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             {/* Time Slot selection */}
-            <div style={{ marginBottom: 18 }}>
+            <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8 }}>
                 Available Time Slots
               </label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: 8 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: 10 }}>
                 {experience.slots.map((slot) => {
                   const isSoldOut = slot.status === 'sold_out';
                   const isSelected = selectedSlotId === slot.id;
@@ -179,24 +182,26 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       disabled={isSoldOut}
                       onClick={() => setSelectedSlotId(slot.id)}
                       style={{
-                        padding: '10px 8px',
-                        borderRadius: 12,
+                        padding: '12px 8px',
+                        borderRadius: 14,
                         border: isSelected
-                          ? '1px solid var(--coral-500)'
-                          : '1px solid var(--border-subtle)',
+                          ? '1px solid var(--lavender-electric)'
+                          : '1px solid rgba(255,255,255,0.09)',
                         background: isSelected
-                          ? 'rgba(255, 77, 109, 0.18)'
+                          ? 'rgba(167, 139, 250, 0.22)'
                           : isSoldOut
                           ? 'rgba(255,255,255,0.02)'
-                          : 'rgba(255,255,255,0.05)',
-                        color: isSoldOut ? 'var(--text-muted)' : '#fff',
+                          : 'rgba(255,255,255,0.04)',
+                        color: isSoldOut ? 'var(--text-muted)' : '#FFFFFF',
                         cursor: isSoldOut ? 'not-allowed' : 'pointer',
                         textAlign: 'center',
-                        opacity: isSoldOut ? 0.45 : 1
+                        opacity: isSoldOut ? 0.45 : 1,
+                        boxShadow: isSelected ? '0 0 16px rgba(167, 139, 250, 0.25)' : 'none',
+                        transition: 'all 0.18s ease'
                       }}
                     >
-                      <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{slot.time}</div>
-                      <div style={{ fontSize: '0.72rem', marginTop: 2 }}>
+                      <div style={{ fontWeight: 800, fontSize: '0.92rem' }}>{slot.time}</div>
+                      <div style={{ fontSize: '0.74rem', marginTop: 3, color: isSelected ? '#FFFFFF' : 'var(--text-secondary)' }}>
                         {isSoldOut ? 'Sold Out' : `₹${slot.price}`}
                       </div>
                     </button>
@@ -206,7 +211,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             {/* Guests count */}
-            <div style={{ marginBottom: 18 }}>
+            <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8 }}>
                 Number of Guests / Tickets
               </label>
@@ -215,16 +220,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   type="button"
                   onClick={() => setPartySize(Math.max(1, partySize - 1))}
                   className="btn btn-secondary btn-sm"
-                  style={{ width: 38, height: 38, padding: 0 }}
+                  style={{ width: 38, height: 38, padding: 0, borderRadius: '50%' }}
                 >
                   -
                 </button>
-                <span style={{ fontSize: '1.2rem', fontWeight: 800 }}>{partySize} Guests</span>
+                <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF' }}>{partySize} Guests</span>
                 <button
                   type="button"
                   onClick={() => setPartySize(Math.min(10, partySize + 1))}
                   className="btn btn-secondary btn-sm"
-                  style={{ width: 38, height: 38, padding: 0 }}
+                  style={{ width: 38, height: 38, padding: 0, borderRadius: '50%' }}
                 >
                   +
                 </button>
@@ -232,9 +237,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             {/* Attendee Info */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 5 }}>
                   Full Name
                 </label>
                 <input
@@ -246,7 +251,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 5 }}>
                   Phone Number
                 </label>
                 <input
@@ -260,7 +265,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 5 }}>
                 Email for Tickets & QR
               </label>
               <input
@@ -275,11 +280,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             {/* Price Preview */}
             <div
               style={{
-                marginTop: 20,
-                padding: '14px 18px',
-                borderRadius: 14,
-                background: 'rgba(0,0,0,0.3)',
-                border: '1px solid var(--border-subtle)',
+                marginTop: 24,
+                padding: '16px 20px',
+                borderRadius: 16,
+                background: 'rgba(11, 16, 32, 0.65)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center'
@@ -287,7 +292,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             >
               <div>
                 <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Estimated Total</span>
-                <div style={{ fontSize: '1.3rem', fontWeight: 800 }}>₹{grandTotal}</div>
+                <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#FFFFFF' }}>₹{grandTotal}</div>
               </div>
               <button type="submit" className="btn btn-primary">
                 Continue to Payment <ArrowRight size={16} />
@@ -298,16 +303,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
         {/* STEP 2: Mock Payment */}
         {step === 'payment' && (
-          <div style={{ padding: '24px' }}>
-            <div style={{ marginBottom: 20 }}>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 6 }}>Payment Method</h4>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+          <div style={{ padding: '26px' }}>
+            <div style={{ marginBottom: 22 }}>
+              <h4 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: 6 }}>Payment Method</h4>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)' }}>
                 Safe simulated sandbox checkout (No real money deducted)
               </p>
             </div>
 
             {/* Payment Options */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 22 }}>
               {[
                 { id: 'upi', label: 'UPI / Google Pay / PhonePe', desc: 'Instant zero-fee direct reservation' },
                 { id: 'card', label: 'Credit / Debit Card', desc: 'Visa, Mastercard, RuPay, Amex' },
@@ -317,19 +322,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   key={opt.id}
                   onClick={() => setPaymentMethod(opt.id as any)}
                   style={{
-                    padding: '14px 16px',
-                    borderRadius: 12,
-                    border: paymentMethod === opt.id ? '1px solid var(--coral-500)' : '1px solid var(--border-subtle)',
-                    background: paymentMethod === opt.id ? 'rgba(255, 77, 109, 0.12)' : 'rgba(255,255,255,0.03)',
+                    padding: '16px 18px',
+                    borderRadius: 16,
+                    border: paymentMethod === opt.id ? '1px solid var(--lavender-electric)' : '1px solid rgba(255, 255, 255, 0.09)',
+                    background: paymentMethod === opt.id ? 'rgba(167, 139, 250, 0.16)' : 'rgba(255, 255, 255, 0.03)',
+                    boxShadow: paymentMethod === opt.id ? '0 0 16px rgba(167, 139, 250, 0.2)' : 'none',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 12
+                    gap: 14,
+                    transition: 'all 0.18s ease'
                   }}
                 >
-                  <CreditCard size={20} color={paymentMethod === opt.id ? 'var(--coral-500)' : 'var(--text-muted)'} />
+                  <CreditCard size={20} color={paymentMethod === opt.id ? 'var(--lavender-electric)' : 'var(--text-muted)'} />
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>{opt.label}</div>
+                    <div style={{ fontWeight: 800, fontSize: '0.94rem', color: '#FFFFFF' }}>{opt.label}</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{opt.desc}</div>
                   </div>
                   <div
@@ -337,8 +344,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       width: 18,
                       height: 18,
                       borderRadius: '50%',
-                      border: paymentMethod === opt.id ? '5px solid var(--coral-500)' : '2px solid var(--border-subtle)',
-                      background: '#fff'
+                      border: paymentMethod === opt.id ? '5px solid var(--lavender-electric)' : '2px solid rgba(255, 255, 255, 0.2)',
+                      background: '#FFFFFF'
                     }}
                   />
                 </div>
@@ -348,11 +355,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             {/* Price breakdown */}
             <div
               style={{
-                padding: '14px 18px',
-                borderRadius: 14,
-                background: 'rgba(0,0,0,0.3)',
-                border: '1px solid var(--border-subtle)',
-                marginBottom: 20,
+                padding: '16px 20px',
+                borderRadius: 16,
+                background: 'rgba(11, 16, 32, 0.65)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                marginBottom: 24,
                 fontSize: '0.88rem'
               }}
             >
@@ -364,9 +371,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <span>Booking & Venue Service Fee</span>
                 <span>₹{convenienceFee}</span>
               </div>
-              <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 8, display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: '1.1rem' }}>
+              <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: 10, display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: '1.15rem' }}>
                 <span>Total Due</span>
-                <span style={{ color: 'var(--coral-500)' }}>₹{grandTotal}</span>
+                <span style={{ color: 'var(--lavender-electric)' }}>₹{grandTotal}</span>
               </div>
             </div>
 
@@ -394,62 +401,63 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
         {/* STEP 3: Confirmed */}
         {step === 'confirmed' && confirmedBooking && (
-          <div style={{ padding: '28px 24px', textAlign: 'center' }}>
+          <div style={{ padding: '32px 26px', textAlign: 'center' }}>
             <div
               style={{
-                width: 64,
-                height: 64,
+                width: 68,
+                height: 68,
                 borderRadius: '50%',
                 background: 'rgba(16, 185, 129, 0.2)',
-                border: '2px solid #10b981',
+                border: '2px solid #10B981',
+                boxShadow: '0 0 20px rgba(16, 185, 129, 0.35)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 16px auto',
-                color: '#10b981'
+                margin: '0 auto 18px auto',
+                color: '#34D399'
               }}
             >
-              <CheckCircle2 size={36} />
+              <CheckCircle2 size={38} />
             </div>
 
-            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 4 }}>Reservation Confirmed!</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 20 }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: 4 }}>Reservation Confirmed!</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 22 }}>
               Sent to {confirmedBooking.attendeeEmail} and saved in My Bookings.
             </p>
 
             {/* Ticket Card */}
             <div
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px dashed rgba(255,255,255,0.2)',
-                borderRadius: 18,
-                padding: '20px',
+                background: 'rgba(11, 16, 32, 0.75)',
+                border: '1px dashed rgba(255, 255, 255, 0.2)',
+                borderRadius: 20,
+                padding: '22px',
                 textAlign: 'left',
-                marginBottom: 20
+                marginBottom: 22
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                 <div>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Booking ID</span>
-                  <div style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>{confirmedBooking.bookingCode}</div>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Booking ID</span>
+                  <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#FFFFFF' }}>{confirmedBooking.bookingCode}</div>
                 </div>
                 <span className="badge badge-emerald">CONFIRMED</span>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14, fontSize: '0.85rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14, fontSize: '0.86rem' }}>
                 <div>
                   <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem' }}>Date & Slot</span>
-                  <strong>{confirmedBooking.date} • {confirmedBooking.timeSlot}</strong>
+                  <strong style={{ color: '#fff' }}>{confirmedBooking.date} • {confirmedBooking.timeSlot}</strong>
                 </div>
                 <div>
                   <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem' }}>Attendees</span>
-                  <strong>{confirmedBooking.numPeople} Guests ({confirmedBooking.attendeeName})</strong>
+                  <strong style={{ color: '#fff' }}>{confirmedBooking.numPeople} Guests ({confirmedBooking.attendeeName})</strong>
                 </div>
               </div>
 
-              <div style={{ marginBottom: 14 }}>
+              <div style={{ marginBottom: 16 }}>
                 <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem' }}>Venue Location</span>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{confirmedBooking.venueAddress}</span>
+                <span style={{ fontSize: '0.86rem', color: 'var(--text-secondary)' }}>{confirmedBooking.venueAddress}</span>
               </div>
 
               {/* QR Code */}
@@ -457,21 +465,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 14,
-                  padding: '12px',
-                  background: '#ffffff',
-                  borderRadius: 12,
-                  color: '#000'
+                  gap: 16,
+                  padding: '14px',
+                  background: '#FFFFFF',
+                  borderRadius: 14,
+                  color: '#0B1020'
                 }}
               >
                 <img
                   src={confirmedBooking.qrCodeUrl}
                   alt="Pass QR"
-                  style={{ width: 68, height: 68, borderRadius: 6 }}
+                  style={{ width: 72, height: 72, borderRadius: 6 }}
                 />
                 <div>
-                  <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>Scan at Venue Turnstile</div>
-                  <div style={{ fontSize: '0.75rem', color: '#444' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.92rem' }}>Scan at Venue Turnstile</div>
+                  <div style={{ fontSize: '0.75rem', color: '#4B5563' }}>
                     Show this digital pass to the concierge for instant access.
                   </div>
                 </div>

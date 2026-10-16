@@ -107,13 +107,13 @@ export const ExplorePage: React.FC = () => {
       <div className="container-dayly">
         {/* Header */}
         <div style={{ marginBottom: 28 }}>
-          <span className="badge badge-coral" style={{ marginBottom: 6 }}>
+          <span className="badge badge-violet" style={{ marginBottom: 6 }}>
             Curated Discovery
           </span>
-          <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 900 }}>
+          <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3rem)', fontWeight: 900 }}>
             Discover Top Experiences
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: 4 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: 6 }}>
             Explore verified activities across Delhi NCR with live availability and slot booking.
           </p>
         </div>
@@ -124,8 +124,8 @@ export const ExplorePage: React.FC = () => {
             display: 'flex',
             gap: 8,
             overflowX: 'auto',
-            paddingBottom: 12,
-            marginBottom: 24,
+            paddingBottom: 14,
+            marginBottom: 26,
             scrollbarWidth: 'none'
           }}
         >
@@ -144,20 +144,21 @@ export const ExplorePage: React.FC = () => {
         <div
           className="glass-panel"
           style={{
-            padding: '18px 20px',
-            marginBottom: 32,
+            padding: '22px 24px',
+            marginBottom: 36,
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: 16,
-            alignItems: 'center'
+            gap: 18,
+            alignItems: 'center',
+            borderRadius: 22
           }}
         >
           {/* Keyword Search */}
           <div style={{ position: 'relative' }}>
             <Search
               size={16}
-              color="var(--text-muted)"
-              style={{ position: 'absolute', left: 14, top: 14 }}
+              color="var(--lavender-electric)"
+              style={{ position: 'absolute', left: 14, top: 15 }}
             />
             <input
               type="text"
@@ -171,9 +172,9 @@ export const ExplorePage: React.FC = () => {
 
           {/* Max Price Slider */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: 4 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: 6 }}>
               <span style={{ color: 'var(--text-muted)' }}>Max Price / Person</span>
-              <strong style={{ color: '#fff' }}>₹{maxPrice}</strong>
+              <strong style={{ color: '#FFFFFF' }}>₹{maxPrice}</strong>
             </div>
             <input
               type="range"
@@ -182,58 +183,58 @@ export const ExplorePage: React.FC = () => {
               step={200}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--coral-500)', cursor: 'pointer' }}
+              style={{ width: '100%', accentColor: 'var(--lavender-electric)', cursor: 'pointer' }}
             />
           </div>
 
           {/* Min Rating */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 5 }}>
               Minimum Rating
             </label>
             <select
               value={minRating}
               onChange={(e) => setMinRating(Number(e.target.value))}
               className="input-field"
-              style={{ padding: '8px 12px', fontSize: '0.85rem' }}
+              style={{ padding: '9px 12px', fontSize: '0.85rem' }}
             >
-              <option value={4.0}>★ 4.0 & above</option>
-              <option value={4.5}>★ 4.5 & above (Top Tier)</option>
-              <option value={4.8}>★ 4.8 & above (Exceptional)</option>
+              <option value={4.0} style={{ background: '#111A2E' }}>★ 4.0 & above</option>
+              <option value={4.5} style={{ background: '#111A2E' }}>★ 4.5 & above (Top Tier)</option>
+              <option value={4.8} style={{ background: '#111A2E' }}>★ 4.8 & above (Exceptional)</option>
             </select>
           </div>
 
           {/* Indoor / Outdoor */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 5 }}>
               Environment
             </label>
             <select
               value={weatherFit}
               onChange={(e) => setWeatherFit(e.target.value)}
               className="input-field"
-              style={{ padding: '8px 12px', fontSize: '0.85rem' }}
+              style={{ padding: '9px 12px', fontSize: '0.85rem' }}
             >
-              <option value="all">All Environments</option>
-              <option value="indoor_only">Indoor AC Only</option>
-              <option value="pleasant_outdoor">Pleasant Outdoor</option>
+              <option value="all" style={{ background: '#111A2E' }}>All Environments</option>
+              <option value="indoor_only" style={{ background: '#111A2E' }}>Indoor AC Only</option>
+              <option value="pleasant_outdoor" style={{ background: '#111A2E' }}>Pleasant Outdoor</option>
             </select>
           </div>
 
           {/* Availability Status */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 5 }}>
               Slot Status
             </label>
             <select
               value={availabilityFilter}
               onChange={(e) => setAvailabilityFilter(e.target.value)}
               className="input-field"
-              style={{ padding: '8px 12px', fontSize: '0.85rem' }}
+              style={{ padding: '9px 12px', fontSize: '0.85rem' }}
             >
-              <option value="all">All Slots</option>
-              <option value="available">Instant Available Only</option>
-              <option value="waitlist">DAYLY Virtual Queue Open</option>
+              <option value="all" style={{ background: '#111A2E' }}>All Slots</option>
+              <option value="available" style={{ background: '#111A2E' }}>Instant Available Only</option>
+              <option value="waitlist" style={{ background: '#111A2E' }}>DAYLY Virtual Queue Open</option>
             </select>
           </div>
         </div>
@@ -253,7 +254,8 @@ export const ExplorePage: React.FC = () => {
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center'
+              alignItems: 'center',
+              borderRadius: 24
             }}
           >
             <Compass size={48} color="var(--text-muted)" style={{ marginBottom: 16 }} />

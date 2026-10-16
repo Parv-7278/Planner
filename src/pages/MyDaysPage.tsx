@@ -80,15 +80,15 @@ export const MyDaysPage: React.FC = () => {
   return (
     <div style={{ padding: '40px 0 80px 0' }}>
       <div className="container-dayly">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 16 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <span className="badge badge-coral" style={{ marginBottom: 6 }}>
+            <span className="badge badge-violet" style={{ marginBottom: 6 }}>
               Itinerary Archives
             </span>
-            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 900 }}>
+            <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3rem)', fontWeight: 900 }}>
               My Saved Days ({savedDays.length})
             </h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: 4 }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: 6 }}>
               Re-experience your favourite day plans or duplicate and customize them.
             </p>
           </div>
@@ -98,29 +98,30 @@ export const MyDaysPage: React.FC = () => {
           </Link>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 22 }}>
           {savedDays.map((day) => (
             <div
               key={day.id}
               className="glass-card"
               style={{
-                padding: '24px',
+                padding: '26px',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                borderRadius: 22
               }}
             >
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                   <span className="badge badge-violet">{day.mode}</span>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{day.date}</span>
+                  <span style={{ fontSize: '0.80rem', color: 'var(--text-muted)' }}>{day.date}</span>
                 </div>
 
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', marginBottom: 8 }}>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#FFFFFF', marginBottom: 8, letterSpacing: '-0.02em' }}>
                   {day.title}
                 </h3>
 
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 16 }}>
+                <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginBottom: 18 }}>
                   {day.city} {day.area ? `• ${day.area}` : ''}
                 </p>
 
@@ -128,32 +129,32 @@ export const MyDaysPage: React.FC = () => {
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
-                    gap: 10,
-                    padding: '12px 14px',
-                    borderRadius: 12,
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid var(--border-subtle)',
-                    fontSize: '0.8rem',
-                    marginBottom: 20
+                    gap: 12,
+                    padding: '14px 16px',
+                    borderRadius: 14,
+                    background: 'rgba(11, 16, 32, 0.55)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    fontSize: '0.82rem',
+                    marginBottom: 22
                   }}
                 >
                   <div>
-                    <span style={{ color: 'var(--text-muted)' }}>Duration</span>
-                    <strong style={{ display: 'block', color: '#fff' }}>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.74rem' }}>Duration</span>
+                    <strong style={{ display: 'block', color: '#FFFFFF', fontSize: '0.92rem' }}>
                       {Math.round(day.totalDurationMinutes / 60)}h {day.totalDurationMinutes % 60}m
                     </strong>
                   </div>
                   <div>
-                    <span style={{ color: 'var(--text-muted)' }}>Cost (2p)</span>
-                    <strong style={{ display: 'block', color: '#34d399' }}>₹{day.totalCost}</strong>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.74rem' }}>Cost (2p)</span>
+                    <strong style={{ display: 'block', color: '#34D399', fontSize: '0.92rem' }}>₹{day.totalCost}</strong>
                   </div>
                   <div>
-                    <span style={{ color: 'var(--text-muted)' }}>Distance</span>
-                    <strong style={{ display: 'block', color: '#fff' }}>{day.totalDistanceKm} km</strong>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.74rem' }}>Distance</span>
+                    <strong style={{ display: 'block', color: '#FFFFFF', fontSize: '0.92rem' }}>{day.totalDistanceKm} km</strong>
                   </div>
                   <div>
-                    <span style={{ color: 'var(--text-muted)' }}>Stops</span>
-                    <strong style={{ display: 'block', color: '#fff' }}>{day.numActivities} activities</strong>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.74rem' }}>Stops</span>
+                    <strong style={{ display: 'block', color: '#FFFFFF', fontSize: '0.92rem' }}>{day.numActivities} activities</strong>
                   </div>
                 </div>
               </div>

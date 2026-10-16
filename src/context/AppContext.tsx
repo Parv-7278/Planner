@@ -6,7 +6,9 @@ import {
   QueueEntry,
   NotificationItem,
   UserProfile,
-  ItineraryItem
+  ItineraryItem,
+  PlanGenerationResult,
+  PlanningPreferences
 } from '../types';
 import { ItineraryEngine, minutesToTimeString, timeStringToMinutes } from '../services/itineraryEngine';
 import { BookingManager } from '../services/bookingAdapters';
@@ -17,14 +19,37 @@ import { MOCK_EXPERIENCES } from '../data/mockExperiences';
 interface AppContextType {
   activeDay: DayItinerary;
   setActiveDay: (day: DayItinerary) => void;
+  planOptions?: PlanGenerationResult['options'];
+  activeOption: 'budget_friendly' | 'balanced' | 'max_experience';
+  setPlanResult: (result: PlanGenerationResult) => void;
+  switchOption: (option: 'budget_friendly' | 'balanced' | 'max_experience') => void;
+  lastExtractedPreferences?: PlanningPreferences;
+  setLastExtractedPreferences: (prefs: PlanningPreferences) => void;
   wishlistIds: string[];
   toggleWishlist: (expId: string) => void;
   bookings: Booking[];
   refreshBookings: () => void;
   queues: QueueEntry[];
-  joinVirtualQueue: (expId: string, time: string, date?: string, partySize?: number, autoBook?: boolean) => void;
+  joinVirtualQueue: (
+    expId: string,
+    time: string,
+    date?: string,
+    partySize?: number,
+    autoBook?: boolean,
+    assistantOptions?: {
+      assistantEnabled?: boolean;
+      autoQueueEntry?: boolean;
+      openingTime?: string;
+      timeZone?: string;
+    }
+  ) => void;
   reserveQueueSlot: (queueId: string) => Promise<boolean>;
   leaveQueue: (queueId: string) => void;
+  startAssistantMonitoring: (queueId: string) => void;
+  stopAssistantMonitoring: (queueId: string) => void;
+  toggleAutoQueueEntry: (queueId: string, auto: boolean) => void;
+  solveManualVerification: (queueId: string, solution: string) => boolean;
+  triggerManualCheck: (queueId: string) => Promise<void>;
   notifications: NotificationItem[];
   unreadNotifs: number;
   markNotifRead: (id: string) => void;
@@ -48,6 +73,10 @@ const STORAGE_KEY_PROFILE = 'dayly_user_profile';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDay, setActiveDayState] = useState<DayItinerary>(() => ItineraryEngine.getActiveDay());
+  const [planOptions, setPlanOptions] = useState<PlanGenerationResult['options'] | undefined>(undefined);
+  const [activeOption, setActiveOption] = useState<'budget_friendly' | 'balanced' | 'max_experience'>('balanced');
+  const [lastExtractedPreferences, setLastExtractedPreferences] = useState<PlanningPreferences | undefined>(undefined);
+
   const [wishlistIds, setWishlistIds] = useState<string[]>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY_WISHLIST);
@@ -91,6 +120,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ItineraryEngine.saveActiveDay(day);
   };
 
+  const setPlanResult = (result: PlanGenerationResult) => {
+    setPlanOptions(result.options);
+    setActiveOption(result.activeOption);
+    setLastExtractedPreferences(result.extractedPreferences);
+    const chosen =
+      result.options[result.activeOption] ||
+      result.options.balanced ||
+      result.options.budget_friendly ||
+      result.options.max_experience;
+    if (chosen) {
+      setActiveDay(chosen);
+    }
+  };
+
+  const switchOption = (opt: 'budget_friendly' | 'balanced' | 'max_experience') => {
+    if (!planOptions) return;
+    const target = planOptions[opt];
+    if (target) {
+      setActiveOption(opt);
+      setActiveDay(target);
+      NotificationService.addNotification({
+        title: `Switched to ${opt === 'budget_friendly' ? 'Budget Friendly' : opt === 'balanced' ? 'Balanced' : 'Maximum Experience'}`,
+        message: `Itinerary recalibrated. Planned cost: ₹${target.totalCost} (Budget: ₹${target.userBudget}).`,
+        type: 'itinerary'
+      });
+    }
+  };
+
   // Sync queues and notifications via subscriptions
   useEffect(() => {
     const unsubQueues = QueueService.subscribe((list) => setQueues([...list]));
@@ -126,9 +183,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     time: string,
     date = 'Today',
     partySize = 2,
-    autoBook = false
+    autoBook = false,
+    assistantOptions?: {
+      assistantEnabled?: boolean;
+      autoQueueEntry?: boolean;
+      openingTime?: string;
+      timeZone?: string;
+    }
   ) => {
-    QueueService.joinQueue(expId, time, date, partySize, autoBook);
+    QueueService.joinQueue(expId, time, date, partySize, autoBook, assistantOptions);
   };
 
   const reserveQueueSlot = async (queueId: string) => {
@@ -139,6 +202,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const leaveQueue = (queueId: string) => {
     QueueService.leaveQueue(queueId);
+  };
+
+  const startAssistantMonitoring = (queueId: string) => {
+    QueueService.startAssistantMonitoring(queueId);
+  };
+
+  const stopAssistantMonitoring = (queueId: string) => {
+    QueueService.stopAssistantMonitoring(queueId);
+  };
+
+  const toggleAutoQueueEntry = (queueId: string, auto: boolean) => {
+    QueueService.toggleAutoQueueEntry(queueId, auto);
+  };
+
+  const solveManualVerification = (queueId: string, solution: string) => {
+    return QueueService.solveManualVerification(queueId, solution);
+  };
+
+  const triggerManualCheck = async (queueId: string) => {
+    await QueueService.triggerManualCheck(queueId);
   };
 
   const markNotifRead = (id: string) => {
@@ -161,14 +244,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
-  // Itinerary mutations
+  // Itinerary mutations with deterministic recalculation and validation
   const addExperienceToActiveDay = (exp: Experience) => {
     const clone: DayItinerary = JSON.parse(JSON.stringify(activeDay));
+    const numPeople = clone.numPeople || 2;
 
     let startMins = 720;
     if (clone.items.length > 0) {
       const last = clone.items[clone.items.length - 1];
-      startMins = timeStringToMinutes(last.endTime) + 25; // 25 min travel buffer
+      startMins = timeStringToMinutes(last.endTime) + 25;
     }
 
     const newItem: ItineraryItem = {
@@ -178,20 +262,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       endTime: minutesToTimeString(startMins + exp.durationMinutes),
       durationMinutes: exp.durationMinutes,
       selectedSlotId: exp.slots[0]?.id || 's-1',
-      isBooked: false
+      isBooked: false,
+      pricePerPerson: exp.pricePerPerson,
+      numPeople,
+      itemCost: ItineraryEngine.calculateActivityCost(exp, numPeople)
     };
 
     clone.items.push(newItem);
-    clone.travelLegs = ItineraryEngine.generateTravelLegs(clone.items, 'car');
-    clone.totalCost = clone.items.reduce((s, it) => s + it.experience.pricePerPerson * 2, 0);
-    clone.totalDistanceKm = Math.round(clone.travelLegs.reduce((s, l) => s + l.distanceKm, 0) * 10) / 10;
-    clone.numActivities = clone.items.length;
-
-    setActiveDay(clone);
+    const repaired = ItineraryEngine.repairItinerary(clone, lastExtractedPreferences);
+    setActiveDay(repaired);
 
     NotificationService.addNotification({
       title: 'Added to Your Day',
-      message: `"${exp.name}" was scheduled at ${newItem.startTime}. Route & timings updated.`,
+      message: `"${exp.name}" was scheduled at ${newItem.startTime}. Route & budget recalibrated.`,
       type: 'itinerary'
     });
   };
@@ -199,11 +282,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const removeActivityFromDay = (itemId: string) => {
     const clone: DayItinerary = JSON.parse(JSON.stringify(activeDay));
     clone.items = clone.items.filter((it) => it.id !== itemId);
-    clone.travelLegs = ItineraryEngine.generateTravelLegs(clone.items, 'car');
-    clone.totalCost = clone.items.reduce((s, it) => s + it.experience.pricePerPerson * 2, 0);
-    clone.totalDistanceKm = Math.round(clone.travelLegs.reduce((s, l) => s + l.distanceKm, 0) * 10) / 10;
-    clone.numActivities = clone.items.length;
-    setActiveDay(clone);
+    const repaired = ItineraryEngine.repairItinerary(clone, lastExtractedPreferences);
+    setActiveDay(repaired);
   };
 
   const replaceActivityInDay = (itemId: string, newExp: Experience) => {
@@ -211,6 +291,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const targetIdx = clone.items.findIndex((it) => it.id === itemId);
     if (targetIdx === -1) return;
 
+    const numPeople = clone.numPeople || 2;
     const oldItem = clone.items[targetIdx];
     const startMins = timeStringToMinutes(oldItem.startTime);
 
@@ -221,17 +302,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       endTime: minutesToTimeString(startMins + newExp.durationMinutes),
       durationMinutes: newExp.durationMinutes,
       selectedSlotId: newExp.slots[0]?.id || 's-1',
-      isBooked: false
+      isBooked: false,
+      pricePerPerson: newExp.pricePerPerson,
+      numPeople,
+      itemCost: ItineraryEngine.calculateActivityCost(newExp, numPeople)
     };
 
-    clone.travelLegs = ItineraryEngine.generateTravelLegs(clone.items, 'car');
-    clone.totalCost = clone.items.reduce((s, it) => s + it.experience.pricePerPerson * 2, 0);
-    clone.totalDistanceKm = Math.round(clone.travelLegs.reduce((s, l) => s + l.distanceKm, 0) * 10) / 10;
-    setActiveDay(clone);
+    const repaired = ItineraryEngine.repairItinerary(clone, lastExtractedPreferences);
+    setActiveDay(repaired);
 
+    const costDiff = repaired.totalCost - activeDay.totalCost;
     NotificationService.addNotification({
       title: 'Activity Replaced',
-      message: `Replaced with ${newExp.name}. Timings and route recalibrated.`,
+      message: `Swapped for ${newExp.name}. ${
+        costDiff > 0 ? `+₹${costDiff} cost difference.` : costDiff < 0 ? `-₹${Math.abs(costDiff)} saved.` : 'Equal cost.'
+      } Schedule recalibrated.`,
       type: 'itinerary'
     });
   };
@@ -247,7 +332,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     target.endTime = minutesToTimeString(end);
     target.customTimeChosen = true;
 
-    setActiveDay(clone);
+    const repaired = ItineraryEngine.repairItinerary(clone, lastExtractedPreferences);
+    setActiveDay(repaired);
   };
 
   const moveActivityPosition = (fromIdx: number, toIdx: number) => {
@@ -258,16 +344,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [moved] = clone.items.splice(fromIdx, 1);
     clone.items.splice(toIdx, 0, moved);
 
-    // Re-adjust timings sequentially
-    let clock = timeStringToMinutes(clone.items[0].startTime);
-    clone.items.forEach((it, idx) => {
-      it.startTime = minutesToTimeString(clock);
-      it.endTime = minutesToTimeString(clock + it.durationMinutes);
-      clock += it.durationMinutes + (idx < clone.items.length - 1 ? 25 : 0);
-    });
-
-    clone.travelLegs = ItineraryEngine.generateTravelLegs(clone.items, 'car');
-    setActiveDay(clone);
+    const repaired = ItineraryEngine.repairItinerary(clone, lastExtractedPreferences);
+    setActiveDay(repaired);
   };
 
   const unreadNotifs = notifications.filter((n) => !n.read).length;
@@ -277,6 +355,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         activeDay,
         setActiveDay,
+        planOptions,
+        activeOption,
+        setPlanResult,
+        switchOption,
+        lastExtractedPreferences,
+        setLastExtractedPreferences,
         wishlistIds,
         toggleWishlist,
         bookings,
@@ -285,6 +369,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         joinVirtualQueue,
         reserveQueueSlot,
         leaveQueue,
+        startAssistantMonitoring,
+        stopAssistantMonitoring,
+        toggleAutoQueueEntry,
+        solveManualVerification,
+        triggerManualCheck,
         notifications,
         unreadNotifs,
         markNotifRead,

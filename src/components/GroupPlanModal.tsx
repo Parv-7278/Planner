@@ -75,37 +75,39 @@ export const GroupPlanModal: React.FC<GroupPlanModalProps> = ({ onClose }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" style={{ maxWidth: 620 }} onClick={(e) => e.stopPropagation()}>
+      <div className="modal-box" style={{ maxWidth: 640, borderRadius: 26 }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div
           style={{
-            padding: '20px 24px',
-            borderBottom: '1px solid var(--border-subtle)',
+            padding: '22px 26px',
+            borderBottom: '1px solid var(--glass-panel-border)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            background: 'rgba(255, 255, 255, 0.02)'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div
               style={{
-                width: 36,
-                height: 36,
+                width: 38,
+                height: 38,
                 borderRadius: '50%',
-                background: 'rgba(139, 92, 246, 0.2)',
+                background: 'rgba(167, 139, 250, 0.20)',
+                border: '1px solid rgba(167, 139, 250, 0.35)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#a78bfa'
+                color: 'var(--lavender-electric)'
               }}
             >
               <Users size={18} />
             </div>
             <div>
-              <span className="badge badge-violet" style={{ fontSize: '0.68rem', marginBottom: 2 }}>
+              <span className="badge badge-violet" style={{ fontSize: '0.70rem', marginBottom: 2 }}>
                 Collaborative Planning
               </span>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>{session.title}</h3>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>{session.title}</h3>
             </div>
           </div>
           <button
@@ -122,46 +124,46 @@ export const GroupPlanModal: React.FC<GroupPlanModalProps> = ({ onClose }) => {
         </div>
 
         {/* Content */}
-        <div style={{ padding: '24px' }}>
+        <div style={{ padding: '26px' }}>
           {/* Share code banner */}
           <div
             style={{
-              padding: '12px 16px',
-              borderRadius: 14,
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid var(--border-subtle)',
+              padding: '14px 18px',
+              borderRadius: 16,
+              background: 'rgba(11, 16, 32, 0.65)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: 20
+              marginBottom: 22
             }}
           >
             <div>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>INVITE CODE</span>
-              <div style={{ fontWeight: 800, fontSize: '1.1rem', letterSpacing: '0.05em', color: '#fff' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.04em' }}>INVITE CODE</span>
+              <div style={{ fontWeight: 800, fontSize: '1.15rem', letterSpacing: '0.05em', color: '#FFFFFF' }}>
                 {session.passcode}
               </div>
             </div>
             <button onClick={handleCopyLink} className="btn btn-secondary btn-sm">
-              {copied ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
+              {copied ? <Check size={14} color="#34D399" /> : <Copy size={14} />}
               {copied ? 'Copied Link' : 'Copy Invite Link'}
             </button>
           </div>
 
           {/* Active Participants */}
-          <div style={{ marginBottom: 20 }}>
-            <span style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 8 }}>
+          <div style={{ marginBottom: 22 }}>
+            <span style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 8 }}>
               Active Participants ({session.participants.length})
             </span>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
               {session.participants.map((name) => (
                 <span
                   key={name}
                   style={{
-                    background: 'rgba(255, 77, 109, 0.1)',
-                    color: '#fff',
-                    border: '1px solid rgba(255, 77, 109, 0.25)',
-                    padding: '4px 10px',
+                    background: 'rgba(167, 139, 250, 0.14)',
+                    color: '#FFFFFF',
+                    border: '1px solid rgba(167, 139, 250, 0.3)',
+                    padding: '4px 12px',
                     borderRadius: 99,
                     fontSize: '0.78rem',
                     fontWeight: 600
@@ -180,20 +182,20 @@ export const GroupPlanModal: React.FC<GroupPlanModalProps> = ({ onClose }) => {
                 value={newFriendName}
                 onChange={(e) => setNewFriendName(e.target.value)}
                 className="input-field"
-                style={{ height: 36, padding: '0 12px', fontSize: '0.85rem' }}
+                style={{ height: 38, padding: '0 14px', fontSize: '0.85rem' }}
               />
-              <button type="submit" className="btn btn-secondary btn-sm" style={{ height: 36 }}>
+              <button type="submit" className="btn btn-secondary btn-sm" style={{ height: 38 }}>
                 <UserPlus size={14} /> Add
               </button>
             </form>
           </div>
 
           {/* Live Activity Polls */}
-          <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 12, color: 'var(--text-secondary)' }}>
+          <h4 style={{ fontSize: '0.98rem', fontWeight: 800, marginBottom: 14, color: 'var(--text-secondary)' }}>
             Group Votes on Candidate Experiences
           </h4>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 26 }}>
             {Object.keys(session.votes).map((expId) => {
               const exp = MOCK_EXPERIENCES.find((e) => e.id === expId);
               if (!exp) return null;
@@ -207,20 +209,21 @@ export const GroupPlanModal: React.FC<GroupPlanModalProps> = ({ onClose }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '12px 14px',
-                    borderRadius: 14,
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid var(--border-subtle)'
+                    padding: '14px 16px',
+                    borderRadius: 16,
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(10px)'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <img
                       src={exp.images[0]}
                       alt={exp.name}
-                      style={{ width: 44, height: 44, borderRadius: 10, objectFit: 'cover' }}
+                      style={{ width: 48, height: 48, borderRadius: 12, objectFit: 'cover', border: '1px solid rgba(255, 255, 255, 0.1)' }}
                     />
                     <div>
-                      <h5 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff' }}>{exp.name}</h5>
+                      <h5 style={{ fontSize: '0.92rem', fontWeight: 800, color: '#FFFFFF' }}>{exp.name}</h5>
                       <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                         {exp.venue.area} • ₹{exp.pricePerPerson}
                       </span>
@@ -234,15 +237,17 @@ export const GroupPlanModal: React.FC<GroupPlanModalProps> = ({ onClose }) => {
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 4,
-                        padding: '6px 10px',
-                        borderRadius: 8,
-                        border: myChoice === 'up' ? '1px solid #10b981' : '1px solid var(--border-subtle)',
-                        background: myChoice === 'up' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255,255,255,0.04)',
-                        color: myChoice === 'up' ? '#34d399' : 'var(--text-secondary)',
+                        gap: 5,
+                        padding: '6px 12px',
+                        borderRadius: 10,
+                        border: myChoice === 'up' ? '1px solid #10B981' : '1px solid rgba(255, 255, 255, 0.1)',
+                        background: myChoice === 'up' ? 'rgba(16, 185, 129, 0.22)' : 'rgba(255, 255, 255, 0.04)',
+                        color: myChoice === 'up' ? '#34D399' : 'var(--text-secondary)',
                         cursor: 'pointer',
                         fontWeight: 700,
-                        fontSize: '0.85rem'
+                        fontSize: '0.85rem',
+                        boxShadow: myChoice === 'up' ? '0 0 12px rgba(16, 185, 129, 0.25)' : 'none',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       <ThumbsUp size={14} /> {vote.up}
@@ -253,15 +258,17 @@ export const GroupPlanModal: React.FC<GroupPlanModalProps> = ({ onClose }) => {
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 4,
-                        padding: '6px 10px',
-                        borderRadius: 8,
-                        border: myChoice === 'down' ? '1px solid #fb7185' : '1px solid var(--border-subtle)',
-                        background: myChoice === 'down' ? 'rgba(244, 63, 94, 0.2)' : 'rgba(255,255,255,0.04)',
-                        color: myChoice === 'down' ? '#fb7185' : 'var(--text-secondary)',
+                        gap: 5,
+                        padding: '6px 12px',
+                        borderRadius: 10,
+                        border: myChoice === 'down' ? '1px solid #FDA4AF' : '1px solid rgba(255, 255, 255, 0.1)',
+                        background: myChoice === 'down' ? 'rgba(244, 63, 94, 0.22)' : 'rgba(255, 255, 255, 0.04)',
+                        color: myChoice === 'down' ? '#FDA4AF' : 'var(--text-secondary)',
                         cursor: 'pointer',
                         fontWeight: 700,
-                        fontSize: '0.85rem'
+                        fontSize: '0.85rem',
+                        boxShadow: myChoice === 'down' ? '0 0 12px rgba(244, 63, 94, 0.25)' : 'none',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       <ThumbsDown size={14} /> {vote.down}
@@ -275,7 +282,7 @@ export const GroupPlanModal: React.FC<GroupPlanModalProps> = ({ onClose }) => {
           <button
             onClick={handleGenerateConsensusPlan}
             className="btn btn-primary"
-            style={{ width: '100%', padding: '14px', fontSize: '1rem' }}
+            style={{ width: '100%', padding: '14px', fontSize: '1.02rem' }}
           >
             <Sparkles size={16} /> Generate Day from Group Consensus
           </button>

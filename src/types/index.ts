@@ -119,6 +119,8 @@ export interface Experience {
   slots: AvailabilitySlot[];
   trendingScore: number;
   weatherFit: 'all' | 'indoor_only' | 'pleasant_outdoor' | 'night_only';
+  fixedGroupPrice?: number;
+  applicableFees?: number;
 }
 
 export interface ItineraryItem {
@@ -132,6 +134,17 @@ export interface ItineraryItem {
   bookingId?: string;
   notes?: string;
   customTimeChosen?: boolean;
+  travelFromPreviousMinutes?: number;
+  travelToNextMinutes?: number;
+  bufferMinutes?: number;
+  venueOpeningTime?: string;
+  venueClosingTime?: string;
+  selectedSlotStart?: string;
+  selectedSlotEnd?: string;
+  pricePerPerson?: number;
+  numPeople?: number;
+  itemCost?: number;
+  applicableFees?: number;
 }
 
 export interface TravelLeg {
@@ -144,6 +157,43 @@ export interface TravelLeg {
   transportMode: 'car' | 'metro' | 'walking' | 'bike';
   estimatedCost: number;
   trafficStatus: 'light' | 'moderate' | 'heavy';
+  isInitialLeg?: boolean;
+}
+
+export interface ItineraryValidationConflict {
+  itemId?: string;
+  type: 'budget' | 'time' | 'overlap' | 'travel' | 'hours' | 'slot' | 'category' | 'unknown';
+  message: string;
+}
+
+export interface ItineraryValidationResult {
+  isValid: boolean;
+  hardConstraintsMet: boolean;
+  errors: string[];
+  warnings: string[];
+  budgetSummary: {
+    userBudget: number;
+    budgetType: 'total' | 'per_person';
+    numPeople: number;
+    plannedCost: number;
+    activityCost: number;
+    foodCost: number;
+    travelCost: number;
+    feesCost: number;
+    remainingReserve: number;
+    percentUsed: number;
+    isOverBudget: boolean;
+  };
+  timeSummary: {
+    availableMinutes: number;
+    usedMinutes: number;
+    startTime: string;
+    endTime: string;
+    calculatedEndTime: string;
+    isOverTime: boolean;
+    endTimeExceeded: boolean;
+  };
+  conflicts: ItineraryValidationConflict[];
 }
 
 export interface DayItinerary {
@@ -152,15 +202,45 @@ export interface DayItinerary {
   date: string;
   city: string;
   area?: string;
+  startLocation?: string;
   items: ItineraryItem[];
   travelLegs: TravelLeg[];
+  initialTravelLeg?: TravelLeg;
   totalCost: number;
+  activityCost?: number;
+  foodCost?: number;
+  travelCost?: number;
+  feesCost?: number;
+  userBudget?: number;
+  budgetType?: 'total' | 'per_person';
+  targetBudget?: number;
+  budgetReserve?: number;
+  remainingBudget?: number;
+  budgetUsedPercent?: number;
+  numPeople?: number;
+  startTime?: string;
+  endTime?: string;
   totalDurationMinutes: number;
+  availableDurationMinutes?: number;
   totalDistanceKm: number;
   numActivities: number;
   numBookings: number;
   mode: DayPlanningMode;
+  optionType?: 'budget_friendly' | 'balanced' | 'max_experience';
+  validation?: ItineraryValidationResult;
   createdAt: string;
+}
+
+export interface PlanGenerationResult {
+  options: {
+    budget_friendly?: DayItinerary;
+    balanced: DayItinerary;
+    max_experience?: DayItinerary;
+  };
+  activeOption: 'budget_friendly' | 'balanced' | 'max_experience';
+  extractedPreferences: PlanningPreferences;
+  feasibilityExplanation?: string;
+  isFeasible: boolean;
 }
 
 export type DayPlanningMode =
@@ -184,14 +264,23 @@ export interface PlanningPreferences {
   endTime: string;   // "22:00"
   city: string;
   area: string;
+  startLocation?: string;
   numPeople: number;
   budgetTotal: number;
+  budgetType?: 'total' | 'per_person';
+  budgetReservePercent?: number; // default 10%
+  maximizeExperience?: boolean;
   ageGroup: 'all' | 'teens' | 'young_adults' | 'family_with_kids' | 'seniors';
   mode: DayPlanningMode;
   transportMode: 'car' | 'metro' | 'walking' | 'bike';
   dietary?: ('vegetarian' | 'vegan' | 'halal' | 'jain')[];
   tags: string[]; // e.g. "pet friendly", "indoor only", "romantic"
   naturalPrompt?: string;
+  requiredCategories?: ExperienceCategory[];
+  preferredActivities?: string[];
+  avoidActivities?: string[];
+  indoorOnly?: boolean;
+  maxTravelDistanceKm?: number;
 }
 
 export type BookingStatus = 'confirmed' | 'pending' | 'completed' | 'cancelled';
@@ -218,6 +307,31 @@ export interface Booking {
   seatsOrTable?: string;
 }
 
+export type AssistantMonitoringStatus =
+  | 'idle'
+  | 'monitoring_opening'
+  | 'in_queue'
+  | 'turn_arrived'
+  | 'paused_manual_verification'
+  | 'auth_expired'
+  | 'error'
+  | 'completed'
+  | 'stopped';
+
+export interface QueueAssistantLog {
+  id: string;
+  timestamp: string;
+  level: 'info' | 'success' | 'warn' | 'error';
+  message: string;
+}
+
+export interface VerificationChallenge {
+  type: 'captcha' | 'otp' | 'turnstile';
+  prompt: string;
+  issuedAt: string;
+  expiresAt?: string;
+}
+
 export interface QueueEntry {
   id: string;
   experienceId: string;
@@ -234,6 +348,22 @@ export interface QueueEntry {
   autoBook: boolean;
   joinedAt: string;
   availableUntil?: string;
+  // AI Assistant Integrations:
+  assistantEnabled?: boolean;
+  monitoringStatus?: AssistantMonitoringStatus;
+  autoQueueEntry?: boolean;
+  openingTime?: string;
+  openingTimestamp?: number;
+  timeZone?: string;
+  lastCheckedAt?: string;
+  checkIntervalSeconds?: number;
+  requiresManualVerification?: boolean;
+  verificationChallenge?: VerificationChallenge;
+  requiresPaymentApproval?: boolean;
+  workerLockId?: string;
+  logs?: QueueAssistantLog[];
+  assistantErrorMessage?: string;
+  bookingHoldToken?: string;
 }
 
 export interface NotificationItem {

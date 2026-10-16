@@ -525,3 +525,75 @@ export const LogOut = createIcon(
     <line x1="21" x2="9" y1="12" y2="12" />
   </>
 );
+
+export const Bot = createIcon(
+  <>
+    <rect width="18" height="12" x="3" y="6" rx="2" />
+    <path d="M12 2v4" />
+    <path d="M2 14h1" />
+    <path d="M21 14h1" />
+    <path d="M9 13v.01" />
+    <path d="M15 13v.01" />
+  </>
+);
+
+export const Play = createIcon(
+  <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
+);
+
+export const Pause = createIcon(
+  <>
+    <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+    <rect x="14" y="4" width="4" height="16" fill="currentColor" />
+  </>
+);
+
+export const Activity = createIcon(
+  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+);
+
+export const Wifi = createIcon(
+  <>
+    <path d="M12 20h.01" />
+    <path d="M2 8.82a15 15 0 0 1 20 0" />
+    <path d="M5 12.86a10 10 0 0 1 14 0" />
+    <path d="M8.5 16.43a5 5 0 0 1 7 0" />
+  </>
+);
+
+export const WifiOff = createIcon(
+  <>
+    <line x1="1" y1="1" x2="23" y2="23" />
+    <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
+    <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
+    <path d="M10.71 5.05A16 16 0 0 1 22.58 9" />
+    <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88" />
+    <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+    <line x1="12" y1="20" x2="12.01" y2="20" />
+  </>
+);
+
+export const Lock = createIcon(
+  <>
+    <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </>
+);
+
+export const Key = createIcon(
+  <>
+    <path d="m21 2-2 2m-1.5 1.5L16 7l-2 2-2-2 2-2 1.5-1.5" />
+    <circle cx="7.5" cy="15.5" r="5.5" />
+    <path d="m21 2-9.6 9.6" />
+    <path d="m15.5 7.5 3 3L22 7l-3-3" />
+  </>
+);
+
+export const CheckCheck = createIcon(
+  <>
+    <path d="M18 6 7 17l-5-5" />
+    <path d="m22 10-7.5 7.5L13 16" />
+  </>
+);
+
+

@@ -37,7 +37,7 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
   const totalTransitCost = itinerary.travelLegs.reduce((s, l) => s + l.estimatedCost, 0);
 
   return (
-    <div className="glass-panel" style={{ padding: '24px' }}>
+    <div className="glass-panel" style={{ padding: '28px', borderRadius: 24 }}>
       {/* Top Bar with Mode Toggles */}
       <div
         style={{
@@ -46,18 +46,28 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
-          marginBottom: 20
+          marginBottom: 24
         }}
       >
         <div>
-          <span className="badge badge-coral" style={{ fontSize: '0.68rem', marginBottom: 4 }}>
+          <span className="badge badge-violet" style={{ fontSize: '0.72rem', marginBottom: 4 }}>
             Visual Itinerary Map & Routing
           </span>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Day Route Navigation</h3>
+          <h3 style={{ fontSize: '1.35rem', fontWeight: 800 }}>Day Route Navigation</h3>
         </div>
 
         {/* Transit Mode Pill Toggle */}
-        <div style={{ display: 'flex', gap: 6, background: 'rgba(255,255,255,0.05)', padding: 4, borderRadius: 99 }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            background: 'rgba(11, 16, 32, 0.65)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            padding: '4px',
+            borderRadius: 99,
+            backdropFilter: 'blur(12px)'
+          }}
+        >
           {[
             { id: 'car', icon: Car, label: 'Car / Cab' },
             { id: 'metro', icon: Train, label: 'Delhi Metro' },
@@ -74,14 +84,15 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 6,
-                  padding: '6px 14px',
+                  padding: '7px 14px',
                   borderRadius: 99,
-                  border: 'none',
+                  border: active ? '1px solid rgba(255, 255, 255, 0.25)' : '1px solid transparent',
                   cursor: 'pointer',
-                  fontSize: '0.8rem',
+                  fontSize: '0.80rem',
                   fontWeight: 600,
-                  background: active ? 'var(--coral-500)' : 'transparent',
-                  color: active ? '#fff' : 'var(--text-secondary)',
+                  background: active ? 'var(--grad-primary)' : 'transparent',
+                  color: active ? '#FFFFFF' : 'var(--text-secondary)',
+                  boxShadow: active ? '0 2px 10px rgba(139, 92, 246, 0.35)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -98,35 +109,35 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          gap: 12,
+          gap: 14,
           marginBottom: 24,
-          padding: '12px 16px',
-          background: 'rgba(0,0,0,0.25)',
-          borderRadius: 14,
-          border: '1px solid var(--border-subtle)'
+          padding: '16px 20px',
+          background: 'rgba(11, 16, 32, 0.55)',
+          borderRadius: 16,
+          border: '1px solid rgba(255, 255, 255, 0.08)'
         }}
       >
         <div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Route Distance</span>
-          <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff' }}>
+          <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Total Route Distance</span>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#FFFFFF' }}>
             {itinerary.totalDistanceKm} km
           </div>
         </div>
         <div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Est. Transit Time</span>
-          <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#34d399' }}>
+          <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Est. Transit Time</span>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#34D399' }}>
             ~{totalTransitMinutes} mins
           </div>
         </div>
         <div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Transit Cost Est.</span>
-          <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fbbf24' }}>
+          <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Transit Cost Est.</span>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#FCD34D' }}>
             ₹{totalTransitCost}
           </div>
         </div>
         <div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>City Transit Mode</span>
-          <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#a78bfa', textTransform: 'capitalize' }}>
+          <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>City Transit Mode</span>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--lavender-electric)', textTransform: 'capitalize' }}>
             {transitMode}
           </div>
         </div>
@@ -136,15 +147,16 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
       <div
         style={{
           position: 'relative',
-          height: 280,
-          borderRadius: 18,
+          height: 290,
+          borderRadius: 20,
           overflow: 'hidden',
-          background: 'radial-gradient(ellipse at center, #1b1e36 0%, #0d0f1f 100%)',
-          border: '1px solid var(--border-subtle)',
-          marginBottom: 24,
+          background: 'radial-gradient(ellipse at center, #172038 0%, #0B1020 100%)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          marginBottom: 28,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          boxShadow: 'inset 0 0 40px rgba(0, 0, 0, 0.5)'
         }}
       >
         {/* Subtle grid lines background */}
@@ -153,23 +165,30 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
             position: 'absolute',
             inset: 0,
             backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
+              'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
             backgroundSize: '36px 36px',
             opacity: 0.8
           }}
         />
 
-        {/* Simulated Route SVG path connecting the stops */}
+        {/* Simulated Route SVG path connecting the stops with electric glow */}
         <svg
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
         >
           <path
-            d="M 60 140 Q 220 50 420 160 T 780 120"
+            d="M 60 145 Q 240 60 450 170 T 820 130"
             fill="none"
-            stroke="var(--coral-500)"
-            strokeWidth="3"
+            stroke="url(#routeGrad)"
+            strokeWidth="3.5"
             strokeDasharray="6 6"
           />
+          <defs>
+            <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#67E8F9" />
+              <stop offset="50%" stopColor="#A78BFA" />
+              <stop offset="100%" stopColor="#F0ABFC" />
+            </linearGradient>
+          </defs>
         </svg>
 
         {/* Nodes plotted horizontally across map canvas */}
@@ -191,7 +210,7 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                maxWidth: 120
+                maxWidth: 130
               }}
             >
               <div
@@ -200,11 +219,12 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
                   height: 44,
                   borderRadius: '50%',
                   background: 'var(--grad-primary)',
-                  boxShadow: '0 0 16px var(--coral-glow)',
+                  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+                  border: '2px solid rgba(255, 255, 255, 0.20)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#fff',
+                  color: '#FFFFFF',
                   fontWeight: 900,
                   fontSize: '0.95rem',
                   marginBottom: 8
@@ -214,23 +234,23 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
               </div>
               <div
                 style={{
-                  background: 'rgba(10,11,18,0.85)',
-                  backdropFilter: 'blur(8px)',
-                  padding: '4px 8px',
-                  borderRadius: 8,
-                  border: '1px solid var(--border-subtle)',
+                  background: 'rgba(11, 16, 32, 0.85)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '4px 10px',
+                  borderRadius: 10,
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
                   fontSize: '0.75rem',
                   fontWeight: 700,
-                  color: '#fff',
+                  color: '#FFFFFF',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
-                  maxWidth: 110
+                  maxWidth: 120
                 }}
               >
                 {it.experience.name}
               </div>
-              <span style={{ fontSize: '0.68rem', color: 'var(--coral-500)', fontWeight: 600 }}>
+              <span style={{ fontSize: '0.70rem', color: 'var(--lavender-electric)', fontWeight: 600, marginTop: 2 }}>
                 {it.startTime}
               </span>
             </div>
@@ -248,22 +268,24 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
             gap: 6,
             fontSize: '0.72rem',
             color: 'var(--text-muted)',
-            background: 'rgba(0,0,0,0.6)',
-            padding: '3px 8px',
-            borderRadius: 6
+            background: 'rgba(11, 16, 32, 0.7)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            padding: '4px 10px',
+            borderRadius: 8
           }}
         >
-          <Layers size={12} />
-          <span>Delhi NCR Smart Geo-Route Map</span>
+          <Layers size={13} color="var(--cyan-accent)" />
+          <span>Delhi NCR Smart Geo-Route</span>
         </div>
       </div>
 
       {/* Sequential Route Stop by Stop Breakdown */}
-      <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 12, color: 'var(--text-secondary)' }}>
+      <h4 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 14, color: 'var(--text-secondary)' }}>
         Leg-by-Leg Turn Navigation
       </h4>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {itinerary.items.map((it, idx) => {
           const nextLeg = itinerary.travelLegs[idx];
 
@@ -275,31 +297,33 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '12px 16px',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 12
+                  padding: '14px 18px',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 16,
+                  backdropFilter: 'blur(10px)'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   <div
                     style={{
-                      width: 26,
-                      height: 26,
+                      width: 28,
+                      height: 28,
                       borderRadius: '50%',
-                      background: 'var(--coral-500)',
+                      background: 'linear-gradient(135deg, #8B5CF6, #A78BFA)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '0.78rem',
+                      fontSize: '0.80rem',
                       fontWeight: 800,
-                      color: '#fff'
+                      color: '#FFFFFF',
+                      boxShadow: '0 0 10px rgba(139, 92, 246, 0.4)'
                     }}
                   >
                     {idx + 1}
                   </div>
                   <div>
-                    <h5 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#fff' }}>
+                    <h5 style={{ fontSize: '0.98rem', fontWeight: 700, color: '#FFFFFF' }}>
                       {it.experience.name}
                     </h5>
                     <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
@@ -315,7 +339,7 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-secondary btn-sm"
-                  style={{ padding: '6px 12px', fontSize: '0.75rem' }}
+                  style={{ padding: '6px 14px', fontSize: '0.78rem' }}
                 >
                   <Navigation size={12} /> Directions
                 </a>
@@ -325,25 +349,25 @@ export const RouteMapView: React.FC<RouteMapViewProps> = ({ itinerary }) => {
               {nextLeg && (
                 <div
                   style={{
-                    margin: '8px 0 8px 38px',
-                    padding: '8px 14px',
-                    borderRadius: 10,
-                    background: 'rgba(139, 92, 246, 0.08)',
-                    border: '1px dashed rgba(139, 92, 246, 0.3)',
+                    margin: '8px 0 8px 42px',
+                    padding: '9px 16px',
+                    borderRadius: 12,
+                    background: 'rgba(167, 139, 250, 0.06)',
+                    border: '1px dashed rgba(167, 139, 250, 0.25)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    fontSize: '0.78rem',
+                    fontSize: '0.80rem',
                     color: 'var(--text-secondary)'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Car size={14} color="var(--violet-500)" />
+                    <Car size={14} color="var(--lavender-electric)" />
                     <span>
                       {nextLeg.distanceKm} km via {transitMode} (~{nextLeg.travelMinutes} mins travel)
                     </span>
                   </div>
-                  <span style={{ color: '#34d399', fontWeight: 600 }}>Traffic {nextLeg.trafficStatus}</span>
+                  <span style={{ color: '#34D399', fontWeight: 600 }}>Traffic {nextLeg.trafficStatus}</span>
                 </div>
               )}
             </div>

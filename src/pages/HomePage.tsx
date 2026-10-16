@@ -30,10 +30,11 @@ import { BookingModal } from '../components/BookingModal';
 import { Experience, DayPlanningMode } from '../types';
 import { ItineraryEngine } from '../services/itineraryEngine';
 import { useApp } from '../context/AppContext';
+import { Bot, Activity, ShieldCheck as BotShield } from '../components/icons';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { setActiveDay } = useApp();
+  const { setActiveDay, joinVirtualQueue, queues } = useApp();
 
   const [naturalPrompt, setNaturalPrompt] = useState('');
   const [selectedExpForBooking, setSelectedExpForBooking] = useState<Experience | null>(null);
@@ -166,52 +167,56 @@ export const HomePage: React.FC = () => {
     navigate(`/plan?mode=${mode}`);
   };
 
+  const handleSimulateLiveQueue = () => {
+    const existing = queues.find((q) => q.experienceId === 'exp-food-1');
+    if (!existing) {
+      joinVirtualQueue('exp-food-1', '07:30 PM', 'Today', 2, false, {
+        assistantEnabled: true,
+        autoQueueEntry: true
+      });
+    }
+    navigate('/queue');
+  };
+
   return (
     <div>
       {/* 1. HERO SECTION */}
       <section
         style={{
           position: 'relative',
-          padding: '60px 0 80px 0',
+          padding: '75px 0 95px 0',
           overflow: 'hidden'
         }}
       >
         <div className="container-dayly" style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
           {/* Top Pill */}
           <div
+            className="glass-pill glass-pill-accent"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '6px 16px',
-              borderRadius: 99,
-              background: 'rgba(255, 77, 109, 0.12)',
-              border: '1px solid rgba(255, 77, 109, 0.3)',
-              color: '#ff6b87',
-              fontSize: '0.85rem',
-              fontWeight: 700,
-              marginBottom: 20
+              marginBottom: 24,
+              padding: '6px 18px',
+              cursor: 'default'
             }}
           >
             <Sparkles size={16} />
-            <span>DAYLY AI 2.0 • Delhi NCR Experience Platform</span>
+            <span style={{ letterSpacing: '0.04em' }}>DAYLY AI 2.0 • Spatial Experience Architecture</span>
           </div>
 
           {/* Main Hero Heading */}
           <h1
             style={{
-              fontSize: 'clamp(2.8rem, 6vw, 4.8rem)',
+              fontSize: 'clamp(3rem, 6.5vw, 5.2rem)',
               fontWeight: 900,
-              letterSpacing: '-0.03em',
-              marginBottom: 16,
-              color: '#ffffff',
-              lineHeight: 1.1
+              letterSpacing: '-0.035em',
+              marginBottom: 20,
+              color: '#FFFFFF',
+              lineHeight: 1.08
             }}
           >
             Your entire day.{' '}
             <span
               style={{
-                background: 'var(--grad-primary)',
+                background: 'linear-gradient(180deg, #FFFFFF 15%, #CBD5E1 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block'
@@ -224,31 +229,30 @@ export const HomePage: React.FC = () => {
           {/* Subtitle */}
           <p
             style={{
-              fontSize: 'clamp(1.05rem, 2vw, 1.35rem)',
+              fontSize: 'clamp(1.1rem, 2.2vw, 1.35rem)',
               color: 'var(--text-secondary)',
               maxWidth: 720,
-              margin: '0 auto 36px auto',
-              lineHeight: 1.55
+              margin: '0 auto 40px auto',
+              lineHeight: 1.6
             }}
           >
             Tell us what you want to do. DAYLY finds the places, timings, tickets and route — then
             builds your perfect day.
           </p>
 
-          {/* AI-Style Natural Language Planner Input Box */}
+          {/* AI-Style Natural Language Planner Input Dock */}
           <div
-            className="glass-panel"
+            className="glass-search-dock"
             style={{
-              maxWidth: 760,
+              maxWidth: 780,
               margin: '0 auto 28px auto',
-              padding: 10,
+              padding: '8px 12px 8px 20px',
               display: 'flex',
               alignItems: 'center',
-              boxShadow: 'var(--shadow-lg), 0 0 35px rgba(255, 77, 109, 0.25)',
-              border: '1px solid rgba(255, 255, 255, 0.18)'
+              gap: 12
             }}
           >
-            <div style={{ padding: '0 12px', color: 'var(--coral-500)', display: 'flex' }}>
+            <div style={{ color: 'var(--lavender-electric)', display: 'flex' }}>
               <Sparkles size={24} />
             </div>
 
@@ -263,31 +267,31 @@ export const HomePage: React.FC = () => {
                 background: 'transparent',
                 border: 'none',
                 outline: 'none',
-                color: '#fff',
+                color: '#FFFFFF',
                 fontSize: '1.1rem',
                 fontWeight: 500,
-                padding: '12px 6px'
+                padding: '12px 4px'
               }}
             />
 
             <button
               onClick={() => handleNaturalPlan()}
               className="btn btn-primary"
-              style={{ padding: '14px 28px', fontSize: '1rem' }}
+              style={{ padding: '14px 28px', fontSize: '1rem', borderRadius: '99px' }}
             >
               Plan My Day <ArrowRight size={16} />
             </button>
           </div>
 
-          {/* Prompt Pills */}
+          {/* Prompt Micro-Capsules */}
           <div
             style={{
               display: 'flex',
               flexWrap: 'wrap',
               justifyContent: 'center',
               gap: 8,
-              maxWidth: 820,
-              margin: '0 auto 36px auto'
+              maxWidth: 840,
+              margin: '0 auto 40px auto'
             }}
           >
             {samplePrompts.map((p) => (
@@ -295,25 +299,31 @@ export const HomePage: React.FC = () => {
                 key={p}
                 onClick={() => handleNaturalPlan(p)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid var(--border-subtle)',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.09)',
                   borderRadius: 99,
                   color: 'var(--text-secondary)',
-                  fontSize: '0.8rem',
+                  fontSize: '0.82rem',
                   fontWeight: 600,
-                  padding: '6px 14px',
+                  padding: '7px 16px',
                   cursor: 'pointer',
-                  transition: 'all 0.15s ease'
+                  transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                  boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.06)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 77, 109, 0.15)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 77, 109, 0.35)';
-                  e.currentTarget.style.color = '#fff';
+                  e.currentTarget.style.background = 'rgba(167, 139, 250, 0.16)';
+                  e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.40)';
+                  e.currentTarget.style.color = '#FFFFFF';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(167, 139, 250, 0.25)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
                   e.currentTarget.style.color = 'var(--text-secondary)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'inset 0 1px 0 rgba(255, 255, 255, 0.06)';
                 }}
               >
                 ✨ {p}
@@ -321,7 +331,7 @@ export const HomePage: React.FC = () => {
             ))}
           </div>
 
-          {/* Dual CTAs */}
+          {/* Dual Main CTAs */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
             <Link to="/plan" className="btn btn-primary btn-lg">
               <Calendar size={18} /> Plan My Day
@@ -329,6 +339,89 @@ export const HomePage: React.FC = () => {
             <Link to="/explore" className="btn btn-secondary btn-lg">
               <Compass size={18} /> Explore Experiences
             </Link>
+          </div>
+
+          {/* AI Queue Assistant Live Spotlight Banner */}
+          <div
+            className="glass-card"
+            style={{
+              maxWidth: 820,
+              margin: '36px auto 0 auto',
+              padding: '18px 24px',
+              textAlign: 'left',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 12,
+              border: '1px solid rgba(99, 102, 241, 0.28)',
+              background: 'rgba(14, 21, 38, 0.85)',
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 10,
+                    background: 'rgba(99, 102, 241, 0.15)',
+                    border: '1px solid rgba(99, 102, 241, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#818CF8'
+                  }}
+                >
+                  <Bot size={20} />
+                </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '0.98rem', fontWeight: 800, color: '#FFFFFF' }}>
+                      AI Booking Queue Assistant
+                    </span>
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 5,
+                        fontSize: '0.70rem',
+                        fontWeight: 700,
+                        padding: '2px 8px',
+                        borderRadius: 99,
+                        background: 'rgba(16, 185, 129, 0.12)',
+                        color: '#34D399',
+                        border: '1px solid rgba(16, 185, 129, 0.25)'
+                      }}
+                    >
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
+                      24/7 Engine Active
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', margin: 0, marginTop: 2 }}>
+                    Autonomous drop-sniping & queue progression for packed dining, pottery studios & concert passes.
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                <button
+                  onClick={handleSimulateLiveQueue}
+                  className="btn btn-primary btn-sm"
+                  style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+                >
+                  <Zap size={14} />
+                  <span>Test Live Waitlist (#37)</span>
+                </button>
+                <Link
+                  to="/queue"
+                  className="btn btn-secondary btn-sm"
+                  style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+                >
+                  <span>Queue Hub</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -338,11 +431,21 @@ export const HomePage: React.FC = () => {
         <div className="container-dayly">
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 28 }}>
             <div>
-              <span className="badge badge-coral" style={{ marginBottom: 4 }}>Curated Disciplines</span>
-              <h2 style={{ fontSize: '2rem', fontWeight: 800 }}>Explore What You Love</h2>
+              <span className="badge badge-violet" style={{ marginBottom: 6 }}>Curated Disciplines</span>
+              <h2 style={{ fontSize: '2.1rem', fontWeight: 800 }}>Explore What You Love</h2>
             </div>
-            <Link to="/explore" style={{ color: 'var(--coral-500)', fontSize: '0.9rem', fontWeight: 700 }}>
-              View all 50+ categories →
+            <Link
+              to="/explore"
+              style={{
+                color: 'var(--lavender-electric)',
+                fontSize: '0.92rem',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4
+              }}
+            >
+              View all 50+ categories <ArrowRight size={14} />
             </Link>
           </div>
 
@@ -356,8 +459,8 @@ export const HomePage: React.FC = () => {
                   className="glass-card glass-card-hover"
                   style={{
                     position: 'relative',
-                    height: 160,
-                    borderRadius: 18,
+                    height: 165,
+                    borderRadius: 20,
                     overflow: 'hidden',
                     display: 'flex',
                     flexDirection: 'column',
@@ -375,37 +478,39 @@ export const HomePage: React.FC = () => {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      opacity: 0.55,
-                      transition: 'transform 0.4s ease'
+                      opacity: 0.50,
+                      transition: 'transform 0.5s ease'
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.12)')}
                     onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
                   />
                   <div
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(180deg, rgba(10,11,18,0.2) 0%, rgba(10,11,18,0.85) 100%)'
+                      background: 'linear-gradient(180deg, rgba(11,16,32,0.1) 0%, rgba(11,16,32,0.92) 100%)'
                     }}
                   />
                   <div style={{ position: 'relative', zIndex: 2 }}>
                     <div
                       style={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: 8,
-                        background: 'rgba(255, 77, 109, 0.25)',
+                        width: 34,
+                        height: 34,
+                        borderRadius: 10,
+                        background: 'rgba(167, 139, 250, 0.25)',
+                        backdropFilter: 'blur(10px)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: '#fff',
-                        marginBottom: 6
+                        color: '#FFFFFF',
+                        marginBottom: 8,
+                        border: '1px solid rgba(255, 255, 255, 0.15)'
                       }}
                     >
                       <Icon size={16} />
                     </div>
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#fff' }}>{c.name}</h4>
-                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{c.count}</span>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#FFFFFF' }}>{c.name}</h4>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>{c.count}</span>
                   </div>
                 </Link>
               );
@@ -420,15 +525,16 @@ export const HomePage: React.FC = () => {
           <div
             className="glass-panel"
             style={{
-              padding: '36px 32px',
-              background: 'linear-gradient(135deg, rgba(255, 77, 109, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)',
-              border: '1px solid rgba(255, 77, 109, 0.3)',
-              borderRadius: 24,
+              padding: '40px 36px',
+              background: 'linear-gradient(135deg, rgba(33, 21, 56, 0.70) 0%, rgba(17, 26, 46, 0.75) 100%)',
+              border: '1px solid rgba(167, 139, 250, 0.25)',
+              boxShadow: 'var(--shadow-lg), 0 0 35px rgba(139, 92, 246, 0.15)',
+              borderRadius: 28,
               display: 'flex',
               flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: 24
+              gap: 28
             }}
           >
             <div style={{ maxWidth: 520 }}>
@@ -437,19 +543,21 @@ export const HomePage: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
-                  color: '#fbbf24',
+                  color: '#FCD34D',
                   fontWeight: 700,
-                  fontSize: '0.85rem',
-                  marginBottom: 8
+                  fontSize: '0.82rem',
+                  marginBottom: 10,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em'
                 }}
               >
                 <Dice5 size={18} />
-                <span>SPONTANEOUS DISCOVERY</span>
+                <span>Spontaneous Discovery</span>
               </div>
-              <h2 style={{ fontSize: '2.2rem', fontWeight: 900, color: '#fff', marginBottom: 8 }}>
+              <h2 style={{ fontSize: '2.2rem', fontWeight: 900, color: '#FFFFFF', marginBottom: 10 }}>
                 “Surprise Me” Generator
               </h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
                 Indecisive? Let DAYLY construct an unexpected, harmonized day itinerary tailored to your
                 budget and timing in 1 second.
               </p>
@@ -462,63 +570,67 @@ export const HomePage: React.FC = () => {
                 alignItems: 'center',
                 gap: 16,
                 flexWrap: 'wrap',
-                background: 'rgba(10,11,18,0.7)',
-                padding: '16px 20px',
-                borderRadius: 18,
-                border: '1px solid var(--border-subtle)'
+                background: 'rgba(11, 16, 32, 0.75)',
+                backdropFilter: 'blur(16px)',
+                padding: '18px 24px',
+                borderRadius: 20,
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.08)'
               }}
             >
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 6 }}>
                   Max Budget
                 </label>
                 <select
                   value={surpriseBudget}
                   onChange={(e) => setSurpriseBudget(Number(e.target.value))}
                   style={{
-                    background: 'rgba(255,255,255,0.06)',
-                    color: '#fff',
-                    border: '1px solid var(--border-subtle)',
-                    padding: '8px 12px',
-                    borderRadius: 10,
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    color: '#FFFFFF',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    padding: '9px 14px',
+                    borderRadius: 12,
                     outline: 'none',
-                    fontWeight: 700
+                    fontWeight: 700,
+                    fontSize: '0.88rem'
                   }}
                 >
-                  <option value={1500}>Under ₹1,500</option>
-                  <option value={3000}>Under ₹3,000</option>
-                  <option value={5000}>Under ₹5,000</option>
-                  <option value={8000}>Luxury (₹8,000+)</option>
+                  <option value={1500} style={{ background: '#111A2E' }}>Under ₹1,500</option>
+                  <option value={3000} style={{ background: '#111A2E' }}>Under ₹3,000</option>
+                  <option value={5000} style={{ background: '#111A2E' }}>Under ₹5,000</option>
+                  <option value={8000} style={{ background: '#111A2E' }}>Luxury (₹8,000+)</option>
                 </select>
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 6 }}>
                   People
                 </label>
                 <select
                   value={surpriseGuests}
                   onChange={(e) => setSurpriseGuests(Number(e.target.value))}
                   style={{
-                    background: 'rgba(255,255,255,0.06)',
-                    color: '#fff',
-                    border: '1px solid var(--border-subtle)',
-                    padding: '8px 12px',
-                    borderRadius: 10,
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    color: '#FFFFFF',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    padding: '9px 14px',
+                    borderRadius: 12,
                     outline: 'none',
-                    fontWeight: 700
+                    fontWeight: 700,
+                    fontSize: '0.88rem'
                   }}
                 >
-                  <option value={1}>Solo (1)</option>
-                  <option value={2}>Pair (2)</option>
-                  <option value={4}>Friends (4)</option>
+                  <option value={1} style={{ background: '#111A2E' }}>Solo (1)</option>
+                  <option value={2} style={{ background: '#111A2E' }}>Pair (2)</option>
+                  <option value={4} style={{ background: '#111A2E' }}>Friends (4)</option>
                 </select>
               </div>
 
               <button
                 onClick={handleGenerateSurprise}
                 className="btn btn-primary"
-                style={{ padding: '14px 24px', fontSize: '1rem', marginTop: 14 }}
+                style={{ padding: '14px 26px', fontSize: '0.98rem', marginTop: 14 }}
               >
                 <Sparkles size={16} /> Roll Surprise Day
               </button>
@@ -531,7 +643,7 @@ export const HomePage: React.FC = () => {
       <section style={{ padding: '40px 0 60px 0' }}>
         <div className="container-dayly">
           <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 36px auto' }}>
-            <span className="badge badge-violet" style={{ marginBottom: 6 }}>Intelligent Presets</span>
+            <span className="badge badge-cyan" style={{ marginBottom: 6 }}>Intelligent Presets</span>
             <h2 style={{ fontSize: '2.2rem', fontWeight: 800 }}>Crafted for Every Occasion</h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: 8 }}>
               Each mode adjusts activity rhythm, ambiance thresholds, and meal timings automatically.
@@ -542,7 +654,7 @@ export const HomePage: React.FC = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: 16
+              gap: 18
             }}
           >
             {planningModes.map((m) => (
@@ -551,16 +663,29 @@ export const HomePage: React.FC = () => {
                 onClick={() => handleModeClick(m.id)}
                 className="glass-card glass-card-hover"
                 style={{
-                  padding: 20,
+                  padding: 24,
                   cursor: 'pointer',
-                  border: '1px solid var(--border-subtle)'
+                  borderRadius: 20
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff' }}>{m.label}</h4>
-                  <ArrowRight size={16} color="var(--coral-500)" />
+                  <h4 style={{ fontSize: '1.18rem', fontWeight: 800, color: '#FFFFFF' }}>{m.label}</h4>
+                  <div
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: '50%',
+                      background: 'rgba(167, 139, 250, 0.15)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--lavender-electric)'
+                    }}
+                  >
+                    <ArrowRight size={14} />
+                  </div>
                 </div>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.45 }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
                   {m.desc}
                 </p>
               </div>
@@ -574,11 +699,21 @@ export const HomePage: React.FC = () => {
         <div className="container-dayly">
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 28 }}>
             <div>
-              <span className="badge badge-emerald" style={{ marginBottom: 4 }}>Top Rated in Delhi</span>
-              <h2 style={{ fontSize: '2rem', fontWeight: 800 }}>Popular Today</h2>
+              <span className="badge badge-emerald" style={{ marginBottom: 6 }}>Top Rated in Delhi</span>
+              <h2 style={{ fontSize: '2.1rem', fontWeight: 800 }}>Popular Today</h2>
             </div>
-            <Link to="/explore" style={{ color: 'var(--coral-500)', fontSize: '0.9rem', fontWeight: 700 }}>
-              See all experiences →
+            <Link
+              to="/explore"
+              style={{
+                color: 'var(--lavender-electric)',
+                fontSize: '0.92rem',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4
+              }}
+            >
+              See all experiences <ArrowRight size={14} />
             </Link>
           </div>
 

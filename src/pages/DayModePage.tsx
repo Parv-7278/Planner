@@ -69,7 +69,7 @@ export const DayModePage: React.FC = () => {
 
   return (
     <div style={{ padding: '30px 0 80px 0' }}>
-      <div className="container-dayly" style={{ maxWidth: 860 }}>
+      <div className="container-dayly" style={{ maxWidth: 880 }}>
         {/* Top Active Status Banner */}
         <div
           style={{
@@ -79,10 +79,12 @@ export const DayModePage: React.FC = () => {
             flexWrap: 'wrap',
             gap: 12,
             marginBottom: 24,
-            padding: '12px 20px',
+            padding: '12px 22px',
             borderRadius: 99,
             background: 'rgba(16, 185, 129, 0.12)',
-            border: '1px solid rgba(16, 185, 129, 0.3)'
+            border: '1px solid rgba(16, 185, 129, 0.32)',
+            backdropFilter: 'blur(16px)',
+            boxShadow: '0 4px 20px rgba(16, 185, 129, 0.12)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -91,22 +93,22 @@ export const DayModePage: React.FC = () => {
                 width: 10,
                 height: 10,
                 borderRadius: '50%',
-                background: '#10b981',
-                boxShadow: '0 0 10px #10b981'
+                background: '#10B981',
+                boxShadow: '0 0 10px #10B981'
               }}
             />
-            <span style={{ fontWeight: 800, fontSize: '0.9rem', color: '#34d399', letterSpacing: '0.04em' }}>
-              DAY MODE ACTIVE • PERSONAL ASSISTANT
+            <span style={{ fontWeight: 800, fontSize: '0.88rem', color: '#6EE7B7', letterSpacing: '0.04em' }}>
+              DAY MODE ACTIVE • PERSONAL TELEMETRY
             </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: '0.85rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)' }}>
-              <CloudSun size={16} color="#fbbf24" />
+              <CloudSun size={16} color="#FCD34D" />
               <span>Delhi 28°C • Pleasant Clear Skies</span>
             </div>
 
-            <Link to="/my-day" style={{ color: 'var(--coral-500)', fontWeight: 700 }}>
+            <Link to="/my-day" style={{ color: 'var(--lavender-electric)', fontWeight: 700 }}>
               Edit Plan →
             </Link>
           </div>
@@ -116,10 +118,11 @@ export const DayModePage: React.FC = () => {
         {trafficDelayed && (
           <div
             style={{
-              padding: '14px 18px',
-              borderRadius: 16,
-              background: 'rgba(245, 158, 11, 0.12)',
+              padding: '14px 20px',
+              borderRadius: 18,
+              background: 'rgba(245, 158, 11, 0.14)',
               border: '1px solid rgba(245, 158, 11, 0.35)',
+              backdropFilter: 'blur(16px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -128,15 +131,15 @@ export const DayModePage: React.FC = () => {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <AlertTriangle size={20} color="#f59e0b" />
-              <span style={{ fontSize: '0.88rem', color: '#fff' }}>
+              <AlertTriangle size={20} color="#F59E0B" />
+              <span style={{ fontSize: '0.88rem', color: '#FFFFFF' }}>
                 Traffic buildup ahead (+14 mins). Recommend shifting next stop reservation.
               </span>
             </div>
             <button
               onClick={handleAdjustForTraffic}
               className="btn btn-secondary btn-sm"
-              style={{ background: '#f59e0b', color: '#000', fontWeight: 700 }}
+              style={{ background: '#F59E0B', color: '#0B1020', fontWeight: 800 }}
             >
               Auto-Adjust +15m
             </button>
@@ -147,28 +150,30 @@ export const DayModePage: React.FC = () => {
         <div
           className="glass-panel"
           style={{
-            padding: '32px 28px',
-            marginBottom: 28,
-            border: '1px solid rgba(255, 77, 109, 0.35)',
-            boxShadow: '0 12px 40px rgba(0,0,0,0.6), 0 0 30px var(--coral-glow)',
+            padding: '36px 32px',
+            marginBottom: 32,
+            border: '1px solid rgba(255, 255, 255, 0.10)',
+            boxShadow: 'var(--shadow-floating), 0 0 0 1px rgba(255, 255, 255, 0.08)',
+            borderRadius: 28,
             position: 'relative',
             overflow: 'hidden'
           }}
         >
           {/* Top Label */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <span
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
                 background: 'var(--grad-primary)',
-                color: '#fff',
-                padding: '4px 12px',
+                color: '#FFFFFF',
+                padding: '5px 14px',
                 borderRadius: 99,
                 fontWeight: 800,
-                fontSize: '0.75rem',
-                letterSpacing: '0.06em'
+                fontSize: '0.74rem',
+                letterSpacing: '0.06em',
+                boxShadow: '0 2px 10px rgba(139, 92, 246, 0.35)'
               }}
             >
               CURRENT STOP ({currentIdx + 1} of {activeDay.items.length})
@@ -180,37 +185,38 @@ export const DayModePage: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
-                fontSize: '0.95rem',
+                fontSize: '0.92rem',
                 fontWeight: 800,
-                color: '#34d399',
+                color: '#6EE7B7',
                 background: 'rgba(16, 185, 129, 0.15)',
-                padding: '4px 12px',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                padding: '5px 14px',
                 borderRadius: 99
               }}
             >
-              <Clock size={16} />
+              <Clock size={15} />
               <span>Ends in {formatCountdown(secondsRemaining)}</span>
             </div>
           </div>
 
           {/* Activity main showcase */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginBottom: 28 }}>
             <div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900, marginBottom: 8 }}>
+              <h2 style={{ fontSize: 'clamp(1.7rem, 3.2vw, 2.3rem)', fontWeight: 900, marginBottom: 8, letterSpacing: '-0.025em' }}>
                 {currentItem.experience.name}
               </h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5, marginBottom: 16 }}>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.55, marginBottom: 18 }}>
                 {currentItem.experience.tagline}
               </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: '0.88rem', color: 'var(--text-muted)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <Clock size={15} color="var(--coral-500)" />
-                  <strong style={{ color: '#fff' }}>{currentItem.startTime} – {currentItem.endTime}</strong>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.88rem', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Clock size={16} color="var(--lavender-electric)" />
+                  <strong style={{ color: '#FFFFFF' }}>{currentItem.startTime} – {currentItem.endTime}</strong>
                   <span>({currentItem.durationMinutes} mins)</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <MapPin size={15} color="var(--coral-500)" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <MapPin size={16} color="var(--cyan-accent)" />
                   <span>{currentItem.experience.venue.address}</span>
                 </div>
               </div>
@@ -219,37 +225,40 @@ export const DayModePage: React.FC = () => {
             {/* Ticket & QR Pass widget */}
             <div
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px dashed rgba(255,255,255,0.2)',
-                borderRadius: 18,
-                padding: '16px',
+                background: 'rgba(11, 16, 32, 0.65)',
+                border: '1px dashed rgba(255, 255, 255, 0.18)',
+                backdropFilter: 'blur(16px)',
+                borderRadius: 20,
+                padding: '20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>DIGITAL ENTRY PASS</span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.05em' }}>
+                  DIGITAL ENTRY PASS
+                </span>
                 <span className="badge badge-emerald">ACTIVE</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 <img
                   src={
                     currentBooking?.qrCodeUrl ||
                     'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=DAYLY-LIVE-PASS'
                   }
                   alt="Entry QR"
-                  style={{ width: 80, height: 80, borderRadius: 8, background: '#fff', padding: 4 }}
+                  style={{ width: 84, height: 84, borderRadius: 10, background: '#FFFFFF', padding: 5 }}
                 />
                 <div>
-                  <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#fff' }}>
+                  <div style={{ fontWeight: 800, fontSize: '1rem', color: '#FFFFFF' }}>
                     {currentBooking ? currentBooking.bookingCode : 'DAYLY-EXP-8891'}
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+                  <div style={{ fontSize: '0.80rem', color: 'var(--text-secondary)', marginTop: 3 }}>
                     Group of 2 • Priority Entry
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 4 }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--lavender-electric)', marginTop: 4 }}>
                     Tap to show turnstile scanner
                   </div>
                 </div>
@@ -258,7 +267,7 @@ export const DayModePage: React.FC = () => {
           </div>
 
           {/* Action Row */}
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 currentItem.experience.venue.name + ' ' + currentItem.experience.venue.address
@@ -287,9 +296,9 @@ export const DayModePage: React.FC = () => {
 
         {/* 2. UP NEXT ACTIVITY */}
         {nextItem && (
-          <div style={{ marginBottom: 28 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff' }}>Up Next</h3>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#FFFFFF' }}>Up Next</h3>
               {nextLeg && (
                 <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                   {nextLeg.distanceKm} km away (~{nextLeg.travelMinutes} mins travel via {nextLeg.transportMode})
@@ -300,35 +309,35 @@ export const DayModePage: React.FC = () => {
             <div
               className="glass-card"
               style={{
-                padding: '20px',
+                padding: '22px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 16,
-                background: 'rgba(25, 27, 48, 0.6)'
+                gap: 18,
+                borderRadius: 22
               }}
             >
               <img
                 src={nextItem.experience.images[0]}
                 alt={nextItem.experience.name}
-                style={{ width: 80, height: 80, borderRadius: 14, objectFit: 'cover' }}
+                style={{ width: 84, height: 84, borderRadius: 16, objectFit: 'cover', border: '1px solid rgba(255, 255, 255, 0.1)' }}
               />
 
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span className="badge badge-violet" style={{ fontSize: '0.68rem' }}>
+                  <span className="badge badge-violet" style={{ fontSize: '0.70rem' }}>
                     {nextItem.startTime} – {nextItem.endTime}
                   </span>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  <span style={{ fontSize: '0.80rem', color: 'var(--text-muted)' }}>
                     {nextItem.experience.category}
                   </span>
                 </div>
 
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff' }}>
+                <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#FFFFFF' }}>
                   {nextItem.experience.name}
                 </h4>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: 4 }}>
-                  <MapPin size={13} color="var(--coral-500)" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.80rem', color: 'var(--text-secondary)', marginTop: 4 }}>
+                  <MapPin size={13} color="var(--lavender-electric)" />
                   <span>{nextItem.experience.venue.name}</span>
                 </div>
               </div>
@@ -343,32 +352,33 @@ export const DayModePage: React.FC = () => {
         {/* 3. LATER TODAY AGENDA */}
         {laterItems.length > 0 && (
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', marginBottom: 12 }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#FFFFFF', marginBottom: 14 }}>
               Later Today
             </h3>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {laterItems.map((item, idx) => (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {laterItems.map((item) => (
                 <div
                   key={item.id}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '12px 18px',
-                    borderRadius: 14,
-                    background: 'rgba(255,255,255,0.02)',
-                    border: '1px solid var(--border-subtle)'
+                    padding: '14px 20px',
+                    borderRadius: 16,
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(10px)'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <span style={{ color: 'var(--coral-500)', fontWeight: 700, fontSize: '0.85rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                    <span style={{ color: 'var(--lavender-electric)', fontWeight: 700, fontSize: '0.88rem' }}>
                       {item.startTime}
                     </span>
-                    <strong style={{ color: '#fff', fontSize: '0.92rem' }}>{item.experience.name}</strong>
+                    <strong style={{ color: '#FFFFFF', fontSize: '0.94rem' }}>{item.experience.name}</strong>
                   </div>
 
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                  <span style={{ fontSize: '0.80rem', color: 'var(--text-muted)' }}>
                     {item.experience.venue.area}
                   </span>
                 </div>
@@ -378,11 +388,11 @@ export const DayModePage: React.FC = () => {
         )}
 
         {/* Test simulator button */}
-        <div style={{ marginTop: 36, textAlign: 'center' }}>
+        <div style={{ marginTop: 40, textAlign: 'center' }}>
           <button
             onClick={() => setTrafficDelayed(true)}
             className="btn btn-ghost btn-sm"
-            style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}
+            style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}
           >
             🧪 Simulate Traffic Jam Warning Notification
           </button>

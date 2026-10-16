@@ -25,9 +25,16 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
   const hasAvailable = experience.slots.some((s) => s.status === 'available' || s.status === 'few_left');
 
   return (
-    <div className="glass-card glass-card-hover" style={{ display: 'flex', flexDirection: 'column' }}>
+    <div
+      className="glass-card glass-card-hover"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: '22px'
+      }}
+    >
       {/* Image container */}
-      <div style={{ position: 'relative', width: '100%', height: 210, overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', height: 215, overflow: 'hidden' }}>
         <img
           src={experience.images[0]}
           alt={experience.name}
@@ -36,18 +43,18 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'transform 0.4s ease'
+            transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
           onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
         />
 
-        {/* Gradient Overlay */}
+        {/* Cinematic Translucent Shadow Gradient */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(10,11,18,0.9) 100%)'
+            background: 'linear-gradient(180deg, rgba(11, 16, 32, 0.45) 0%, transparent 45%, rgba(11, 16, 32, 0.95) 100%)'
           }}
         />
 
@@ -60,14 +67,23 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             right: 12,
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            zIndex: 2
           }}
         >
-          <span className="badge badge-coral" style={{ backdropFilter: 'blur(8px)' }}>
+          <span
+            className="badge badge-violet"
+            style={{
+              backdropFilter: 'blur(12px)',
+              background: 'rgba(17, 26, 46, 0.75)',
+              border: '1px solid rgba(167, 139, 250, 0.35)',
+              color: 'var(--lavender-electric)'
+            }}
+          >
             {experience.category}
           </span>
 
-          {/* Heart Button */}
+          {/* Glass Heart Wishlist Button */}
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -79,49 +95,54 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               width: 36,
               height: 36,
               borderRadius: '50%',
-              background: 'rgba(10, 11, 18, 0.65)',
-              border: '1px solid var(--border-subtle)',
-              backdropFilter: 'blur(10px)',
+              background: 'rgba(11, 16, 32, 0.70)',
+              border: '1px solid rgba(255, 255, 255, 0.16)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              color: isSaved ? '#ff4d6d' : '#ffffff',
+              color: isSaved ? '#F43F5E' : '#FFFFFF',
+              boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
               transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
             }}
             onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(0.85)')}
             onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
           >
-            <Heart size={18} fill={isSaved ? '#ff4d6d' : 'none'} />
+            <Heart size={17} fill={isSaved ? '#F43F5E' : 'none'} />
           </button>
         </div>
 
-        {/* Rating and Duration at bottom of image */}
+        {/* Rating and Duration pill at bottom of image */}
         <div
           style={{
             position: 'absolute',
-            bottom: 10,
+            bottom: 12,
             left: 14,
             right: 14,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            fontSize: '0.8rem'
+            fontSize: '0.8rem',
+            zIndex: 2
           }}
         >
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 4,
-              background: 'rgba(0,0,0,0.7)',
-              padding: '3px 8px',
+              gap: 5,
+              background: 'rgba(11, 16, 32, 0.75)',
+              backdropFilter: 'blur(12px)',
+              padding: '4px 9px',
               borderRadius: 99,
-              color: '#fbbf24',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#FCD34D',
               fontWeight: 700
             }}
           >
-            <Star size={13} fill="#fbbf24" />
+            <Star size={12} fill="#FCD34D" />
             <span>{experience.rating}</span>
             <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({experience.reviewCount})</span>
           </div>
@@ -130,10 +151,12 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 4,
-              background: 'rgba(0,0,0,0.7)',
-              padding: '3px 8px',
+              gap: 5,
+              background: 'rgba(11, 16, 32, 0.75)',
+              backdropFilter: 'blur(12px)',
+              padding: '4px 9px',
               borderRadius: 99,
+              border: '1px solid rgba(255, 255, 255, 0.1)',
               color: 'var(--text-secondary)'
             }}
           >
@@ -143,15 +166,16 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
         </div>
       </div>
 
-      {/* Card Content */}
-      <div style={{ padding: 18, display: 'flex', flexDirection: 'column', flex: 1 }}>
+      {/* Card Content Body */}
+      <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <Link to={`/experience/${experience.id}`}>
           <h3
             style={{
-              fontSize: '1.15rem',
-              fontWeight: 700,
-              color: '#ffffff',
+              fontSize: '1.18rem',
+              fontWeight: 800,
+              color: '#FFFFFF',
               marginBottom: 4,
+              letterSpacing: '-0.02em',
               transition: 'color 0.2s'
             }}
           >
@@ -164,7 +188,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             fontSize: '0.85rem',
             color: 'var(--text-secondary)',
             marginBottom: 12,
-            lineHeight: 1.45,
+            lineHeight: 1.5,
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
@@ -174,33 +198,33 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           {experience.tagline}
         </p>
 
-        {/* Location & Metro */}
+        {/* Location Row */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 6,
-            fontSize: '0.8rem',
+            fontSize: '0.80rem',
             color: 'var(--text-muted)',
             marginBottom: 14
           }}
         >
-          <MapPin size={13} color="var(--coral-500)" />
+          <MapPin size={13} color="var(--lavender-electric)" />
           <span>{experience.venue.area}, {experience.venue.city}</span>
         </div>
 
-        {/* Feature tags */}
+        {/* Frosted Tags */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
           {experience.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
               style={{
                 fontSize: '0.72rem',
-                padding: '2px 8px',
+                padding: '3px 9px',
                 borderRadius: 99,
-                background: 'rgba(255,255,255,0.05)',
+                background: 'rgba(255, 255, 255, 0.04)',
                 color: 'var(--text-secondary)',
-                border: '1px solid var(--border-subtle)'
+                border: '1px solid rgba(255, 255, 255, 0.08)'
               }}
             >
               #{tag}
@@ -208,7 +232,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           ))}
         </div>
 
-        {/* Slot status teaser */}
+        {/* Availability status capsule */}
         <div
           style={{
             display: 'flex',
@@ -217,19 +241,19 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             fontSize: '0.78rem',
             marginBottom: 16,
             padding: '8px 12px',
-            background: 'rgba(0,0,0,0.25)',
-            borderRadius: 10,
-            border: '1px solid var(--border-subtle)'
+            background: 'rgba(11, 16, 32, 0.55)',
+            borderRadius: 12,
+            border: '1px solid rgba(255, 255, 255, 0.08)'
           }}
         >
-          <span style={{ color: 'var(--text-muted)' }}>Slots Today:</span>
+          <span style={{ color: 'var(--text-muted)' }}>Slots Status:</span>
           {hasSoldOut && !hasAvailable ? (
-            <span style={{ color: '#fb7185', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
-              <Hourglass size={12} /> Sold out (DAYLY Queue Open)
+            <span style={{ color: '#FDA4AF', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
+              <Hourglass size={12} /> Waitlist (DAYLY Queue Open)
             </span>
           ) : (
-            <span style={{ color: '#34d399', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
-              ● Instant Slots Available
+            <span style={{ color: '#6EE7B7', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
+              ● Live Booking Open
             </span>
           )}
         </div>
@@ -239,15 +263,15 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           style={{
             marginTop: 'auto',
             paddingTop: 14,
-            borderTop: '1px solid var(--border-subtle)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
           <div>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Starting from</span>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff' }}>
+            <span style={{ fontSize: '0.73rem', color: 'var(--text-muted)' }}>Starting from</span>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF' }}>
               ₹{experience.pricePerPerson}
               <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-secondary)' }}> / person</span>
             </div>
@@ -267,14 +291,16 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
                 width: 38,
                 height: 38,
                 padding: 0,
-                color: isInActiveDay ? '#34d399' : 'var(--text-primary)',
-                borderColor: isInActiveDay ? 'rgba(16,185,129,0.4)' : undefined
+                borderRadius: '50%',
+                color: isInActiveDay ? '#34D399' : 'var(--text-primary)',
+                borderColor: isInActiveDay ? 'rgba(16, 185, 129, 0.45)' : undefined,
+                background: isInActiveDay ? 'rgba(16, 185, 129, 0.15)' : undefined
               }}
             >
               {isInActiveDay ? <Check size={18} /> : <Plus size={18} />}
             </button>
 
-            {/* Book or View Details */}
+            {/* Book or View Details Button */}
             {onBookClick ? (
               <button onClick={() => onBookClick(experience)} className="btn btn-primary btn-sm">
                 <Ticket size={14} />

@@ -13,17 +13,22 @@ import {
   Ticket,
   CheckCircle2,
   Clock,
-  Car
+  Car,
+  Bot
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SearchModal } from './SearchModal';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
-  const { unreadNotifs, notifications, markNotifRead, markAllNotifsRead, activeDay } = useApp();
+  const { unreadNotifs, notifications, markNotifRead, markAllNotifsRead, activeDay, queues } = useApp();
   const [showNotifs, setShowNotifs] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
+
+  const activeQueuesCount = (queues || []).filter(
+    (q) => q.status === 'monitoring' || q.monitoringStatus === 'turn_arrived'
+  ).length;
 
   // Close notifications dropdown on click outside
   useEffect(() => {
@@ -60,19 +65,20 @@ export const Navbar: React.FC = () => {
               style={{
                 width: 38,
                 height: 38,
-                borderRadius: '50%',
-                background: 'var(--grad-primary)',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 60%, #67E8F9 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#fff',
-                boxShadow: '0 4px 14px var(--coral-glow)'
+                boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
               }}
             >
               <Sparkles size={20} />
             </span>
             <span>DAYLY</span>
-            <span className="brand-badge">AI Day Plan</span>
+            <span className="brand-badge">Spatial Planner</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -81,61 +87,113 @@ export const Navbar: React.FC = () => {
               Home
             </Link>
             <Link to="/explore" className={`nav-link ${isActive('/explore') ? 'nav-link-active' : ''}`}>
-              <Compass size={17} />
+              <Compass size={16} />
               Explore
             </Link>
             <Link to="/plan" className={`nav-link ${isActive('/plan') ? 'nav-link-active' : ''}`}>
-              <Calendar size={17} />
+              <Calendar size={16} />
               Plan Day
             </Link>
             <Link to="/my-day" className={`nav-link ${isActive('/my-day') ? 'nav-link-active' : ''}`}>
-              <MapPin size={17} />
+              <MapPin size={16} />
               My Day
               {activeDay?.items?.length > 0 && (
                 <span
                   style={{
-                    background: 'var(--coral-500)',
-                    color: '#fff',
+                    background: 'var(--lavender-electric)',
+                    color: '#0B1020',
                     borderRadius: '99px',
                     fontSize: '0.7rem',
                     padding: '1px 6px',
-                    fontWeight: 700
+                    fontWeight: 800,
+                    boxShadow: '0 0 10px rgba(167, 139, 250, 0.5)'
                   }}
                 >
                   {activeDay.items.length}
                 </span>
               )}
             </Link>
+            <Link
+              to="/queue"
+              className={`nav-link ${isActive('/queue') ? 'nav-link-active' : ''}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6
+              }}
+            >
+              <Bot size={16} color="var(--lavender-electric)" />
+              <span>AI Queue</span>
+              {activeQueuesCount > 0 ? (
+                <span
+                  style={{
+                    background: '#10B981',
+                    color: '#090D16',
+                    borderRadius: '99px',
+                    fontSize: '0.68rem',
+                    padding: '1px 6px',
+                    fontWeight: 800,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 3
+                  }}
+                >
+                  <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#fff' }} />
+                  {activeQueuesCount}
+                </span>
+              ) : (
+                <span
+                  style={{
+                    background: 'rgba(99, 102, 241, 0.15)',
+                    color: '#A5B4FC',
+                    border: '1px solid rgba(99, 102, 241, 0.35)',
+                    borderRadius: '99px',
+                    fontSize: '0.65rem',
+                    padding: '1px 6px',
+                    fontWeight: 700
+                  }}
+                >
+                  Live
+                </span>
+              )}
+            </Link>
             <Link to="/bookings" className={`nav-link ${isActive('/bookings') ? 'nav-link-active' : ''}`}>
-              <Ticket size={17} />
+              <Ticket size={16} />
               Bookings
             </Link>
             <Link to="/wishlist" className={`nav-link ${isActive('/wishlist') ? 'nav-link-active' : ''}`}>
-              <Bookmark size={17} />
+              <Bookmark size={16} />
               Wishlist
             </Link>
             <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'nav-link-active' : ''}`}>
-              <User size={17} />
+              <User size={16} />
               Profile
             </Link>
           </nav>
 
           {/* Actions & Live Day Mode Pill */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            {/* Quick Search */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {/* Quick Search Button */}
             <button
               onClick={() => setShowSearch(true)}
               className="btn btn-secondary btn-sm"
               title="Search experiences (Ctrl+K)"
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '8px 14px',
+                borderRadius: '99px'
+              }}
             >
-              <Search size={16} color="var(--text-secondary)" />
+              <Search size={15} color="var(--text-secondary)" />
               <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Search</span>
               <kbd
                 style={{
-                  background: 'rgba(255,255,255,0.08)',
-                  padding: '2px 5px',
-                  borderRadius: 4,
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  padding: '2px 6px',
+                  borderRadius: 6,
                   fontSize: '0.65rem',
                   color: 'var(--text-muted)'
                 }}
@@ -149,10 +207,12 @@ export const Navbar: React.FC = () => {
               to="/day-mode"
               className="btn btn-sm"
               style={{
-                background: 'rgba(16, 185, 129, 0.15)',
-                color: '#34d399',
-                border: '1px solid rgba(16, 185, 129, 0.35)',
-                boxShadow: '0 0 12px rgba(16, 185, 129, 0.2)'
+                background: 'rgba(16, 185, 129, 0.12)',
+                color: '#34D399',
+                border: '1px solid rgba(16, 185, 129, 0.32)',
+                boxShadow: '0 0 16px rgba(16, 185, 129, 0.18)',
+                backdropFilter: 'blur(12px)',
+                borderRadius: '99px'
               }}
             >
               <span
@@ -160,8 +220,8 @@ export const Navbar: React.FC = () => {
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  background: '#10b981',
-                  boxShadow: '0 0 8px #10b981'
+                  background: '#10B981',
+                  boxShadow: '0 0 8px #10B981'
                 }}
               />
               <Zap size={14} />
@@ -178,7 +238,10 @@ export const Navbar: React.FC = () => {
                   height: 40,
                   padding: 0,
                   borderRadius: '50%',
-                  position: 'relative'
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
                 aria-label="Notifications"
               >
@@ -192,8 +255,8 @@ export const Navbar: React.FC = () => {
                       width: 10,
                       height: 10,
                       borderRadius: '50%',
-                      background: 'var(--coral-500)',
-                      boxShadow: '0 0 8px var(--coral-500)'
+                      background: 'var(--lavender-electric)',
+                      boxShadow: '0 0 8px var(--lavender-electric)'
                     }}
                   />
                 )}
@@ -207,13 +270,14 @@ export const Navbar: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      borderBottom: '1px solid var(--border-subtle)'
+                      borderBottom: '1px solid var(--glass-panel-border)',
+                      background: 'rgba(255, 255, 255, 0.02)'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <h4 style={{ fontSize: '1rem', fontWeight: 700 }}>Notifications</h4>
+                      <h4 style={{ fontSize: '0.98rem', fontWeight: 700 }}>Notifications</h4>
                       {unreadNotifs > 0 && (
-                        <span className="badge badge-coral">{unreadNotifs} New</span>
+                        <span className="badge badge-violet">{unreadNotifs} New</span>
                       )}
                     </div>
                     {unreadNotifs > 0 && (
@@ -222,7 +286,7 @@ export const Navbar: React.FC = () => {
                         style={{
                           background: 'none',
                           border: 'none',
-                          color: 'var(--coral-500)',
+                          color: 'var(--lavender-electric)',
                           fontSize: '0.8rem',
                           cursor: 'pointer',
                           fontWeight: 600
@@ -237,7 +301,7 @@ export const Navbar: React.FC = () => {
                     {notifications.length === 0 ? (
                       <div
                         style={{
-                          padding: 28,
+                          padding: 30,
                           textAlign: 'center',
                           color: 'var(--text-muted)',
                           fontSize: '0.9rem'
@@ -251,9 +315,9 @@ export const Navbar: React.FC = () => {
                           key={n.id}
                           onClick={() => markNotifRead(n.id)}
                           style={{
-                            padding: '12px 18px',
-                            borderBottom: '1px solid var(--border-subtle)',
-                            background: n.read ? 'transparent' : 'rgba(255, 77, 109, 0.05)',
+                            padding: '14px 18px',
+                            borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                            background: n.read ? 'transparent' : 'rgba(167, 139, 250, 0.05)',
                             cursor: 'pointer',
                             display: 'flex',
                             gap: 12,
@@ -262,10 +326,10 @@ export const Navbar: React.FC = () => {
                           }}
                         >
                           <div style={{ marginTop: 2 }}>
-                            {n.type === 'queue' && <Clock size={16} color="var(--violet-500)" />}
-                            {n.type === 'booking' && <CheckCircle2 size={16} color="var(--emerald-500)" />}
-                            {n.type === 'traffic' && <Car size={16} color="var(--amber-500)" />}
-                            {n.type === 'itinerary' && <Calendar size={16} color="var(--coral-500)" />}
+                            {n.type === 'queue' && <Clock size={16} color="var(--lavender-electric)" />}
+                            {n.type === 'booking' && <CheckCircle2 size={16} color="var(--emerald-live)" />}
+                            {n.type === 'traffic' && <Car size={16} color="var(--amber-warm)" />}
+                            {n.type === 'itinerary' && <Calendar size={16} color="var(--cyan-accent)" />}
                           </div>
                           <div style={{ flex: 1 }}>
                             <div
@@ -280,7 +344,7 @@ export const Navbar: React.FC = () => {
                                 style={{
                                   fontWeight: n.read ? 600 : 700,
                                   fontSize: '0.88rem',
-                                  color: n.read ? 'var(--text-secondary)' : '#fff'
+                                  color: n.read ? 'var(--text-secondary)' : '#FFFFFF'
                                 }}
                               >
                                 {n.title}
@@ -300,7 +364,7 @@ export const Navbar: React.FC = () => {
                                   display: 'inline-block',
                                   marginTop: 6,
                                   fontSize: '0.78rem',
-                                  color: 'var(--coral-500)',
+                                  color: 'var(--lavender-electric)',
                                   fontWeight: 600
                                 }}
                               >

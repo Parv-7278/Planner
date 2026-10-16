@@ -16,14 +16,14 @@ export const WishlistPage: React.FC = () => {
   return (
     <div style={{ padding: '40px 0 80px 0' }}>
       <div className="container-dayly">
-        <div style={{ marginBottom: 28 }}>
-          <span className="badge badge-coral" style={{ marginBottom: 6 }}>
+        <div style={{ marginBottom: 32 }}>
+          <span className="badge badge-violet" style={{ marginBottom: 6 }}>
             Saved Collection
           </span>
-          <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 900 }}>
+          <h1 style={{ fontSize: 'clamp(2.1rem, 4.2vw, 3rem)', fontWeight: 900 }}>
             My Wishlist ({savedExperiences.length})
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: 4 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: 6 }}>
             Places, activities and culinary spots you want to fit into upcoming days.
           </p>
         </div>
@@ -36,15 +36,16 @@ export const WishlistPage: React.FC = () => {
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center'
+              alignItems: 'center',
+              borderRadius: 24
             }}
           >
             <Heart size={48} color="var(--text-muted)" style={{ marginBottom: 16 }} />
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Your wishlist is empty</h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: 4, maxWidth: 360 }}>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: 800 }}>Your wishlist is empty</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: 6, maxWidth: 380 }}>
               Browse experiences and tap the heart icon to save activities for your future day plans.
             </p>
-            <Link to="/explore" className="btn btn-primary" style={{ marginTop: 20 }}>
+            <Link to="/explore" className="btn btn-primary" style={{ marginTop: 22 }}>
               Browse Experiences
             </Link>
           </div>

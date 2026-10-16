@@ -54,21 +54,22 @@ export const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" style={{ maxWidth: 640 }} onClick={(e) => e.stopPropagation()}>
+      <div className="modal-box" style={{ maxWidth: 660, borderRadius: 26 }} onClick={(e) => e.stopPropagation()}>
         {/* Search Input Bar */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 12,
-            padding: '18px 20px',
-            borderBottom: '1px solid var(--border-subtle)'
+            gap: 14,
+            padding: '20px 24px',
+            borderBottom: '1px solid var(--glass-panel-border)',
+            background: 'rgba(255, 255, 255, 0.02)'
           }}
         >
-          <Search size={22} color="var(--coral-500)" />
+          <Search size={22} color="var(--lavender-electric)" />
           <input
             type="text"
-            placeholder="Search experiences, categories, vibes, or try 'cheap date'..."
+            placeholder="Search experiences, vibes, areas or try 'cheap date'..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
@@ -77,8 +78,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: '#fff',
-              fontSize: '1.1rem',
+              color: '#FFFFFF',
+              fontSize: '1.15rem',
               fontWeight: 500
             }}
           />
@@ -93,26 +94,38 @@ export const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
         </div>
 
         {/* Quick sample prompt pills */}
-        <div style={{ padding: '12px 20px', background: 'rgba(0,0,0,0.2)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-            <Sparkles size={14} color="var(--violet-500)" />
+        <div style={{ padding: '14px 24px', background: 'rgba(11, 16, 32, 0.55)', borderBottom: '1px solid rgba(255, 255, 255, 0.06)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+            <Sparkles size={14} color="var(--lavender-electric)" />
             <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>
               Try natural queries:
             </span>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {samplePrompts.map((p) => (
               <button
                 key={p}
                 onClick={() => setQuery(p)}
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid var(--border-subtle)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.09)',
                   borderRadius: 99,
                   color: 'var(--text-secondary)',
                   fontSize: '0.78rem',
-                  padding: '4px 10px',
-                  cursor: 'pointer'
+                  fontWeight: 600,
+                  padding: '5px 12px',
+                  cursor: 'pointer',
+                  transition: 'all 0.18s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(167, 139, 250, 0.16)';
+                  e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.4)';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
+                  e.currentTarget.style.color = 'var(--text-secondary)';
                 }}
               >
                 {p}
@@ -122,25 +135,25 @@ export const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
         </div>
 
         {/* Search Results List */}
-        <div style={{ maxHeight: 420, overflowY: 'auto', padding: '12px 16px' }}>
+        <div style={{ maxHeight: 420, overflowY: 'auto', padding: '16px 20px' }}>
           {query.trim() === '' ? (
-            <div style={{ padding: '30px 20px', textAlign: 'center', color: 'var(--text-muted)' }}>
-              <p style={{ fontSize: '0.95rem' }}>Type to search 50+ curated experiences in Delhi NCR</p>
-              <p style={{ fontSize: '0.8rem', marginTop: 4 }}>
+            <div style={{ padding: '36px 20px', textAlign: 'center', color: 'var(--text-muted)' }}>
+              <p style={{ fontSize: '0.98rem', color: 'var(--text-secondary)' }}>Type to search 50+ curated experiences in Delhi NCR</p>
+              <p style={{ fontSize: '0.82rem', marginTop: 4, color: 'var(--text-muted)' }}>
                 Restaurants, cinemas, workshops, heritage, sports & nightlife
               </p>
             </div>
           ) : results.length === 0 ? (
-            <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-              <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+            <div style={{ padding: '44px 20px', textAlign: 'center' }}>
+              <p style={{ fontSize: '1.05rem', fontWeight: 700, color: '#FFFFFF' }}>
                 No exact matches for "{query}"
               </p>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: 6 }}>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', marginTop: 6 }}>
                 Try searching for "pottery", "fine dining", "escape room" or "date"
               </p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {results.map((exp) => (
                 <div
                   key={exp.id}
@@ -148,42 +161,44 @@ export const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 14,
-                    padding: 12,
-                    borderRadius: 14,
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid var(--border-subtle)',
+                    gap: 16,
+                    padding: '14px 16px',
+                    borderRadius: 16,
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
                     cursor: 'pointer',
-                    transition: 'all 0.15s ease'
+                    transition: 'all 0.18s ease'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
-                    e.currentTarget.style.borderColor = 'rgba(255,77,109,0.3)';
+                    e.currentTarget.style.background = 'rgba(167, 139, 250, 0.12)';
+                    e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.35)';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-                    e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                    e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
                   <img
                     src={exp.images[0]}
                     alt={exp.name}
-                    style={{ width: 60, height: 60, borderRadius: 10, objectFit: 'cover' }}
+                    style={{ width: 62, height: 62, borderRadius: 12, objectFit: 'cover', border: '1px solid rgba(255, 255, 255, 0.1)' }}
                   />
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span className="badge badge-coral" style={{ fontSize: '0.65rem', padding: '2px 6px' }}>
+                      <span className="badge badge-violet" style={{ fontSize: '0.65rem', padding: '2px 7px' }}>
                         {exp.category}
                       </span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: '0.8rem', color: '#fbbf24' }}>
-                        <Star size={12} fill="#fbbf24" />
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: '0.8rem', color: '#FCD34D' }}>
+                        <Star size={12} fill="#FCD34D" />
                         <span style={{ fontWeight: 700 }}>{exp.rating}</span>
                       </div>
                     </div>
-                    <h5 style={{ fontSize: '0.95rem', fontWeight: 700, marginTop: 3 }}>{exp.name}</h5>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                    <h5 style={{ fontSize: '0.98rem', fontWeight: 800, color: '#FFFFFF', marginTop: 4 }}>{exp.name}</h5>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: '0.80rem', color: 'var(--text-muted)', marginTop: 3 }}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <MapPin size={12} /> {exp.venue.area}
+                        <MapPin size={12} color="var(--lavender-electric)" /> {exp.venue.area}
                       </span>
                       <span>₹{exp.pricePerPerson}/person</span>
                     </div>

@@ -1,4 +1,4 @@
-import { NotificationItem } from '../types';
+import type { NotificationItem } from '../types/index.ts';
 
 const STORAGE_KEY_NOTIFS = 'dayly_notifications_store';
 
@@ -9,15 +9,25 @@ class NotificationServiceClass {
   private listeners: Set<NotificationListener> = new Set();
   private toastListeners: Set<ToastListener> = new Set();
 
+  private inMemoryItems: NotificationItem[] | null = null;
+
   private getStored(): NotificationItem[] {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY_NOTIFS);
-      if (raw) return JSON.parse(raw);
-    } catch {
-      // fallback
+    if (this.inMemoryItems !== null) {
+      return this.inMemoryItems;
+    }
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_NOTIFS);
+        if (raw) {
+          this.inMemoryItems = JSON.parse(raw);
+          return this.inMemoryItems!;
+        }
+      } catch {
+        // fallback
+      }
     }
     // Default initial notifications to wow user right out of the box
-    return [
+    this.inMemoryItems = [
       {
         id: 'notif-1',
         title: 'Pottery Workshop Today',
@@ -47,13 +57,17 @@ class NotificationServiceClass {
         type: 'traffic'
       }
     ];
+    return this.inMemoryItems;
   }
 
   private save(items: NotificationItem[]) {
-    try {
-      localStorage.setItem(STORAGE_KEY_NOTIFS, JSON.stringify(items));
-    } catch (e) {
-      console.error(e);
+    this.inMemoryItems = items;
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem(STORAGE_KEY_NOTIFS, JSON.stringify(items));
+      } catch {
+        // fallback
+      }
     }
     this.notifyListeners();
   }
