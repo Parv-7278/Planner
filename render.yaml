@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: dayly-planner
+    runtime: static
+    buildCommand: npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_SUPABASE_URL
+        value: https://dzqfwyjyvtpmgrmbjgmg.supabase.co
+      - key: VITE_SUPABASE_ANON_KEY
+        value: sb_publishable_lZgZtnmt3dhmedNKNnVNug_SWBGHTWQ
+      - key: VITE_APP_NAME
+        value: DAYLY
+      - key: VITE_APP_TAGLINE
+        value: Your entire day. Planned.
+      - key: VITE_DEFAULT_CITY
+        value: Delhi NCR
+      - key: VITE_ENABLE_MOCK_PROVIDERS
+        value: "true"
+      - key: VITE_ENABLE_VIRTUAL_QUEUE
+        value: "true"
+      - key: VITE_ENABLE_WEATHER_AWARE
+        value: "true"
+      - key: VITE_PAYMENT_GATEWAY_SANDBOX
+        value: "true"
+      - key: VITE_APP_ENV
+        value: production
